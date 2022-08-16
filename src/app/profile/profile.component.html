@@ -1,0 +1,43 @@
+<div class="container">
+  <h2>Profile</h2>
+  <form>
+    <div class="form-group">
+      <label>Username</label>
+      <input
+        [(ngModel)]="user_info.username"
+        name="username"
+        class="form-control"
+        placeholder="{{user_info.username}}"
+      >
+
+      <label>Birth Date</label>
+      <input
+        [(ngModel)]="user_info.birthdate"
+        name="birthdate"
+        class="form-control"
+        placeholder="{{user_info.birthdate}}"
+      >
+
+      <label>Age</label>
+      <input
+        [(ngModel)]="user_info.age"
+        name="age"
+        class="form-control"
+        placeholder="{{user_info.age}}"
+      >
+
+      <label>Email Address</label>
+      <input
+        [(ngModel)]="user_info.email"
+        name="email"
+        class="form-control"
+        placeholder="{{user_info.email}}"
+      >
+    </div>
+    <br>
+    <button (click)="update_user_info()" type="button" class="btn btn-primary">Update</button>
+    <div class="success" *ngIf="show_success_message">
+      <p>*updated</p>
+    </div>
+  </form>
+</div>

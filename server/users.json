@@ -1,0 +1,26 @@
+[
+  {
+    "username": "mellic03",
+    "birthdate": "08/04/1999",
+    "age": 23,
+    "email": "michael@mail.com",
+    "password": "mpass",
+    "valid": true
+  },
+  {
+    "username": "sophiejw",
+    "birthdate": "13/01/2000",
+    "age": 22,
+    "email": "sophie@mail.com",
+    "password": "spass",
+    "valid": true
+  },
+  {
+    "username": "Wehrmacht PePe",
+    "birthdate": "26/02/1999",
+    "age": 23,
+    "email": "aiden@mail.com",
+    "password": "apass",
+    "valid": true
+  }
+]

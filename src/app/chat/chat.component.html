@@ -1,0 +1,38 @@
+<div class="root">
+
+
+  <div class="groups">
+
+    <div class="username">
+      <h2>{{current_user.username}}</h2>
+    </div>
+
+    <groupbutton (click)="open_group('G1')">G1</groupbutton>
+    <groupbutton (click)="open_group('G2')">G2</groupbutton>
+    <groupbutton (click)="open_group('G3')">G3</groupbutton>
+  </div>
+
+
+  <div class="chat-root">
+
+    <div class="chat-title">
+      <h2>{{current_group}}</h2>
+    </div>
+
+    <div class="chat-window">
+      <p>Chat content</p>
+    </div>
+
+    <div class="text-field">
+      <div class="input-group">
+        <textarea class="form-control" aria-label="With textarea"></textarea>
+      </div>
+    </div>
+
+    <div class="submit">
+      <button type="button" class="btn btn-primary">send</button>
+    </div>
+    
+  </div>
+
+</div>
