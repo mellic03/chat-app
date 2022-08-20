@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { Router } from '@angular/router';
 import { User } from '../services/user.service';
@@ -16,9 +16,15 @@ export class ChatComponent implements OnInit {
   groups:Array<Group> = [];
   current_user:User = new User();
 
+  chat_window: HTMLElement | null = document.getElementById('chat-window');
+
+
   constructor(private router:Router, private http:HttpClient) { }
 
   ngOnInit(): void {
+
+    console.log(this.chat_window);
+
     if (typeof(localStorage) !== "undefined") {
       this.current_user = JSON.parse(String(localStorage.getItem("user_info")));
     }
