@@ -1,0 +1,47 @@
+.non-user-message {
+  margin-left: 50px;
+  margin-right: 50%;
+
+  .profile-photo {
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    background-color: blue;
+  }
+
+  .message-content {
+    background-color: gray;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  // .message-footer {
+  //   background-color: rgb(235, 235, 235);
+  //   padding: 0 10px 0 0;
+  //   border-radius: 0 0 25px 0;
+  //   text-align: right;
+  // }
+}
+
+.user-message {
+  margin-left: 50%;
+  margin-right: 50px;
+
+  .profile-photo {
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    background-color: rgba(0, 255, 34, 0.616);
+  }
+
+  .message-content {
+    background-color: cadetblue;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  // .message-footer {
+  //   background-color: rgb(235, 235, 235);
+  //   padding: 0 0 0 0;
+  //   border-radius: 0 0 0 25px;
+  //   justify-content: right;
+  // }
+}

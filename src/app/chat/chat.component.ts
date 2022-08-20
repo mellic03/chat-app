@@ -16,23 +16,21 @@ export class ChatComponent implements OnInit {
   groups:Array<Group> = [];
   current_user:User = new User();
 
-  chat_window: HTMLElement | null = document.getElementById('chat-window');
-
-
   constructor(private router:Router, private http:HttpClient) { }
 
   ngOnInit(): void {
 
-    console.log(this.chat_window);
-
     if (typeof(localStorage) !== "undefined") {
       this.current_user = JSON.parse(String(localStorage.getItem("user_info")));
     }
+
     if (this.current_user?.username == null) {
       this.router.navigateByUrl("/login");
     }
+    
     else {
-      this.http.post<Array<Group>>('http://localhost:3000/api/users/groups', this.current_user).subscribe((res) => {
+      // Retrieve groups this user is a part of
+      this.http.get<Array<Group>>(`http://localhost:3000/api/${this.current_user.username}/groups`).subscribe((res) => {
         this.groups = res;
         this.current_group = this.groups[0];
       });

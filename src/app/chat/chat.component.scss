@@ -60,9 +60,11 @@
     background-color: rgb(255, 255, 255);
 
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
 
     overflow-y: auto;
+
+    padding-bottom: 30px;
   }
   
   .text-field {
@@ -74,41 +76,62 @@
 
     display: flex;
   }
-
-
-}
-
-
-p {
-  margin-left: 10px;
 }
 
 .non-user-message {
-  margin-right: 50%;
+  margin-left: 5px;
+  margin-right: 30%;
+  display: flex;
+  flex-direction: column;
+
   .message-content {
-    background-color: gray;
-    padding: 10px;
-    border-radius: 0 25px 0 0;
+    display: flex;
+    flex-direction: row;
+    p {
+      flex: 1;
+      background-color: gray;
+      padding: 10px;
+      border-radius: 10px;
+      margin: 0;
+    }
   }
-  .message-footer {
-    background-color: rgb(235, 235, 235);
-    padding: 0 10px 0 0;
-    border-radius: 0 0 25px 0;
-    text-align: right;
+
+  p {
+    margin: 0 0 0 10px;
   }
+
 }
 
 .user-message {
-  margin-left: 50%;
+  margin-right: 5px;
+  margin-left: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
   .message-content {
-    background-color: cadetblue;
-    padding: 10px;
-    border-radius: 25px 0 0 0;
+    display: flex;
+    flex-direction: row;
+
+    p {
+      flex: 1;
+      background-color: cadetblue;
+      padding: 10px;
+      border-radius: 10px;
+      margin: 0;
+    }
   }
-  .message-footer {
-    background-color: rgb(235, 235, 235);
-    padding: 0 0 0 0;
-    border-radius: 0 0 0 25px;
-    justify-content: right;
+
+  p {
+    margin: 0 10px 0 0;
   }
+}
+
+.profile-photo {
+  width: 40px;
+  height: 40px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 32px;
+  background-color: rgba(0, 255, 34, 0.616);
 }

@@ -1,6 +1,7 @@
 [
   {
     "username": "mellic03",
+    "name": "Michael",
     "birthdate": "08/04/1999",
     "age": 23,
     "email": "michael@mail.com",
@@ -9,6 +10,7 @@
   },
   {
     "username": "sophiejw",
+    "name": "Sophie",
     "birthdate": "13/01/2000",
     "age": 22,
     "email": "sophie@mail.com",
@@ -17,6 +19,7 @@
   },
   {
     "username": "Wehrmacht PePe",
+    "name": "Aiden",
     "birthdate": "26/02/1999",
     "age": 23,
     "email": "aiden@mail.com",

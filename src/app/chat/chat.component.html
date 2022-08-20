@@ -24,19 +24,18 @@
           <div class="message-content">
             <p>{{msg.content}}</p>
           </div>
-          <div class="message-footer">
-            <p>{{msg.sender}}</p>
-          </div>
+          <div class="profile-photo"></div>
+          <p>{{msg.sender}}</p>
         </div>
 
         <div class="user-message" *ngIf="msg.sender == current_user.username">
           <div class="message-content">
             <p>{{msg.content}}</p>
           </div>
-          <div class="message-footer">
-            <p>you</p>
-          </div>
+          <div class="profile-photo"></div>
+          <p>you</p>
         </div>
+
         <!------------------------------------------------->
       
       </div>

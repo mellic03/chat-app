@@ -1,14 +1,12 @@
-const fs = require('fs');
 const express = require('express');
 const bodyparser = require('body-parser');
 const cors = require('cors');
+const e = require('express');
 const app = express();
 const http = require('http').Server(app);
 
-
 app.use(bodyparser.json());
 app.use(cors());
-
 
 const PORT = 3000;
 const server = http.listen(PORT, () => {
@@ -18,32 +16,10 @@ const server = http.listen(PORT, () => {
 });
 
 
-let users = JSON.parse(fs.readFileSync(__dirname + "/users.json"));
-app.post('/api/auth', (req, res) => {
-  users.forEach((user) => {
-    if (req.body.email == user.email && req.body.password == user.password) {
-      res.send(user);
-      return;
-    }
-  });
-  res.send({valid: false});
-});
+// Written for this server
+//-----------------------------
+require('./routes')(app);
+//-----------------------------
 
 
-// req is a user
-// res is an array of groups which that user is a member of
-let groups = JSON.parse(fs.readFileSync(__dirname + "/groups.json"));
-app.post('/api/users/groups', (req, res) => {
-  let user_groups = []
-  groups.forEach((group) => {
-    group.users.forEach((user) => {
-      if (req.body.username == user) {
-        user_groups.push(group);
-      }
-    })
-  });
-  res.send(user_groups);
-});
 
-app.post('/api/groups/update', (req, res) => {
-});

@@ -10,9 +10,9 @@ export class UserService {
 
 
   valid_users = [
-    new User("Michael", "08/04/1999", 23, "michael@mail.com", "mpass", true),
-    new User("Sophie", "13/01/2000", 22, "sophie@mail.com", "spass", true),
-    new User("Aiden", "26/02/1999", 23, "aiden@mail.com", "apass", true),
+    new User("mellic03", "Michael", "08/04/1999", 23, "michael@mail.com", "mpass", true),
+    new User("sophiejw", "Sophie", "13/01/2000", 22, "sophie@mail.com", "spass", true),
+    new User("werhmacht pepe", "Aiden", "26/02/1999", 23, "aiden@mail.com", "apass", true),
   ];
 
 
@@ -20,6 +20,7 @@ export class UserService {
 
 export class User {
   username:string;
+  name:string;
   birthdate:string;
   age:number;
   email:string;
@@ -28,6 +29,7 @@ export class User {
 
   constructor(
     username:string = "",
+    name:string = "",
     birthdate:string = "",
     age:number = 0,
     email:string = "",
@@ -35,6 +37,7 @@ export class User {
     valid:boolean = false
   ) {
     this.username = username;
+    this.name = name;
     this.birthdate = birthdate;
     this.age = age;
     this.email = email;

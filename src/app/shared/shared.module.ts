@@ -1,18 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GroupbuttonComponent } from './groupbutton/groupbutton.component';
+import { MessageComponent } from './message/message.component';
 
 
 
 @NgModule({
   declarations: [
-    GroupbuttonComponent
+    GroupbuttonComponent,
+    MessageComponent
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    GroupbuttonComponent
+    GroupbuttonComponent,
+    MessageComponent
   ]
 })
 export class SharedModule { }
