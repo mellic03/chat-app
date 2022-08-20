@@ -7,9 +7,10 @@
 }
 
 .groups {
+  resize: horizontal;
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex: 2;
   height: 100%;
   
   background-color: rgb(240, 240, 240);
@@ -29,7 +30,7 @@
 }
 
 .chat-root {
-  flex: 4;
+  flex: 5;
   height: 100%;
   background-color: rgb(240, 240, 240);
   border-width: 1px;
@@ -41,7 +42,12 @@
 
   .chat-title {
     flex: 1;
-    
+
+    border: 0px 0px 0px 0px;
+    border-width: 1px;
+    border-color: rgb(210, 210, 210);
+    border-style: solid;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -55,24 +61,54 @@
 
     display: flex;
     flex-direction: column;
+
+    overflow-y: auto;
   }
   
   .text-field {
     flex: 2;
     textarea {
       flex: 3;
+      resize: none;
     }
-    button {
-      flex: 1;
-    }
+
     display: flex;
   }
 
-  .submit {
-  }
+
 }
 
 
 p {
   margin-left: 10px;
+}
+
+.non-user-message {
+  margin-right: 50%;
+  .message-content {
+    background-color: gray;
+    padding: 10px;
+    border-radius: 0 25px 0 0;
+  }
+  .message-footer {
+    background-color: rgb(235, 235, 235);
+    padding: 0 10px 0 0;
+    border-radius: 0 0 25px 0;
+    text-align: right;
+  }
+}
+
+.user-message {
+  margin-left: 50%;
+  .message-content {
+    background-color: cadetblue;
+    padding: 10px;
+    border-radius: 25px 0 0 0;
+  }
+  .message-footer {
+    background-color: rgb(235, 235, 235);
+    padding: 0 0 0 0;
+    border-radius: 0 0 0 25px;
+    justify-content: right;
+  }
 }

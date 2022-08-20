@@ -19,7 +19,6 @@ const server = http.listen(PORT, () => {
 
 
 let users = JSON.parse(fs.readFileSync(__dirname + "/users.json"));
-
 app.post('/api/auth', (req, res) => {
   users.forEach((user) => {
     if (req.body.email == user.email && req.body.password == user.password) {
@@ -27,7 +26,24 @@ app.post('/api/auth', (req, res) => {
       return;
     }
   });
-
   res.send({valid: false});
+});
 
+
+// req is a user
+// res is an array of groups which that user is a member of
+let groups = JSON.parse(fs.readFileSync(__dirname + "/groups.json"));
+app.post('/api/users/groups', (req, res) => {
+  let user_groups = []
+  groups.forEach((group) => {
+    group.users.forEach((user) => {
+      if (req.body.username == user) {
+        user_groups.push(group);
+      }
+    })
+  });
+  res.send(user_groups);
+});
+
+app.post('/api/groups/update', (req, res) => {
 });

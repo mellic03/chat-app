@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { AccountComponent } from './account/account.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ChatComponent } from './chat/chat.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ChatComponent } from './chat/chat.component';
     LoginComponent,
     AccountComponent,
     ProfileComponent,
-    ChatComponent
+    ChatComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

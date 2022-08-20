@@ -12,6 +12,13 @@ export class GroupService {
 
 export class Group {
   
+  name:string = '';
   users:Array<User> = [];
+  messages:Array<Message> = [];
 
+}
+
+export class Message {
+  sender:string = '';
+  content:string = '';
 }

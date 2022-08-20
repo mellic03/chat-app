@@ -6,31 +6,44 @@
     <div class="username">
       <h2>{{current_user.username}}</h2>
     </div>
-
-    <groupbutton (click)="open_group('G1')">G1</groupbutton>
-    <groupbutton (click)="open_group('G2')">G2</groupbutton>
-    <groupbutton (click)="open_group('G3')">G3</groupbutton>
+    <groupbutton (click)="open_group(group)" *ngFor="let group of groups; index as i">{{group.name}}</groupbutton>
   </div>
 
 
   <div class="chat-root">
 
     <div class="chat-title">
-      <h2>{{current_group}}</h2>
+      <h2>{{current_group.name}}</h2>
     </div>
 
     <div class="chat-window">
-      <p>Chat content</p>
-    </div>
+      <div *ngFor="let msg of current_group.messages; index as i;">
 
-    <div class="text-field">
-      <div class="input-group">
-        <textarea class="form-control" aria-label="With textarea"></textarea>
+        <!-- PRIME CUSTOM COMPONENT CANDIDATE RIGHT HERE -->
+        <div class="non-user-message" *ngIf="msg.sender != current_user.username">
+          <div class="message-content">
+            <p>{{msg.content}}</p>
+          </div>
+          <div class="message-footer">
+            <p>{{msg.sender}}</p>
+          </div>
+        </div>
+
+        <div class="user-message" *ngIf="msg.sender == current_user.username">
+          <div class="message-content">
+            <p>{{msg.content}}</p>
+          </div>
+          <div class="message-footer">
+            <p>you</p>
+          </div>
+        </div>
+        <!------------------------------------------------->
+      
       </div>
     </div>
 
-    <div class="submit">
-      <button type="button" class="btn btn-primary">send</button>
+    <div class="text-field">
+      <textarea class="form-control" aria-label="With textarea"></textarea>
     </div>
     
   </div>

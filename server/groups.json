@@ -1,0 +1,41 @@
+[
+  {
+    "name": "Study Group",
+    "image": "image_1.jpg",
+    "users": ["mellic03", "sophiejw"],
+    "messages": [
+      {
+        "sender": "sophiejw",
+        "content": "Omg Mick it's you! You're here!"
+      },
+      {
+        "sender": "mellic03",
+        "content": "Yes, hello Geraldine. It is I."
+      }
+    ]
+  },
+
+  {
+    "name": "Something Else Group",
+    "image": "image_2.jpg",
+    "users": ["mellic03", "sophiejw", "Wehrmacht PePe"],
+    "messages": []
+  },
+
+  {
+    "name": "Movies Group",
+    "image": "image_3.jpg",
+    "users": ["sophiejw"],
+    "messages": []
+  },
+
+  {
+    "name": "Legal-Activities Group",
+    "image": "image_4.jpg",
+    "users": ["mellic03", "Wehrmacht PePe"],
+    "messages": [
+      {"sender": "mellic03", "content": "Holy shit we better not do anything illegal in here."},
+      {"sender": "Wehrmacht PePe", "content": "Yeah, no way would we do something like that here. Not in the legal-activities group."}
+    ]
+  }
+]
