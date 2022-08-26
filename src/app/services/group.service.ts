@@ -19,6 +19,10 @@ export class Group {
 }
 
 export class Message {
-  sender:string = '';
-  content:string = '';
+  sender:string;
+  content:string;
+  constructor(username:string, content:string) {
+    this.sender = username;
+    this.content = content;
+  }
 }

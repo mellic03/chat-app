@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
 
   login(email:string, pass:string) {
 
-    this.http.post<User>('http://localhost:3000/api/auth', {email: email, password: pass}).subscribe((res) => {
+    this.http.post<User>('http://159.196.6.181:3000/api/auth', {email: email, password: pass}).subscribe((res) => {
         if (res.valid == true) {
           let user_info = res;
           user_info.password = "";

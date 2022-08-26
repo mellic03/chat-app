@@ -1,24 +1,29 @@
 const express = require('express');
-const bodyparser = require('body-parser');
-const cors = require('cors');
-const e = require('express');
 const app = express();
-const http = require('http').Server(app);
 
+const bodyparser = require('body-parser');
 app.use(bodyparser.json());
-app.use(cors());
 
+const cors = require('cors');
+const cors_options = {
+  origin: "*",
+  methods: ["GET", "POST"]
+}
+app.use(cors(cors_options));
+const http = require('http').Server(app);
+const io = require('socket.io')(http, cors_options)
+
+const sockets = require('./sockets');
+const server = require('./listen');
 const PORT = 3000;
-const server = http.listen(PORT, () => {
-  let host = server.address().address;
-  let port = server.address().port;
-  console.log("Server running on " + PORT);
-});
 
+sockets.connect(io, PORT);
+server.listen(http, PORT);
 
-// Written for this server
+// Routes
 //-----------------------------
-require('./routes')(app);
+const routes = require('./routes');
+const R = new routes(app);
 //-----------------------------
 
 

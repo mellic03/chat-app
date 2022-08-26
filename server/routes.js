@@ -3,6 +3,7 @@ const fakeDB = require('./fakeDB/fakeDB');
 module.exports = function(app){
 
   app.post('/api/auth', (req, res) => {
+    console.log(req.body);
     const email = req.body.email;
     const pass = req.body.password;
     const user = fakeDB.verify_user(email, pass);
