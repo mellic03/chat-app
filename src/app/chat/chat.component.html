@@ -2,13 +2,12 @@
 
 
   <div class="groups">
-
-    <div class="username">
-      <h2>{{current_user.username}}</h2>
-    </div>
-    <groupbutton (click)="open_group(group)" *ngFor="let group of groups; index as i">{{group.name}}</groupbutton>
+    <groupbutton group_name="{{group.name}}" (click)="open_group(group)" *ngFor="let group of groups;"></groupbutton>
   </div>
 
+  <div class="channels">
+    <h2>{{current_group.name}}</h2>
+  </div>
 
   <div class="chat-root">
 

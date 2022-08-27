@@ -10,11 +10,10 @@
   resize: horizontal;
   display: flex;
   flex-direction: column;
-  flex: 2;
   height: 100%;
   
   background-color: rgb(240, 240, 240);
-  border-width: 1px 0px 1px 1px;
+  border-width: 1px 1px 1px 1px;
   border-color: rgb(210, 210, 210);
   border-style: solid;
 
@@ -28,6 +27,13 @@
   }
 
 }
+
+
+.channels {
+  flex: 2;
+}
+
+
 
 .chat-root {
   flex: 5;

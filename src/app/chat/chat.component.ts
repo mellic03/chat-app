@@ -23,7 +23,7 @@ export class ChatComponent implements OnInit {
 
   current_group:Group = new Group();
   groups:Array<Group> = [];
-  current_user:User = new User();
+  current_user:User = new User("0", "0", 0);
 
   message:any = '';
   message_array:Array<string> = [];

@@ -20,7 +20,7 @@ function verify_user(email, password) {
   for (let i=0; i<users.length; i++)
     if (email == users[i].email && password == users[i].password)
       return users[i];
-  return {valid: false};
+  return {email: false};
 }
 
 function get_groups_of_user(username) {
