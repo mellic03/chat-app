@@ -1,30 +1,34 @@
-<nav class="navbar navbar-expand-lg bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand">Chat-App</a>
-    <div class="navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <!-- <li><a class="nav-link active"routerLink="/">Home</a></li> -->
-        <li><a class="nav-link" routerLink="/login">Login</a></li>
-        <li><a class="nav-link" routerLink="/chat">Chat</a></li>
+<div class="{{theme}}">
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Account
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="nav-link" routerLink="/account">Account</a></li>
-            <li><a class="nav-link" routerLink="/profile">Profile</a></li>
-            <li><a class="nav-link" routerLink="/settings">Settings</a></li>
-          </ul>
-        </li>
-
-      </ul>
-      <button (click)="logout()" type="button" class="btn btn-primary">logout</button>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand">Chat-App</a>
+      <div class="navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <!-- <li><a class="nav-link active"routerLink="/">Home</a></li> -->
+          <li><a class="nav-link" routerLink="/login">Login</a></li>
+          <li><a class="nav-link" routerLink="/chat">Chat</a></li>
+          
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Account
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="nav-link" routerLink="/account">Account</a></li>
+              <li><a class="nav-link" routerLink="/profile">Profile</a></li>
+              <li><a class="nav-link" routerLink="/settings">Settings</a></li>
+              <li><button class="btn" (click) = switch_theme()>Switch theme</button></li>
+            </ul>
+          </li>
+          
+        </ul>
+        <button (click)="logout()" type="button" class="btn btn-primary">logout</button>
+      </div>
     </div>
+  </nav>
+  
+  <div>
+    <router-outlet></router-outlet>
   </div>
-</nav>
-
-<div>
-  <router-outlet></router-outlet>
+  
 </div>
- 

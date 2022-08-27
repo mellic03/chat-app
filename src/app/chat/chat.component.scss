@@ -4,6 +4,10 @@
   flex-direction: row;
   width: 100vw;
   height: 90vh;
+
+  border-width: 1px 1px 1px 1px;
+  border-color: var(--border-color);
+  border-style: solid;
 }
 
 .groups {
@@ -12,46 +16,60 @@
   flex-direction: column;
   height: 100%;
   
-  background-color: rgb(240, 240, 240);
-  border-width: 1px 1px 1px 1px;
-  border-color: rgb(210, 210, 210);
+  background-color: var(--background-tertiary);
+  border-width: 0px 1px 1px 1px;
+  border-color: var(--border-color);
   border-style: solid;
 
-  .username {
-    // background-color:dimgray;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    align-items: center;
-    padding-bottom: 15px;
+}
+
+
+.channels-root {
+  width: fit-content;
+
+  background-color: var(--background-secondary);
+
+  
+  .group-name {
+    padding-left: 10px;
+    min-height: var(--chat-header-height);
+    max-height: var(--chat-header-height);
+
+    p {
+      font-size: 22px;
+    }
+    
+  }
+
+  .channels {
+    padding-left: 10px;
+    padding-right: 10px;
+    border-width: 1px 0px 0px 0px;
+    border-color: var(--border-color);
+    border-style: solid;
   }
 
 }
 
 
-.channels {
-  flex: 2;
-}
-
-
-
 .chat-root {
   flex: 5;
   height: 100%;
-  background-color: rgb(240, 240, 240);
-  border-width: 1px;
-  border-color: rgb(210, 210, 210);
+  background-color: var(--background-secondary);
+  border-width: 0 0 0 1px;
+  border-color: var(--border-color);
   border-style: solid;
 
   display: flex;
   flex-direction: column;
 
   .chat-title {
-    flex: 1;
 
-    border: 0px 0px 0px 0px;
-    border-width: 1px;
-    border-color: rgb(210, 210, 210);
+    min-height: var(--chat-header-height);
+    max-height: var(--chat-header-height);
+
+    border-width: 0 0 1px 0;
+    border-color: var(--border-color);
     border-style: solid;
 
     display: flex;
@@ -63,7 +81,7 @@
     flex: 15;
     
     width: 100%;
-    background-color: rgb(255, 255, 255);
+    background-color: var(--background-primary);
 
     display: flex;
     flex-direction: column-reverse;
@@ -139,5 +157,4 @@
   height: 32px;
   margin: 5px 0 0 0;
   border-radius: 32px;
-  background-color: rgba(0, 255, 34, 0.616);
 }

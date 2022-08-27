@@ -32,7 +32,7 @@ export class Group {
   name:string;
   users:Array<User> = [];
   group_assistants:Array<User> = [];
-  messages:Array<Message> = [];
+  channels:Array<Channel> = [];
 
   constructor(name:string = "New Group") {
     this.name = name;

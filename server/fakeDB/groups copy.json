@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Study Group",
+    "image": "image_1.jpg",
+    "users": [
+      "mellic03",
+      "sophiejw"
+    ],
+    "channels": [
+      {
+        "name": "Programming Fundamentals",
+        "users": [ "mellic03", "sophiejw"],
+        "messages": [
+          {
+            "sender": "mellic03",
+            "content": "Yes, hello Geraldine. It is I."
+          },
+          {
+            "sender": "sophiejw",
+            "content": "Omg Mick it's you! You're here!"
+          }
+        ]
+      },
+      {
+        "name": "Software Frameworks",
+        "users": [ "mellic03", "sophiejw"],
+        "messages": [
+          {
+            "sender": "mellic03",
+            "content": "Yes, hello Geraldine. It is I."
+          },
+          {
+            "sender": "sophiejw",
+            "content": "Omg Mick it's you! You're here!"
+          }
+        ]
+      }
+    ]
+  }
+
+
+]

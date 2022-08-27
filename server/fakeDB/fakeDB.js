@@ -8,10 +8,10 @@ function add_message_to_group(message, group_name)
     console.log(group_name);
     if (group.name == group_name)
     {
-      console.log(true);
-      group.messages.unshift(message);
-      let group_data = JSON.stringify(groups, null, 2);
-      fs.writeFileSync(__dirname + "/groups.json", group_data);
+      // console.log(true);
+      // group.messages.unshift(message);
+      // let group_data = JSON.stringify(groups, null, 2);
+      // fs.writeFileSync(__dirname + "/groups.json", group_data);
     }
   })
 }
