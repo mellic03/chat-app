@@ -1,25 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
 
 :root {
-  .dark {
-    --normal-text-color: rgb(220, 220, 220);
-    --bold-text-color: rgb(255, 255, 255);
-    --border-color: rgb(210, 210, 210);
-  
-    --background-primary: rgb(100, 100, 100);
-    --background-secondary: rgb(1, 1, 1);
-    --background-tertiary: rgb(1, 1, 1);
-
-  }
 
   .light {
     --normal-text-color: rgb(46, 46, 46);
     --bold-text-color: rgb(20, 20, 20);
-    --border-color: rgb(210, 210, 210);
+    --border-color: rgb(220, 220, 220);
 
     --background-primary: rgb(248, 249, 250);
     --background-secondary: rgb(238, 239, 240);
     --background-tertiary: rgb(228, 229, 230);
+
+    --non-user-message-bg: rgb(225, 225, 225);
+    --user-message-bg: rgb(115, 178, 180);
+
+    --shadow-color: rgb(155, 155, 155);
+  }
+
+  .dark {
+    --normal-text-color: rgb(220, 220, 220);
+    --bold-text-color: rgb(255, 255, 255);
+    --border-color: rgb(35, 35, 35);
+  
+    --background-primary: rgb(54, 57, 63);
+    --background-secondary: rgb(47, 49, 54);
+    --background-tertiary: rgb(32, 34, 37);
+
+    --non-user-message-bg: rgb(100, 100, 100);
+    --user-message-bg: rgb(95, 158, 160);
+
+    --shadow-color: rgb(25, 25, 25);
   }
 
   --chat-header-height: 40px;

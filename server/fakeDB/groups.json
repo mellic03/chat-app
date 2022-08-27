@@ -9,7 +9,10 @@
     "channels": [
       {
         "name": "Programming Fundamentals",
-        "users": [ "mellic03", "sophiejw"],
+        "users": [
+          "mellic03",
+          "sophiejw"
+        ],
         "messages": [
           {
             "sender": "mellic03",
@@ -23,7 +26,10 @@
       },
       {
         "name": "Software Frameworks",
-        "users": [ "mellic03", "sophiejw"],
+        "users": [
+          "mellic03",
+          "sophiejw"
+        ],
         "messages": [
           {
             "sender": "mellic03",
@@ -37,7 +43,10 @@
       },
       {
         "name": "Engineering Mathematics 1",
-        "users": [ "mellic03", "sophiejw"],
+        "users": [
+          "mellic03",
+          "sophiejw"
+        ],
         "messages": [
           {
             "sender": "mellic03",
@@ -51,7 +60,10 @@
       },
       {
         "name": "Engineering Mathematics 2",
-        "users": [ "mellic03", "sophiejw"],
+        "users": [
+          "mellic03",
+          "sophiejw"
+        ],
         "messages": [
           {
             "sender": "mellic03",
@@ -65,7 +77,6 @@
       }
     ]
   },
-
   {
     "name": "Legal-Activities Group",
     "image": "image_1.jpg",
@@ -76,7 +87,10 @@
     "channels": [
       {
         "name": "Legal Discussions",
-        "users": [ "mellic03", "sophiejw"],
+        "users": [
+          "mellic03",
+          "sophiejw"
+        ],
         "messages": [
           {
             "sender": "Wehrmacht PePe",
@@ -89,8 +103,11 @@
         ]
       },
       {
-        "name": "Software Frameworks",
-        "users": [ "mellic03", "sophiejw"],
+        "name": "A Channel With a Really Long Name",
+        "users": [
+          "mellic03",
+          "sophiejw"
+        ],
         "messages": [
           {
             "sender": "mellic03",
@@ -104,5 +121,4 @@
       }
     ]
   }
-
 ]

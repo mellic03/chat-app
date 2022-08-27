@@ -5,32 +5,29 @@
   width: 100vw;
   height: 90vh;
 
-  border-width: 1px 1px 1px 1px;
-  border-color: var(--border-color);
-  border-style: solid;
 }
 
 .groups {
-  resize: horizontal;
   display: flex;
   flex-direction: column;
   height: 100%;
   
   background-color: var(--background-tertiary);
-  border-width: 0px 1px 1px 1px;
-  border-color: var(--border-color);
-  border-style: solid;
 
 }
 
 
 .channels-root {
-  width: fit-content;
-
+  flex: 2;
+  max-width: 300px;
   background-color: var(--background-secondary);
 
-  
   .group-name {
+    color: var(--normal-text-color);
+
+    box-shadow: 0 1px 5px -2px var(--shadow-color);
+    z-index: 1;
+
     padding-left: 10px;
     min-height: var(--chat-header-height);
     max-height: var(--chat-header-height);
@@ -44,9 +41,6 @@
   .channels {
     padding-left: 10px;
     padding-right: 10px;
-    border-width: 1px 0px 0px 0px;
-    border-color: var(--border-color);
-    border-style: solid;
   }
 
 }
@@ -55,22 +49,21 @@
 .chat-root {
   flex: 5;
   height: 100%;
-  background-color: var(--background-secondary);
-  border-width: 0 0 0 1px;
-  border-color: var(--border-color);
-  border-style: solid;
+  background-color: var(--background-primary);
 
   display: flex;
   flex-direction: column;
 
   .chat-title {
+    color: var(--bold-text-color);
+
+    box-shadow: 0 1px 5px -2px var(--shadow-color);
+    z-index: 1;
+    
 
     min-height: var(--chat-header-height);
     max-height: var(--chat-header-height);
 
-    border-width: 0 0 1px 0;
-    border-color: var(--border-color);
-    border-style: solid;
 
     display: flex;
     justify-content: center;
@@ -111,7 +104,7 @@
 
   .message-content {
     p {
-      background-color: gray;
+      background-color: var(--non-user-message-bg);
       padding: 10px;
       border-radius: 10px;
       margin: 0;
@@ -134,7 +127,7 @@
 
   .message-content {
     p {
-      background-color: cadetblue;
+      background-color: var(--user-message-bg);
       padding: 10px;
       border-radius: 10px;
       margin: 0;
@@ -147,6 +140,7 @@
 }
 
 .message-footer {
+  color: var(--normal-text-color);
   display: flex;
   flex-direction: row;
   align-items: center;

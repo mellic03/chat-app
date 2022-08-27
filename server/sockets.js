@@ -8,7 +8,7 @@ module.exports = {
 
       // Upon receiving a message, update the message array then emit the message.
       socket.on("message", (message) => {
-        fakeDB.add_message_to_group(message.message, message.group);
+        fakeDB.add_message_to_group(message.message, message.group, message.channel);
         io.emit("message", message);
       })
     })

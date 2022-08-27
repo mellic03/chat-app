@@ -2,16 +2,18 @@ const fs = require('fs');
 let users = JSON.parse(fs.readFileSync(__dirname + "/users.json"));
 let groups = JSON.parse(fs.readFileSync(__dirname + "/groups.json"));
 
-function add_message_to_group(message, group_name)
+function add_message_to_group(message, group_name, channel_name)
 {
   groups.forEach((group) => {
     console.log(group_name);
-    if (group.name == group_name)
-    {
-      // console.log(true);
-      // group.messages.unshift(message);
-      // let group_data = JSON.stringify(groups, null, 2);
-      // fs.writeFileSync(__dirname + "/groups.json", group_data);
+    if (group.name == group_name) {
+      group.channels.forEach((channel) => {
+        if (channel.name == channel_name) {
+          channel.messages.unshift(message);
+          let group_data = JSON.stringify(groups, null, 2);
+          fs.writeFileSync(__dirname + "/groups.json", group_data);
+        }
+      })
     }
   })
 }

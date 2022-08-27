@@ -76,7 +76,8 @@ export class ChatComponent implements OnInit {
     if (this.message != '') {
       const msg = {
         message: new Message(this.current_user.username, this.message),
-        group: this.current_group.name
+        group: this.current_group.name,
+        channel: this.current_channel.name
       };
 
       this.socketService.send(msg);
