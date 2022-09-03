@@ -18,7 +18,6 @@ export class GroupService {
       console.log(ret);
     })
   }
-
 }
 
 export class Message {
