@@ -1,12 +1,24 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { User } from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class GroupService {
 
-  constructor() { }
+  constructor(private http:HttpClient) { }
+
+  API_CREATE_CHANNEL:string = "http://159.196.6.181:3000/channel/create";
+
+  create_channel(name:string)
+  {
+    this.http.post<Channel>(this.API_CREATE_CHANNEL, name, {}).subscribe((ret) => {
+      console.log(ret);
+    })
+  }
+
 }
 
 export class Message {

@@ -23,6 +23,7 @@
   background-color: var(--background-secondary);
 
   .group-name {
+    display: flex;
     color: var(--normal-text-color);
 
     box-shadow: 0 1px 5px -2px var(--shadow-color);
@@ -34,7 +35,9 @@
 
     p {
       font-size: 22px;
+      flex: 2;
     }
+
     
   }
 

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserService, User } from '../services/user.service';
 
 @Component({
   selector: 'app-account',
@@ -7,18 +8,28 @@ import { Router } from '@angular/router';
   styleUrls: ['./account.component.scss']
 })
 export class AccountComponent implements OnInit {
+  
+  @ViewChild('myModal') myModal?: HTMLElement;
+  @ViewChild('myInput') myInput?: HTMLElement;
 
-  user_info:any = {}; 
+  user:User = new User("", "", 0);
+  show_success_message:boolean = false;
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, public userService:UserService) { }
 
   ngOnInit(): void {
-    if (typeof(localStorage) !== "undefined") {
-      this.user_info = JSON.parse(String(localStorage.getItem("user_info")));
+    if (typeof(Storage) !== "undefined") {
+      this.user = JSON.parse(String(localStorage.getItem("user_info")));
     }
-    if (this.user_info?.username == null) {
+    if (this.user?.username == null) {
       this.router.navigateByUrl("/login");
     }
   }
+
+  update_user_info() {
+    localStorage.setItem("user_info", JSON.stringify(this.user));
+    this.show_success_message = true;
+  }
+
 
 }

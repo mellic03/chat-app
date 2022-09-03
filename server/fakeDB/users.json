@@ -1,20 +1,26 @@
 [
   {
+    "username": "super",
+    "email": "super@mail.com",
+    "password": "superpass",
+    "role": "superadmin"
+  },
+  {
     "username": "mellic03",
     "email": "michael@mail.com",
     "password": "mpass",
-    "role": 0
+    "role": "user"
   },
   {
     "username": "sophiejw",
     "email": "sophie@mail.com",
     "password": "spass",
-    "role": 0
+    "role": "user"
   },
   {
     "username": "Wehrmacht PePe",
     "email": "aiden@mail.com",
     "password": "apass",
-    "role": 0
+    "role": "user"
   }
 ]

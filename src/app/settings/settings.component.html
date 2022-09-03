@@ -1,1 +1,18 @@
-<p>settings works!</p>
+<div class="root">
+
+  <div class="left-panel">
+
+    <div class="username">
+      <p>{{user.username}}</p>
+    </div>
+
+    <a class="btn btn-secondary" routerLink="account">Account</a>
+    <a class="btn btn-secondary" routerLink="preferences">Preferences</a>
+
+  </div>
+
+  <div class="right-panel">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>

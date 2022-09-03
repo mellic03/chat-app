@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { GroupbuttonComponent } from './groupbutton/groupbutton.component';
 import { MessageComponent } from './message/message.component';
 import { ChannelbuttonComponent } from './channelbutton/channelbutton.component';
+import { MenuItemComponent } from './menu-item/menu-item.component';
 
 
 
@@ -11,6 +12,7 @@ import { ChannelbuttonComponent } from './channelbutton/channelbutton.component'
     GroupbuttonComponent,
     MessageComponent,
     ChannelbuttonComponent,
+    MenuItemComponent,
   ],
   imports: [
     CommonModule
@@ -18,7 +20,8 @@ import { ChannelbuttonComponent } from './channelbutton/channelbutton.component'
   exports: [
     GroupbuttonComponent,
     ChannelbuttonComponent,
-    MessageComponent
+    MessageComponent,
+    MenuItemComponent
   ]
 })
 export class SharedModule { }

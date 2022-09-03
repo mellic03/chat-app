@@ -8,6 +8,7 @@
 
     <div class="group-name">
       <p>{{current_group.name}}</p>
+      <a *ngIf="current_user.role != 'user'" class="btn" (click)="open_modal()">+</a>
     </div>
 
     <div class="channels">
@@ -55,4 +56,33 @@
     
   </div>
 
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        Create Channel
+      </div>
+
+      <form>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Channel Name</label>
+            <input name="channel_name" placeholder="Channel name">
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="close_modal()">Cancel</button>
+          <button type="button" class="btn btn-primary" (click)="create_channel()">Create</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
 </div>
