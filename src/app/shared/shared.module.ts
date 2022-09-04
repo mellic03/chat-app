@@ -12,7 +12,7 @@ import { MenuItemComponent } from './menu-item/menu-item.component';
     GroupbuttonComponent,
     MessageComponent,
     ChannelbuttonComponent,
-    MenuItemComponent,
+    MenuItemComponent
   ],
   imports: [
     CommonModule

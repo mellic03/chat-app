@@ -47,10 +47,11 @@ function get_groups_of_user(username, role)
 {
   user_groups = [];
   console.log(role);
-  if (role == "superadmin")
+  if (role == "superadmin") {
     user_groups = groups;
-  else if (role == "user")
-  {
+  }
+
+  else if (role == "user") {
     // Get groups that user is a member of
     groups.forEach((group) => {
       group.users.forEach((user) => {
@@ -61,8 +62,7 @@ function get_groups_of_user(username, role)
 
     // Remove channels that user is not a member of
     user_groups.forEach((group) => {
-      for (let i=0; i<group.channels.length; i++)
-      {
+      for (let i=0; i<group.channels.length; i++) {
         is_member = false;
         
         group.channels[i].users.forEach((user) => {
@@ -70,8 +70,7 @@ function get_groups_of_user(username, role)
             is_member = true;
         });
 
-        if (!is_member)
-        {
+        if (!is_member) {
           group.channels.splice(i, 1);
         }
       }

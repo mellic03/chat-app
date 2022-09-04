@@ -1,0 +1,22 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  
+  height: auto;
+  width: auto;
+  
+  box-shadow: 0 1px 5px -2px var(--shadow-color);
+  background-color: var(--background-secondary);
+  border-radius: 10px;
+
+  .content {
+    padding-left: 10px;
+  }
+
+  margin-bottom: 20px;
+}
+
+h4 {
+  box-shadow: 0 1px 5px -2px var(--shadow-color);
+  padding-left: 10px;
+}

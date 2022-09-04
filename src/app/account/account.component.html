@@ -1,28 +1,32 @@
 <div class="container">
   <h2>Account</h2>
-  <form>
-    <div class="form-group">
-      <label>Username</label>
-      <input
+
+
+  <menu-item title="Account Details">
+    <form>
+      <div class="form-group">
+        <label>Username</label>
+        <input
         [(ngModel)]="user.username"
         name="username"
         class="form-control"
         placeholder="{{user.username}}"
-      >
-
-      <label>Email Address</label>
-      <input
+        >
+        
+        <label>Email Address</label>
+        <input
         [(ngModel)]="user.email"
         name="email"
         class="form-control"
         placeholder="{{user.email}}"
-      >
-    </div>
-    <p>Role: {{user.role}}</p>
-    <br>
-    <button (click)="update_user_info()" type="button" class="btn btn-primary">Update</button>
-    <div class="success" *ngIf="show_success_message">
-      <p>*updated</p>
-    </div>
-  </form>
+        >
+      </div>
+      <p>Role: {{user.role}}</p>
+      <br>
+      <button (click)="update_user_info()" type="button" class="btn btn-primary">Update</button>
+      <div class="success" *ngIf="show_success_message">
+        <p>*updated</p>
+      </div>
+    </form>
+  </menu-item>
 </div>

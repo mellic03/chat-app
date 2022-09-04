@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ThemeService } from '../services/theme/theme.service';
 
 @Component({
   selector: 'app-preferences',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PreferencesComponent implements OnInit {
 
-  constructor() { }
+  current_theme:string = '';
+
+  constructor(private themeService:ThemeService) { }
 
   ngOnInit(): void {
+  }
+
+  set_theme(theme:string) {
+    this.current_theme = theme;
+    this.themeService.set_theme(theme);
   }
 
 }

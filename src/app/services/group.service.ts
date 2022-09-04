@@ -32,6 +32,9 @@ export class Message {
 export class Channel {
   name:string;
   users:Array<User> = [];
+  group_assistants:Array<User> = [];
+  group_admins:Array<User> = [];
+
   messages:Array<Message> = [];
   
   constructor(name:string = "New Channel") {

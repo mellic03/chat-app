@@ -57,8 +57,7 @@ export class ChatComponent implements OnInit {
     }
 
   // Connect to server
-  initToConnection()
-  {
+  initToConnection() {
     this.ioConnection = this.socketService.getMessage()
     .subscribe((message:any) =>
     {
@@ -67,20 +66,17 @@ export class ChatComponent implements OnInit {
   }
 
   // Set the current group to the group the user clicks
-  open_group(group:Group)
-  {
+  open_group(group:Group) {
     this.current_group = group;
   }
   
   // Set the current channel to the channel the user clicks
-  open_channel(channel:Channel)
-  {
+  open_channel(channel:Channel) {
     this.current_channel = channel;
   }
 
   // Send a message to the server using sockets
-  send_message():void
-  {
+  send_message():void {
     if (this.message != '')
     {
       const msg = {
@@ -97,19 +93,16 @@ export class ChatComponent implements OnInit {
   displayStyle = "none";
 
   // Open modal to add channel to group
-  open_modal()
-  {
+  open_modal() {
     this.displayStyle = "block";
   }
   // Close modal to add channel to group
-  close_modal()
-  {
+  close_modal() {
     this.displayStyle = "none";
   }
 
   // Create a new channel
-  create_channel()
-  {
+  create_channel() {
     this.groupService.create_channel("");
   }
 }
