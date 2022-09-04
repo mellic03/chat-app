@@ -12,9 +12,10 @@ module.exports = {
         io.emit("message", message);
       });
 
-      socket.on("create_channel", (data) => {
-        fakeDB.create_channel(data.group_name);
-      });
+
+      socket.on("create_user", (data) => {
+        fakeDB.create_user(data.username, data.email, data.password);
+      })
 
     });
   }

@@ -7,9 +7,9 @@ import { PreferencesComponent } from './preferences/preferences.component';
 import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
+  { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
   { path: 'chat', component: ChatComponent },
-
   { path: 'settings', component: SettingsComponent,
     children: [
       { path: 'account', component: AccountComponent},

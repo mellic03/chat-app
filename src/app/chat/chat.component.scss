@@ -1,9 +1,8 @@
-
 .root {
   display: flex;
   flex-direction: row;
   width: 100vw;
-  height: 90vh;
+  height: 100%;
 
 }
 
@@ -14,7 +13,6 @@
   
   background-color: var(--background-tertiary);
 }
-
 
 .channels-root {
   flex: 2;

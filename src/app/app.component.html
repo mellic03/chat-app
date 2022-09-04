@@ -1,21 +1,21 @@
-<div class="{{theme}}">
+<div class="root {{theme}}">
 
-  <nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-      <a class="navbar-brand">Chat-App</a>
-      <div class="navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li><a class="nav-link" routerLink="/login">Login</a></li>
-          <li><a class="nav-link" routerLink="/chat">Chat</a></li>
-          <li><a class="nav-link" routerLink="/settings">Settings</a></li>
-          
-        </ul>
-        <button (click)="logout()" type="button" class="btn btn-primary">logout</button>
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <a class="navbar-brand">Chat-App</a>
+        <div class="navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <!-- <li><a class="nav-link" routerLink="/login">Login</a></li> -->
+            <li><a class="nav-link" routerLink="/chat">Chat</a></li>
+            <li><a class="nav-link" routerLink="/settings">Settings</a></li>
+            
+          </ul>
+          <button (click)="logout()" type="button" class="btn btn-primary">logout</button>
+        </div>
       </div>
-    </div>
-  </nav>
-  
-  <div>
+    </nav>
+    
+  <div class="outlet">
     <router-outlet></router-outlet>
   </div>
   

@@ -12,14 +12,13 @@ const SUPER_ADMIN:number = 3;
 
 export class UserService {
 
-  roles:Array<string> = ["user", "group assistant", "group admin", "super admin"];
-
   constructor(private socketService:SocketService) { }
   
-  create_user(username:string, email:string) {
+  create_user(username:string, email:string, password:string) {
     this.socketService.emit("create_user", {
       username: username,
-      email: email
+      email: email,
+      password: password
     });
   }
   
