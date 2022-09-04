@@ -26,8 +26,14 @@ export class SocketService {
     return new Observable(observer => {
       this.socket.on("message", data => {
         observer.next(data);
-      })
+      });
     })
+  }
+  
+  disconnect() {
+    return new Observable(observer => {
+      
+    })  
   }
   //-------------------------------------------
 }

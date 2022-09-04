@@ -4,27 +4,27 @@
     "username": "super",
     "email": "super@mail.com",
     "password": "superpass",
-    "role": "superadmin"
+    "role": 3
   },
   {
     "id": 1001,
     "username": "mellic03",
     "email": "michael@mail.com",
     "password": "mpass",
-    "role": "user"
+    "role": 0
   },
   {
     "id": 1002,
     "username": "sophiejw",
     "email": "sophie@mail.com",
     "password": "spass",
-    "role": "user"
+    "role": 0
   },
   {
     "id": 1003,
     "username": "Wehrmacht PePe",
     "email": "aiden@mail.com",
     "password": "apass",
-    "role": "user"
+    "role": 0
   }
 ]

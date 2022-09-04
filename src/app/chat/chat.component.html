@@ -9,7 +9,7 @@
     <div class="group-name">
       <p>{{current_group.name}}</p>
       <a
-        *ngIf="current_user.role != 'user'"
+        *ngIf="current_user.role > 0"
         class="btn add-channel"
         (click)="open_modal()"
         data-toggle="tooltip"

@@ -38,9 +38,9 @@ module.exports = {
    */
   verify_user: function(email, password) {
     for (let i=0; i<this.users.length; i++)
-    if (email == this.users[i].email && password == this.users[i].password)
-    return this.users[i];
-    return {email: false};
+      if (email == this.users[i].email && password == this.users[i].password)
+        return this.users[i];
+    return {email: "false"};
   },
   
   /**
@@ -50,11 +50,11 @@ module.exports = {
    */
   get_groups_of_user: function(username, role) {
     user_groups = [];
-    if (role == "superadmin") {
+    if (role == 3) {
       user_groups = this.groups;
     }
     
-    else if (role == "user") {
+    else if (role < 3) {
       // Get groups that user is a member of
       this.groups.forEach((group) => {
         group.users.forEach((user) => {

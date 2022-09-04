@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { SocketService } from '../socket/socket.service';
 
 const USER:number = 0;
@@ -12,8 +13,14 @@ const SUPER_ADMIN:number = 3;
 
 export class UserService {
 
+  current_user_role = new Subject<number>();
+
   constructor(private socketService:SocketService) { }
-  
+
+  update_current_role(role:number) {
+    this.current_user_role.next(role);
+  }
+
   create_user(username:string, email:string, password:string) {
     this.socketService.emit("create_user", {
       username: username,
@@ -93,7 +100,7 @@ export class User {
 
   email:string;
   username:string;
-  role:string = "user";
+  role:number = USER;
   id:number;
 
   // A new user has no system permissions.
@@ -122,3 +129,4 @@ export class User {
     this.id = 0;
   }
 }
+

@@ -12,6 +12,7 @@ import { AccountComponent } from './account/account.component';
 import { ChatComponent } from './chat/chat.component';
 import { SettingsComponent } from './settings/settings.component';
 import { PreferencesComponent } from './preferences/preferences.component';
+import { AdminpanelComponent } from './adminpanel/adminpanel.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { PreferencesComponent } from './preferences/preferences.component';
     AccountComponent,
     ChatComponent,
     SettingsComponent,
-    PreferencesComponent
+    PreferencesComponent,
+    AdminpanelComponent
   ],
   imports: [
     BrowserModule,

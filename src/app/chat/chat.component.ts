@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { Router } from '@angular/router';
-import { User } from '../services/user/user.service';
+import { User, UserService } from '../services/user/user.service';
 import { Channel, Group, GroupService, Message } from '../services/group/group.service';
 import { HttpClient } from '@angular/common/http';
 import { SocketService } from '../services/socket/socket.service';
@@ -31,13 +31,16 @@ export class ChatComponent implements OnInit {
   socket_listener:any;
 
   constructor(private router:Router, private http:HttpClient,
-              private socketService:SocketService, private groupService:GroupService)
+              private socketService:SocketService, private groupService:GroupService,
+              private userService:UserService)
   { }
 
   ngOnInit(): void {
 
     if (typeof(localStorage) !== "undefined") {
       this.current_user = JSON.parse(String(localStorage.getItem("user_info")));
+      this.userService.update_current_role(this.current_user.role);
+
     }
 
     if (this.current_user?.username == null) {
@@ -68,6 +71,10 @@ export class ChatComponent implements OnInit {
 
   // Set the current channel to the channel the user clicks
   open_channel(channel:Channel) {
+    // Unsubscribe from current channel
+    // this.socketService.emit("unsubscribe", this.current_channel.name);
+    // this.socketService.disconnect();
+
     this.current_channel = channel;
     this.socketService.join_channel(channel.name);
     

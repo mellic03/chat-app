@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AccountComponent } from './account/account.component';
+import { AdminpanelComponent } from './adminpanel/adminpanel.component';
 import { ChatComponent } from './chat/chat.component';
 import { LoginComponent } from './login/login.component';
 import { PreferencesComponent } from './preferences/preferences.component';
@@ -15,7 +16,8 @@ const routes: Routes = [
       { path: 'account', component: AccountComponent},
       { path: 'preferences', component: PreferencesComponent}
     ]
-  }
+  },
+  { path: 'adminpanel', component: AdminpanelComponent }
 ]
 
 @NgModule({

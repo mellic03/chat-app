@@ -25,23 +25,31 @@ module.exports = {
     //     count++;
     //   }
     // }
-    
+    let count = 0;
     fakeDB.groups.forEach(group => {
       group.channels.forEach(channel => {
-        let socket_channel = io.of("/" + channel.name);
-        socket_channel.on("connection", socket => {
+
+        var nsp = io.of("/" + channel.name);
+
+        nsp.on("connection", socket => {
           socket.join(channel.name);
-          // console.log("Connected to channel: " + channel.name);
+          console.log("Connected to channel: " + channel.name);
 
           socket.on("message", data => {
             // console.log(data);
             // fakeDB.add_message_to_channel(data.message, data.group, data.channel);
-            socket.emit("message", data);
+            nsp.emit("message", data);
             // socket.to(channel.name).emit("message", data);
           });
+          
+          socket.on("unsubscribe", channel_name => {
+            console.log(`socket leaving channel: ${channel_name}`);
+            socket.leave(channel_name);
+          })
 
-          socket.leave(channel.name);
         });
+
+        count++;
       })
     });
     //---------------------------------------------------------------------
@@ -54,7 +62,8 @@ module.exports = {
 
       // Upon receiving a message, update the message array then emit the message.
       socket.on("message", (message) => {
-        fakeDB.add_message_to_channel(message.message, message.group, message.channel);
+        console.log("main")
+        // fakeDB.add_message_to_channel(message.message, message.group, message.channel);
         io.emit("message", message);
       });
     });
