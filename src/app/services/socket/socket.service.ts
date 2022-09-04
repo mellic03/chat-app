@@ -14,21 +14,20 @@ export class SocketService {
 
   // Messaging
   //-------------------------------------------
-  send(message:object) {
-    this.socket.emit("message", message);
+  join_channel(channel_name:string) {
+    this.socket = io(this.server_url + channel_name, { transports: ['websocket'] });
   }
-
-  getMessage() {
-    return new Observable(observer => {
-      this.socket.on("message", (data) => {
-        observer.next(data);
-      })
-    })
-  }
-  //-------------------------------------------
 
   emit(title:string, data:Object) {
     this.socket.emit(title, data);
   }
 
+  connect() {
+    return new Observable(observer => {
+      this.socket.on("message", data => {
+        observer.next(data);
+      })
+    })
+  }
+  //-------------------------------------------
 }
