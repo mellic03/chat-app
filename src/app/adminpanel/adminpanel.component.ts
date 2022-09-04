@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from '../services/user/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-adminpanel',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminpanelComponent implements OnInit {
 
-  constructor() { }
+  user:User = new User("", "");
+
+  page_title:string = "Settings";
+
+  constructor(private router:Router) { }
+
 
   ngOnInit(): void {
+    if (typeof(localStorage) !== undefined)
+      this.user = JSON.parse(String(localStorage.getItem("user_info")));
+    if (this.user?.username == null)
+      this.router.navigateByUrl("/login");
+  }
+
+  set_page_title(title:string) {
+    this.page_title = title;
   }
 
 }

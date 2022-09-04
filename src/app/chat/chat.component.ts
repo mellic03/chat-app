@@ -40,7 +40,6 @@ export class ChatComponent implements OnInit {
     if (typeof(localStorage) !== "undefined") {
       this.current_user = JSON.parse(String(localStorage.getItem("user_info")));
       this.userService.update_current_role(this.current_user.role);
-
     }
 
     if (this.current_user?.username == null) {

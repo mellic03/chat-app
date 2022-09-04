@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService, User } from '../services/user/user.service';
+import { UserService, User } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-account',

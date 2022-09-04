@@ -12,22 +12,20 @@ import { User } from './services/user/user.service';
 export class AppComponent {
 
   theme:string = "";
-  current_user_role:number = 0;
+  current_user:User = new User("", "");
   logged_in:boolean = false;
 
   constructor(private router:Router, private themeService:ThemeService, private userService:UserService) {
 
-    // Determine if a user is already logged in.
-    if (typeof(localStorage) !== undefined) {
+    if (typeof(localStorage) !== "undefined") {
       if (localStorage.getItem("user_info") != null) {
+        this.current_user = JSON.parse(String(localStorage.getItem("user_info")));
+        this.userService.update_current_role(this.current_user.role);
         this.logged_in = true;
       }
     }
 
-    // Observe the role of the current user. Used to show admin panel.
-    this.userService.current_user_role.subscribe(data => {
-      this.current_user_role = data;
-    });
+
 
     // Observe the current theme set by the user. Used to switch theme.
     this.themeService.theme.subscribe((current_theme) => {
@@ -41,6 +39,7 @@ export class AppComponent {
   // Clear local storage
   logout():void {
     localStorage.clear();
+    this.current_user = new User("", "");
     this.router.navigateByUrl('login');
   }
 

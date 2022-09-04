@@ -8,11 +8,13 @@ import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { AccountComponent } from './account/account.component';
+import { AccountComponent } from './settings/account/account.component';
 import { ChatComponent } from './chat/chat.component';
 import { SettingsComponent } from './settings/settings.component';
-import { PreferencesComponent } from './preferences/preferences.component';
+import { PreferencesComponent } from './settings/preferences/preferences.component';
 import { AdminpanelComponent } from './adminpanel/adminpanel.component';
+import { UserpanelComponent } from './adminpanel/userpanel/userpanel.component';
+import { GrouppanelComponent } from './adminpanel/grouppanel/grouppanel.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { AdminpanelComponent } from './adminpanel/adminpanel.component';
     ChatComponent,
     SettingsComponent,
     PreferencesComponent,
-    AdminpanelComponent
+    AdminpanelComponent,
+    UserpanelComponent,
+    GrouppanelComponent
   ],
   imports: [
     BrowserModule,
