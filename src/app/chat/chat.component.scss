@@ -90,6 +90,9 @@
     textarea {
       flex: 3;
       resize: none;
+      border-color: var(--border-color);
+      background-color: var(--background-kindergarten);
+      color: var(--normal-text-color);
     }
 
     display: flex;

@@ -16,7 +16,6 @@ module.exports = function(app){
   {
     const username = req.params.user;
     const role = req.params.role;
-    console.log(username, role);
     const groups = fakeDB.get_groups_of_user(username, role);
     res.send(groups);
   });

@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 // number
-let next_user_id = JSON.parse(fs,fs.readFileSync(__dirname + "/next_user_id.json"));
+let next_user_id = JSON.parse(fs.readFileSync(__dirname + "/next_user_id.json"));
 
 // Array of User
 let users = JSON.parse(fs.readFileSync(__dirname + "/users.json"));
@@ -48,7 +48,6 @@ function verify_user(email, password) {
  */
 function get_groups_of_user(username, role) {
   user_groups = [];
-  console.log(role);
   if (role == "superadmin") {
     user_groups = groups;
   }
