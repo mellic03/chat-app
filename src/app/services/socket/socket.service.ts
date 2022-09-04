@@ -11,6 +11,9 @@ export class SocketService {
   private socket = io(this.server_url, { transports: ['websocket'] });
   constructor() { }
 
+
+  // Messaging
+  //-------------------------------------------
   send(message:object) {
     this.socket.emit("message", message);
   }
@@ -21,6 +24,11 @@ export class SocketService {
         observer.next(data);
       })
     })
+  }
+  //-------------------------------------------
+
+  emit(title:string, data:Object) {
+    this.socket.emit(title, data);
   }
 
 }

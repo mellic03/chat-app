@@ -8,15 +8,11 @@ let groups = JSON.parse(fs.readFileSync(__dirname + "/groups.json"));
  * @param {string} channel_name
  * @returns {null}
  */
-function add_message_to_channel(message, group_name, channel_name)
-{
-  groups.forEach((group) =>
-  {
+function add_message_to_channel(message, group_name, channel_name) {
+  groups.forEach((group) => {
     if (group.name == group_name)
-      group.channels.forEach((channel) =>
-      {
-        if (channel.name == channel_name)
-        {
+      group.channels.forEach((channel) => {
+        if (channel.name == channel_name) {
           channel.messages.unshift(message);
           let group_data = JSON.stringify(groups, null, 2);
           fs.writeFileSync(__dirname + "/groups.json", group_data);
@@ -30,8 +26,7 @@ function add_message_to_channel(message, group_name, channel_name)
  * @param {string} password 
  * @returns {User} User object
  */
-function verify_user(email, password)
-{
+function verify_user(email, password) {
   for (let i=0; i<users.length; i++)
     if (email == users[i].email && password == users[i].password)
       return users[i];
@@ -43,8 +38,7 @@ function verify_user(email, password)
  * @param {string} role 
  * @returns {Array<group>} Array of groups/channels the user is a member of
  */
-function get_groups_of_user(username, role)
-{
+function get_groups_of_user(username, role) {
   user_groups = [];
   console.log(role);
   if (role == "superadmin") {
@@ -84,20 +78,33 @@ function get_groups_of_user(username, role)
  * @param {string} username
  * @returns {Array<User>} Array of users that are a member of the group
  */
-function get_users_of_group(username)
-{
+function get_users_of_group(username) {
   let user_groups = [];
 
   groups.forEach((group) => {
     group.users.forEach((user) => {
-      if (username==user) user_groups.push(group);
+      if (username==user)
+        user_groups.push(group);
     })
   });
   
   return user_groups;
 }
 
+function create_channel(group_name) {
+  groups.push(
+    {
+      name: group_name,
+      image: "image_1.jpg",
+      users: [],
+      channels: []
+    }
+  )
+  fs.writeFileSync(__dirname + "/groups.json", group_data);
+}
+
 exports.get_groups_of_user = get_groups_of_user;
 exports.verify_user = verify_user;
 exports.get_users_of_group = get_users_of_group;
 exports.add_message_to_group = add_message_to_channel;
+exports.create_channel = create_channel;

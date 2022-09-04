@@ -16,7 +16,7 @@ export class AppComponent {
 
     this.themeService.theme.subscribe((current_theme) => {
       this.theme = current_theme;
-    })
+    });
 
     // Light by default on launch
     this.themeService.theme.next("light");

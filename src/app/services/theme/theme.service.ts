@@ -8,8 +8,7 @@ export class ThemeService {
 
   theme = new Subject<string>();
 
-  constructor() {
-  }
+  constructor() { }
 
   set_theme(theme:string) {
     this.theme.next(theme);

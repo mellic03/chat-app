@@ -10,7 +10,12 @@ module.exports = {
       socket.on("message", (message) => {
         fakeDB.add_message_to_group(message.message, message.group, message.channel);
         io.emit("message", message);
-      })
-    })
+      });
+
+      socket.on("create_channel", (data) => {
+        fakeDB.create_channel(data.group_name);
+      });
+
+    });
   }
 }

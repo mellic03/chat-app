@@ -1,64 +1,92 @@
 import { Injectable } from '@angular/core';
+import { SocketService } from '../socket/socket.service';
+
+const USER:number = 0;
+const GROUP_ASSISTANT:number = 1;
+const GROUP_ADMIN:number = 2;
+const SUPER_ADMIN:number = 3;
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class UserService {
 
   roles:Array<string> = ["user", "group assistant", "group admin", "super admin"];
 
-  constructor() { }
+  constructor(private socketService:SocketService) { }
   
   create_user(username:string, email:string) {
-    console.log("test");
+    this.socketService.emit("create_user", {
+      username: username,
+      email: email
+    });
   }
   
-  delete_user(user_id:number, email:string) {
-    console.log("test");
+  delete_user(user_id:number) {
+    this.socketService.emit("delete_user", {
+      user_id: user_id
+    });
   }
   
-  promote_to_assistant(user_id:number) {
-    
+  set_role(user_id:number, role:number) {
+    this.socketService.emit("set_role", {
+      user_id: user_id,
+      role: role
+    });
+  }
+
+  create_group(group_name:string) {
+    this.socketService.emit("create_group", {
+      group_name: group_name
+    })
   }
   
-  promote_to_admin(user_id:number) {
-  
+  delete_group(group_id:number) {
+    this.socketService.emit("delete_group", {
+      group_id: group_id
+    });
   }
   
-  promote_to_super_admin(user_id:number) {
-  
+  add_user_to_group(user_id:number, group_id:number) {
+    this.socketService.emit("add_user_to_group", {
+      user_id: user_id,
+      group_id: group_id
+    });
   }
   
-  create_group() {
-  
+  remove_user_from_group(user_id:number, group_id:number) {
+    this.socketService.emit("remove_user_from_group", {
+      user_id: user_id,
+      group_id: group_id
+    });
   }
   
-  delete_group() {
-  
+  create_channel(channel_name:string, group_id:number) {
+    this.socketService.emit("create_channel", {
+      channel_name: channel_name,
+      group_id: group_id
+    });
   }
   
-  add_user_to_group() {
-  
+  delete_channel(channel_id:number) {
+    this.socketService.emit("delete_channel", {
+      channel_id: channel_id
+    });
   }
   
-  remove_user_from_group() {
-    
+  add_user_to_channel(user_id:number, channel_id:number) {
+    this.socketService.emit("add_user_to_channel", {
+      user_id: user_id,
+      channel_id: channel_id
+    });
   }
   
-  create_channel() {
-  
-  }
-  
-  delete_channel() {
-  
-  }
-  
-  add_user_to_channel() {
-  
-  }
-  
-  remove_user_from_channel() {
-    
+  remove_user_from_channel(user_id:number, channel_id:number) {
+    this.socketService.emit("remove_user_from_channel", {
+      user_id: user_id,
+      channel_id: channel_id
+    });
   }
 }
 
