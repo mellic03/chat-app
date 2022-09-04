@@ -1,10 +1,10 @@
 import { Component, OnInit, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { Router } from '@angular/router';
-import { User } from '../services/user.service';
-import { Channel, Group, GroupService, Message } from '../services/group.service';
+import { User } from '../services/user/user.service';
+import { Channel, Group, GroupService, Message } from '../services/group/group.service';
 import { HttpClient } from '@angular/common/http';
-import { SocketService } from '../services/socket.service';
+import { SocketService } from '../services/socket/socket.service';
 
 @Component({
   selector: 'app-chat',
@@ -26,7 +26,7 @@ export class ChatComponent implements OnInit {
   current_group:Group = new Group();
   current_channel:Channel = new Channel();
   groups:Array<Group> = [];
-  current_user:User = new User("0", "0", 0);
+  current_user:User = new User("0", "0");
   ioConnection:any;
 
   constructor(private router:Router, private http:HttpClient,

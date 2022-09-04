@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService, User } from '../services/user.service';
+import { UserService, User } from '../services/user/user.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, observable } from 'rxjs';
 

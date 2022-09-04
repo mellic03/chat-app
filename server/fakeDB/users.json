@@ -3,24 +3,28 @@
     "username": "super",
     "email": "super@mail.com",
     "password": "superpass",
-    "role": "superadmin"
+    "role": "superadmin",
+    "id": 0
   },
   {
     "username": "mellic03",
     "email": "michael@mail.com",
     "password": "mpass",
-    "role": "user"
+    "role": "user",
+    "id": 1
   },
   {
     "username": "sophiejw",
     "email": "sophie@mail.com",
     "password": "spass",
-    "role": "user"
+    "role": "user",
+    "id": 2
   },
   {
     "username": "Wehrmacht PePe",
     "email": "aiden@mail.com",
     "password": "apass",
-    "role": "user"
+    "role": "user",
+    "id": 3
   }
 ]

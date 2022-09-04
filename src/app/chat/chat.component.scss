@@ -21,6 +21,10 @@
   max-width: 300px;
   background-color: var(--background-secondary);
 
+  .add-channel {
+    color: var(--bold-text-color);
+  }
+
   .group-name {
     display: flex;
     color: var(--normal-text-color);

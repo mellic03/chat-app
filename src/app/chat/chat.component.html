@@ -8,7 +8,7 @@
 
     <div class="group-name">
       <p>{{current_group.name}}</p>
-      <a *ngIf="current_user.role != 'user'" class="btn" (click)="open_modal()">+</a>
+      <a *ngIf="current_user.role != 'user'" class="btn add-channel" (click)="open_modal()">+</a>
     </div>
 
     <div class="channels">

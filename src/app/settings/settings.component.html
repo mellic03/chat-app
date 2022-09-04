@@ -1,13 +1,11 @@
 <div class="root">
 
   <div class="left-panel">
-
     <div class="username">
       <p>{{user.username}}</p>
     </div>
-
-    <a class="btn btn-secondary" routerLink="account">Account</a>
-    <a class="btn btn-secondary" routerLink="preferences">Preferences</a>
+    <a class="btn btn-secondary" routerLink="account" (click)="set_page_title('Account')">Account</a>
+    <a class="btn btn-secondary" routerLink="preferences" (click)="set_page_title('Preferences')">Preferences</a>
 
   </div>
 

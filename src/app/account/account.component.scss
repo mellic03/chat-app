@@ -1,10 +1,26 @@
+.root {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
 form {
-  padding-top: 20px;
-  max-width: 50vw;
+  max-width: 70%;
 }
 
 .success {
   padding-top: 5px;
   font-size: 12px;
   color: blue;
+}
+
+.account-details {
+  display: flex;
+}
+
+.editable {
+  flex: 1;
+}
+
+.static {
+  flex: 1;
 }
