@@ -3,7 +3,6 @@
   flex-direction: row;
   width: 100vw;
   height: 100%;
-
 }
 
 .groups {
@@ -35,7 +34,7 @@
     max-height: var(--chat-header-height);
 
     p {
-      font-size: 22px;
+      font-size: 20px;
       flex: 2;
     }
     
@@ -48,111 +47,11 @@
 
 }
 
-
-.chat-root {
-  flex: 5;
-  height: 100%;
+.right-panel {
   background-color: var(--background-primary);
+  grid-area: right;
+  width: 100%;
+  height: 100%;
 
-  display: flex;
-  flex-direction: column;
-
-  .chat-title {
-    color: var(--bold-text-color);
-
-    box-shadow: 0 1px 5px -2px var(--shadow-color);
-    z-index: 1;
-    
-    min-height: var(--chat-header-height);
-    max-height: var(--chat-header-height);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .chat-window {
-    flex: 15;
-    
-    width: 100%;
-    background-color: var(--background-primary);
-
-    display: flex;
-    flex-direction: column-reverse;
-
-    overflow-y: auto;
-
-    padding-bottom: 30px;
-  }
-  
-  .text-field {
-    flex: 2;
-    textarea {
-      flex: 3;
-      resize: none;
-      border-color: var(--border-color);
-      background-color: var(--background-kindergarten);
-      color: var(--normal-text-color);
-    }
-
-    display: flex;
-  }
-}
-
-.non-user-message {
-  padding-top: 5px;
-  margin-left: 5px;
-  max-width: fit-content;
-  display: flex;
-  flex-direction: column;
-
-  .message-content {
-    p {
-      background-color: var(--non-user-message-bg);
-      padding: 10px;
-      border-radius: 10px;
-      margin: 0;
-    }
-  }
-
-  p {
-    margin: 0 0 0 10px;
-  }
-
-}
-
-.user-message {
-  padding-top: 5px;
-  margin-right: 5px;
-  margin-left: 30%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-
-  .message-content {
-    p {
-      background-color: var(--user-message-bg);
-      padding: 10px;
-      border-radius: 10px;
-      margin: 0;
-    }
-  }
-
-  p {
-    margin: 0 10px 0 0;
-  }
-}
-
-.message-footer {
-  color: var(--normal-text-color);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.profile-photo {
-  width: 32px;
-  height: 32px;
-  margin: 5px 0 0 0;
-  border-radius: 32px;
+  overflow: hidden;
 }

@@ -42,9 +42,9 @@ module.exports = {
             // socket.to(channel.name).emit("message", data);
           });
           
-          socket.on("unsubscribe", channel_name => {
-            console.log(`socket leaving channel: ${channel_name}`);
-            socket.leave(channel_name);
+          socket.on("unsubscribe", () => {
+            console.log(`socket leaving channel: ${channel.name}`);
+            socket.leave(nsp);
           })
 
         });

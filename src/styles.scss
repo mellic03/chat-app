@@ -1,5 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 
+// Bootstrap variable overrides
+//----------------------------------------------
+$input-bg: var(--background-kindergarten);
+$input-color: var(--normal-text-color);
+$input-border-color: var(--border-color);
+
+@import "node_modules/bootstrap/scss/bootstrap";
+//----------------------------------------------
+
 html, body {
   height: 100%;
   width: 100%;
@@ -7,6 +16,10 @@ html, body {
 }
 
 :root {
+
+  --form-width: 400px;
+  --navbar-height: 50px;
+  --chat-header-height: 40px;
 
   .light {
     --light-text-color: rgb(100, 100, 100);
@@ -23,6 +36,8 @@ html, body {
     --user-message-bg: rgb(115, 178, 180);
 
     --shadow-color: rgb(155, 155, 155);
+
+    --success: rgb(0, 0, 200);
   }
 
   .dark {
@@ -40,9 +55,10 @@ html, body {
     --user-message-bg: rgb(95, 158, 160);
 
     --shadow-color: rgb(25, 25, 25);
+
+    --success: rgb(14, 214, 64);
   }
 
-  --chat-header-height: 40px;
 }
 
 nav {
@@ -63,9 +79,46 @@ h4, p {
 
 
 .page-title {
-  height: 50px;
+  height: var(--chat-header-height);
   margin-bottom: 25px;
   padding-left: 10px;
   box-shadow: 0 1px 5px -2px var(--shadow-color);
 }
 
+.submenu-root {
+  display: flex;
+  flex-wrap: wrap;
+
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+menu-item {
+  flex: 1;
+  min-width: 300px;
+  max-width: 550px;
+  margin-left: 20px;
+  margin-right: 20px;
+
+  input, select {
+    float: inline-start;
+    padding-right: 200px;
+    margin-bottom: 10px;
+  }
+}
+
+label {
+  color: var(--normal-text-color);
+}
+
+.success {
+  margin-top: 5px;
+  font-size: 12px;
+  p {
+    color: var(--success);
+  }
+}
+
+i {
+  color: var(--normal-text-color);
+}

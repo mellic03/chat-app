@@ -1,1 +1,75 @@
-<p>userpanel works!</p>
+<div class="page-title">
+  <h2>Users</h2>
+</div>
+
+<div class="submenu-root">
+
+  <menu-item title="Create User">
+    <form [formGroup]="new_user_form" (ngSubmit)="new_user_form.valid && open_modal()">
+      <div class="form-group">
+        <label>Username</label>
+        <input formControlName="username" class="form-control">
+
+        <label>Email Address</label>
+        <input formControlName="email" class="form-control">
+
+        <label>Password</label>
+        <input formControlName="password" class="form-control">
+
+        <button
+          [disabled]="!new_user_form.valid"
+          type="submit"
+          class="btn btn-primary">
+          Create User
+        </button>
+
+      </div>
+    </form>    
+  </menu-item>
+
+  <menu-item title="Delete User">
+    
+    <label>Delete user by name</label>
+    <select class="form-select" aria-label="Default select example">
+      <option *ngFor="let user of usernames; index as i;" value="{{user_ids[i]}}">{{usernames[i]}}</option>
+    </select>
+    <button class="btn btn-secondary">DELETE</button><br><br>
+
+    <label>Delete user by ID</label>
+    <input name="user_id" class="form-control">
+    <button class="btn btn-secondary">DELETE</button>
+
+  </menu-item>
+
+</div>
+
+
+<!-- Create user modal -->
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        Create User
+      </div>
+
+      <form>
+
+        <div class="modal-body">
+          <div>
+            <p>Username: {{new_user.username}}</p>
+            <p>Email: {{new_user.email}}</p>
+            <p>Password: {{new_user.password}}</p>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="close_modal()">Cancel</button>
+          <button type="button" class="btn btn-primary" (click)="create_user()">Confirm</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>

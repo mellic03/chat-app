@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../user/user.service';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class GroupService {
+
+  public current_group = new Subject<Group>();
+  public current_channel = new Subject<Channel>();
 
   constructor(private http:HttpClient) { }
 
@@ -17,6 +21,13 @@ export class GroupService {
     this.http.post<Channel>(this.API_CREATE_CHANNEL, name, {}).subscribe((ret) => {
       console.log(ret);
     })
+  }
+
+  open_group(group:Group) {
+    this.current_group.next(group);
+  }
+  open_channel(channel:Channel) {
+    this.current_channel.next(channel);
   }
 }
 

@@ -21,6 +21,8 @@ export class SettingsComponent implements OnInit {
       this.user = JSON.parse(String(localStorage.getItem("user_info")));
     if (this.user?.username == null)
       this.router.navigateByUrl("/login");
+    if (this.page_title == "Settings")
+      this.page_title = "Account";
   }
 
   set_page_title(title:string) {

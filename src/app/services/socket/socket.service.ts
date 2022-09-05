@@ -31,9 +31,7 @@ export class SocketService {
   }
   
   disconnect() {
-    return new Observable(observer => {
-      
-    })  
+    this.socket.emit("unsubscribe", {});
   }
   //-------------------------------------------
 }

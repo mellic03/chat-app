@@ -96,12 +96,14 @@ export class UserService {
   }
 }
 
+
 export class User {
 
-  email:string;
-  username:string;
-  role:number = USER;
   id:number;
+  username:string;
+  email:string;
+  password:string = "";
+  role:number = USER;
 
   // A new user has no system permissions.
   permissions:Object = {

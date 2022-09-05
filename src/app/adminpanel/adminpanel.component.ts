@@ -11,7 +11,7 @@ export class AdminpanelComponent implements OnInit {
 
   user:User = new User("", "");
 
-  page_title:string = "Settings";
+  page_title:string = "adminpanel";
 
   constructor(private router:Router) { }
 
@@ -21,6 +21,8 @@ export class AdminpanelComponent implements OnInit {
       this.user = JSON.parse(String(localStorage.getItem("user_info")));
     if (this.user?.username == null)
       this.router.navigateByUrl("/login");
+    if (this.page_title == "adminpanel")
+      this.page_title = "userpanel"  
   }
 
   set_page_title(title:string) {

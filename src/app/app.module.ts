@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+
 
 import { SharedModule } from './shared/shared.module';
 
@@ -15,6 +16,8 @@ import { PreferencesComponent } from './settings/preferences/preferences.compone
 import { AdminpanelComponent } from './adminpanel/adminpanel.component';
 import { UserpanelComponent } from './adminpanel/userpanel/userpanel.component';
 import { GrouppanelComponent } from './adminpanel/grouppanel/grouppanel.component';
+import { ChatwindowComponent } from './chat/chatwindow/chatwindow.component';
+import { GroupsettingsComponent } from './chat/groupsettings/groupsettings.component';
 
 @NgModule({
   declarations: [
@@ -26,12 +29,15 @@ import { GrouppanelComponent } from './adminpanel/grouppanel/grouppanel.componen
     PreferencesComponent,
     AdminpanelComponent,
     UserpanelComponent,
-    GrouppanelComponent
+    GrouppanelComponent,
+    ChatwindowComponent,
+    GroupsettingsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     SharedModule
   ],

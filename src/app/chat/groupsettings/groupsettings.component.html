@@ -1,26 +1,27 @@
 <div class="page-title">
-  <h2>Groups</h2>
+  <a class="btn" (click)="navigate_back()"><i class="fa-solid fa-arrow-left-long"></i></a>
+  <h3>Settings for {{group_name}}</h3>
 </div>
 
 <div class="submenu-root"> 
   
-  <menu-item title="Create Group">
+  <menu-item title="Create Channel">
     <form>
       <div class="form-group">
-        <label>Group Name</label>
+        <label>Channel Name</label>
         <input class="form-control">
-
+        
         <button
-          type="submit"
-          class="btn btn-primary">
-          Create Group
+        type="submit"
+        class="btn btn-primary">
+        Create Channel
         </button>
       </div>
     </form> 
   </menu-item>
-
-  <menu-item title="Delete Group">
-    <label>Delete group by name</label>
+  
+  <menu-item title="Delete Channel">
+    <label>Delete Channel by name</label>
     <select class="form-select" aria-label="Default select example">
       <option>Not yet functional</option>
       <option>Not yet functional</option>
@@ -29,11 +30,11 @@
       <!-- <option *ngFor="let user of usernames; index as i;" value="{{user_ids[i]}}">{{usernames[i]}}</option> -->
     </select>
     <button class="btn btn-secondary">DELETE</button><br><br>
-
-    <label>Delete group by ID</label>
+    
+    <label>Delete Channel by ID</label>
     <input name="user_id" class="form-control">
     <button class="btn btn-secondary">DELETE</button>
-
+    
   </menu-item>
-
+  
 </div>
