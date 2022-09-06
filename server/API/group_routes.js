@@ -7,6 +7,11 @@ module.exports = function(app) {
     res.send(fakeDB.groups);
   });
 
+  // Return an array of all group names.
+  app.get("/api/groups/group_names", (req, res) => {
+    res.send(fakeDB.get_group_names());
+  });
+
   // Return an array of users who are a member of “group_name”
   app.get("/api/groups/:group_name/users", (req, res) => {
     const group_name = req.params.group_name;

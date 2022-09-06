@@ -121,11 +121,5 @@
         ]
       }
     ]
-  },
-  {
-    "name": "test",
-    "image": "image_1.jpg",
-    "users": [],
-    "channels": []
   }
 ]

@@ -32,6 +32,14 @@ module.exports = {
     return false;
   },
 
+  get_group_names: function() {
+    let group_names = [];
+    this.groups.forEach(group => {
+      group_names.push(group.name);
+    });
+    return group_names;
+  },
+
   //-----------------------------------------
 
 
@@ -157,8 +165,15 @@ module.exports = {
     fs.writeFileSync(__dirname + "/next_user_id.json", JSON.stringify({next_user_id: this.next_user_id}));
   },
   
-  delete_user: function() {
-
+  delete_user: function(username) {
+    console.log(username);
+    for (let i=0; i<this.users.length; i++) {
+      if (this.users[i].username == username) {
+        this.users.splice(i, 1);
+        this.save_users_to_file();
+        return;
+      }
+    }
   },
 
   set_role: function() {

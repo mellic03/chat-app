@@ -5,7 +5,7 @@
 <div class="submenu-root">
 
   <menu-item title="Create User">
-    <form [formGroup]="new_user_form" (ngSubmit)="new_user_form.valid && open_modal()">
+    <form [formGroup]="new_user_form" (ngSubmit)="new_user_form.valid && open_modal('create')">
       <div class="form-group">
         <label>Username</label>
         <input formControlName="username" class="form-control">
@@ -30,13 +30,21 @@
   <!-- Role must be >= 3 to delete users -->
   <menu-item *ngIf="current_user.role >= 3" title="Delete User">
     
-    <label>Username</label>
-    <select class="form-select" aria-label="Default select example">
-      <option disabled selected value></option>
-      <option *ngFor="let user of usernames; index as i;" value="{{user_ids[i]}}">{{usernames[i]}} (#{{user_ids[i]}})</option>
-    </select>
-    <button class="btn btn-danger">DELETE</button><br><br>
-
+    <form [formGroup]="delete_user_form" (ngSubmit)="delete_user_form.valid && open_modal('delete')">
+      <div class="form-group">
+        <label>Username</label>
+        <select formControlName="username" class="form-select" aria-label="Default select example">
+          <option disabled selected value> -- select user -- </option>
+          <option *ngFor="let user of all_users; index as i;">{{user.username}}</option>
+        </select>
+        <button
+          [disabled]="!delete_user_form.valid"
+          type="submit"
+          class="btn btn-danger">
+          DELETE
+        </button>
+      </div>
+    </form>
   </menu-item>
 
   <menu-item title="User Permissions">
@@ -44,7 +52,7 @@
     <label>Username</label>
     <select class="form-select" aria-label="Default select example">
       <option disabled selected value></option>
-      <option *ngFor="let user of usernames; index as i;" value="{{user_ids[i]}}">{{usernames[i]}} (#{{user_ids[i]}})</option>
+      <option *ngFor="let user of all_users; index as i;">{{user.username}}</option>
     </select>
 
     <label>Role</label>
@@ -63,7 +71,7 @@
 
 
 <!-- Create user modal -->
-<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':create_user_displayStyle}">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
 
@@ -72,7 +80,6 @@
       </div>
 
       <form>
-
         <div class="modal-body">
           <div>
             <p>Username: {{new_user_form.value.username}}</p>
@@ -82,10 +89,37 @@
         </div>
         
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" (click)="close_modal()">Cancel</button>
+          <button type="button" class="btn btn-danger" (click)="close_modal('create')">Cancel</button>
           <button type="button" class="btn btn-primary" (click)="create_user()">Confirm</button>
         </div>
+      </form>
 
+    </div>
+  </div>
+</div>
+
+<!-- Delete user modal -->
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':delete_user_displayStyle}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        Create User
+      </div>
+
+      <form>
+        <div class="modal-body">
+          <div>
+            <p>Username: {{new_user_form.value.username}}</p>
+            <p>Email: {{new_user_form.value.email}}</p>
+            <p>Password: {{new_user_form.value.password}}</p>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="close_modal('delete')">Cancel</button>
+          <button type="button" class="btn btn-primary" (click)="delete_user()">Confirm</button>
+        </div>
       </form>
 
     </div>

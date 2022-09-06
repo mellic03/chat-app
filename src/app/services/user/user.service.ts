@@ -23,15 +23,15 @@ export class UserService {
     });
   }
   
-  delete_user(user_id:number) {
+  delete_user(username:string) {
     this.socketService.emit("admin", "delete_user", {
-      user_id: user_id
+      username: username
     });
   }
   
-  set_role(user_id:number, role:number) {
+  set_role(username:string, role:number) {
     this.socketService.emit("admin", "set_role", {
-      user_id: user_id,
+      username: username,
       role: role
     });
   }

@@ -11,7 +11,7 @@ import { Group } from 'src/app/services/group/group.service';
 })
 export class GrouppanelComponent implements OnInit {
 
-  all_groups:Array<Group> = [];
+  all_group_names:Array<string> = [];
 
   constructor(private userService:UserService,
               private formBuilder:FormBuilder,
@@ -27,9 +27,9 @@ export class GrouppanelComponent implements OnInit {
 
   ngOnInit(): void {
     // Retrieve list of groups from server
-    let api_url = `http://159.196.6.181:3000/api/groups`;
-    this.http.get(api_url).subscribe((groups:any) => {
-      this.all_groups = groups;
+    let api_url = `http://159.196.6.181:3000/api/groups/group_names`;
+    this.http.get(api_url).subscribe((group_names:any) => {
+      this.all_group_names = group_names;
     });
   }
 

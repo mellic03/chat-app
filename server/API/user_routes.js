@@ -60,7 +60,7 @@ module.exports = function(app) {
   });
 
   // Return an array of all usernames
-  app.get("/api/users/users", (req, res) => {
+  app.get("/api/users", (req, res) => {
     res.send(fakeDB.users);
   });
 

@@ -25,7 +25,7 @@
         <label>Group Name</label>
         <select formControlName="group_name" class="form-select" aria-label="Default select example">
           <option disabled selected value> -- select group -- </option>
-          <option *ngFor="let group of all_groups">{{group.name}}</option>
+          <option *ngFor="let group_name of all_group_names">{{group_name}}</option>
           <!-- <option *ngFor="let user of usernames; index as i;" value="{{user_ids[i]}}">{{usernames[i]}}</option> -->
         </select>
         <button

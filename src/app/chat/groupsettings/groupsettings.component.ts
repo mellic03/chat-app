@@ -39,7 +39,7 @@ export class GroupsettingsComponent implements OnInit {
       this.group_name = params.group_name;
     });
 
-
+    // Listen for any changes to group data.
     this.socketService.listen(this.group_name).subscribe((group:any) => {
       this.group = group;
     });
@@ -51,7 +51,7 @@ export class GroupsettingsComponent implements OnInit {
     });
 
     // Get list of all users from server
-    api_url = `http://159.196.6.181:3000/api/users/users`;
+    api_url = `http://159.196.6.181:3000/api/users`;
     this.http.get(api_url).subscribe((users:any) => {
       this.users = users;
     });

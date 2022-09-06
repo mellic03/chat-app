@@ -75,10 +75,12 @@ module.exports = {
 
       socket.on("create_user", (data) => {
         fakeDB.create_user(data.username, data.email, data.password);
+        io.emit("users", fakeDB.users); // Emit all user data
       });
 
       socket.on("delete_user", (data) => {
-        // fakeDB.delete_user(data.user_id);
+        fakeDB.delete_user(data.username);
+        io.emit("users", fakeDB.users); // Emit all user data
       });
 
       socket.on("set_role", (data) => {
