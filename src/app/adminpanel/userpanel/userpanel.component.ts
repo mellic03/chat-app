@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/services/user/user.service';
+import { User, UserService } from 'src/app/services/user/user.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
@@ -19,7 +19,10 @@ export class UserpanelComponent implements OnInit {
   displayStyle = "none"; // show/hide modal
 
 
-  constructor(private http:HttpClient, private formBuilder: FormBuilder) { }
+  constructor(private userService:UserService,
+              private http:HttpClient,
+              private formBuilder: FormBuilder)
+  { }
 
   new_user_form = this.formBuilder.group({
     username: new FormControl('', [Validators.required]),
@@ -30,7 +33,7 @@ export class UserpanelComponent implements OnInit {
   ngOnInit(): void {
 
     // Get list of users
-    const USER_API = "http://159.196.6.181:3000/api/userids";
+    const USER_API = "http://159.196.6.181:3000/api/users/userids";
     this.http.get<Array<any>>(USER_API).subscribe(data => {
       data.forEach(object => {
         this.usernames.push(object.username);

@@ -70,7 +70,7 @@ module.exports = {
 
 
     // Socket channel for admin tasks.
-    system = io.of("system");
+    system = io.of("admin");
     system.on("connection", socket => {
 
       socket.on("create_user", (data) => {
@@ -84,6 +84,10 @@ module.exports = {
       socket.on("set_role", (data) => {
         // fakeDB.set_role(data.user_id, data.role);
       });
+
+      socket.on("delete_channel", (data) => {
+        console.log(`deleting ${data.channel_name}`);
+      })
 
     });
   

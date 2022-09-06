@@ -5,7 +5,6 @@
 $input-bg: var(--background-kindergarten);
 $input-color: var(--normal-text-color);
 $input-border-color: var(--border-color);
-
 @import "node_modules/bootstrap/scss/bootstrap";
 //----------------------------------------------
 
@@ -16,16 +15,18 @@ html, body {
 }
 
 :root {
-
   --form-width: 400px;
   --navbar-height: 50px;
   --chat-header-height: 40px;
+
+  --btn-primary: rgb(94, 186, 125);
+  --btn-secondary: rgb(204, 53, 53);
 
   .light {
     --light-text-color: rgb(100, 100, 100);
     --normal-text-color: rgb(46, 46, 46);
     --bold-text-color: rgb(20, 20, 20);
-    --border-color: rgb(220, 220, 220);
+    --border-color: rgb(200, 200, 200);
 
     --background-kindergarten: rgb(255, 255, 255); // lol
     --background-primary: rgb(248, 249, 250);
@@ -44,7 +45,7 @@ html, body {
     --light-text-color: rgb(180, 180, 180);
     --normal-text-color: rgb(220, 220, 220);
     --bold-text-color: rgb(255, 255, 255);
-    --border-color: rgb(35, 35, 35);
+    --border-color: rgb(40, 40, 40);
 
     --background-kindergarten: rgb(64, 68, 75); // lol
     --background-primary: rgb(54, 57, 63);
@@ -60,6 +61,7 @@ html, body {
   }
 
 }
+
 
 nav {
   background-color: var(--background-primary);
@@ -80,31 +82,35 @@ h4, p {
 
 .page-title {
   height: var(--chat-header-height);
-  margin-bottom: 25px;
   padding-left: 10px;
   box-shadow: 0 1px 5px -2px var(--shadow-color);
 }
 
 .submenu-root {
-  display: flex;
-  flex-wrap: wrap;
-
   margin-left: 10px;
   margin-right: 10px;
+
+  max-width: 100%;
+  max-height: 100%;
 }
 
 menu-item {
-  flex: 1;
-  min-width: 300px;
-  max-width: 550px;
+
   margin-left: 20px;
   margin-right: 20px;
+  max-width: 500px;
 
-  input, select {
-    float: inline-start;
-    padding-right: 200px;
+  input, select, button, a {
     margin-bottom: 10px;
+    min-width: var(--form-width);
+    max-width: var(--form-width);
+    
+    color: red;
   }
+}
+
+form {
+  width: var(--form-width);
 }
 
 label {
@@ -119,6 +125,26 @@ label {
   }
 }
 
-i {
+i, a {
   color: var(--normal-text-color);
+}
+
+div .inline {
+
+  display: grid;
+  grid-template-areas: 
+    "left right"
+  ;
+
+  align-items: center;
+  grid-template-columns: 100px 200px;
+
+  p {
+    grid-area: left;
+  }
+
+  select {
+    grid-area: right;
+  }
+  
 }

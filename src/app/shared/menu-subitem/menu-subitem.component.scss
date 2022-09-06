@@ -1,0 +1,22 @@
+.root {
+
+  display: flex;
+  flex-direction: column;
+
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+
+  border-top: 0px;
+  border-bottom: 1px;
+  border-left: 0;
+  border-right: 0;
+  border-style: solid;
+  border-color: var(--border-color);
+
+  .title {
+    font-size: 18px;
+    color: var(--bold-text-color);
+    font-weight: 400;
+  }
+
+}

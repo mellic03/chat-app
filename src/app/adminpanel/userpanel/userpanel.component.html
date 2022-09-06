@@ -29,15 +29,32 @@
 
   <menu-item title="Delete User">
     
-    <label>Delete user by name</label>
+    <label>Username</label>
     <select class="form-select" aria-label="Default select example">
-      <option *ngFor="let user of usernames; index as i;" value="{{user_ids[i]}}">{{usernames[i]}}</option>
+      <option disabled selected value></option>
+      <option *ngFor="let user of usernames; index as i;" value="{{user_ids[i]}}">{{usernames[i]}} (#{{user_ids[i]}})</option>
     </select>
     <button class="btn btn-secondary">DELETE</button><br><br>
 
-    <label>Delete user by ID</label>
-    <input name="user_id" class="form-control">
-    <button class="btn btn-secondary">DELETE</button>
+  </menu-item>
+
+  <menu-item title="User Permissions">
+    
+    <label>Username</label>
+    <select class="form-select" aria-label="Default select example">
+      <option disabled selected value></option>
+      <option *ngFor="let user of usernames; index as i;" value="{{user_ids[i]}}">{{usernames[i]}} (#{{user_ids[i]}})</option>
+    </select>
+
+    <label>Role</label>
+    <select class="form-select" aria-label="Default select example">
+      <option disabled selected value></option>
+      <option>User</option>
+      <option>Group Assistant</option>
+      <option>Group Admin</option>
+      <option>Super Admin</option>
+    </select>
+    <button class="btn btn-secondary">Update</button>
 
   </menu-item>
 

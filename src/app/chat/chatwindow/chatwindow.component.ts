@@ -19,10 +19,11 @@ export class ChatwindowComponent implements OnInit {
     if (event.key == "Enter")
       this.send_message();
   }
-
+  
   current_user:User = new User("", "");
   message:any = ''; // Message from user
 
+  current_group:Group = new Group();
   current_channel:Channel = new Channel();
 
 
@@ -33,18 +34,24 @@ export class ChatwindowComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // Get channel data from server
-    //---------------------------------------------
-    this.route.params.subscribe((params:any) => {
-      let group:string = params.group_name;
-      let channel:string = params.channel_name;
-      const API_URL = `http://159.196.6.181:3000/api/groups/${group}/channels/${channel}/`;
-      this.http.get(API_URL).subscribe((channel:any) => {
-        this.current_channel = channel;
-      });
-    });
-    //---------------------------------------------
+    // Get info of logged-in user. If null, redirect to login page.
+    if (typeof(localStorage) !== undefined) {
+      let user_info = JSON.parse(String(localStorage.getItem("user_info")));
+      if (user_info != null) {
+        this.current_user = JSON.parse(String(localStorage.getItem("user_info")));
+      }
+      else {
+        this.router.navigateByUrl("/login");
+      }
+    }
 
+    // Get group/channel data from groupService
+    this.groupService.current_group.subscribe((group) => {
+      this.current_group = group;
+    });
+    this.groupService.current_channel.subscribe((channel) => {
+      this.current_channel = channel;
+    });
   }
 
 

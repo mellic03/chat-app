@@ -1,16 +1,13 @@
 .root {
-  display: flex;
-  flex-direction: column;
-  
-  height: auto;
-  width: auto;
-  
+
   box-shadow: 0 1px 5px -2px var(--shadow-color);
   background-color: var(--background-secondary);
   border-radius: 10px;
+  max-width: 700px;
 
   .content {
     padding-left: 10px;
+    padding-right: 10px;
   }
 
   padding-bottom: 10px;
@@ -20,5 +17,6 @@
 h4 {
   box-shadow: 0 1px 5px -2px var(--shadow-color);
   padding-left: 10px;
-  margin-bottom: 10px;
+  padding-bottom: 5px;
+  margin-bottom: 20px;
 }

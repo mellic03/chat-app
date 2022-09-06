@@ -4,6 +4,7 @@ import { GroupbuttonComponent } from './groupbutton/groupbutton.component';
 import { MessageComponent } from './message/message.component';
 import { ChannelbuttonComponent } from './channelbutton/channelbutton.component';
 import { MenuItemComponent } from './menu-item/menu-item.component';
+import { MenuSubitemComponent } from './menu-subitem/menu-subitem.component';
 
 
 
@@ -12,7 +13,8 @@ import { MenuItemComponent } from './menu-item/menu-item.component';
     GroupbuttonComponent,
     MessageComponent,
     ChannelbuttonComponent,
-    MenuItemComponent
+    MenuItemComponent,
+    MenuSubitemComponent
   ],
   imports: [
     CommonModule
@@ -21,7 +23,8 @@ import { MenuItemComponent } from './menu-item/menu-item.component';
     GroupbuttonComponent,
     ChannelbuttonComponent,
     MessageComponent,
-    MenuItemComponent
+    MenuItemComponent,
+    MenuSubitemComponent
   ]
 })
 export class SharedModule { }

@@ -75,9 +75,9 @@ export class UserService {
     });
   }
   
-  delete_channel(channel_id:number) {
+  delete_channel(channel_name:string) {
     this.socketService.emit("delete_channel", {
-      channel_id: channel_id
+      channel_name: channel_name
     });
   }
   

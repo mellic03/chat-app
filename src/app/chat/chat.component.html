@@ -1,7 +1,7 @@
 <div class="root">
 
   <div class="groups">
-    <groupbutton group_name="{{group.name}}" (click)="open_group(group.name)" *ngFor="let group of groups;"></groupbutton>
+    <groupbutton group_name="{{group.name}}" (click)="open_group(group)" *ngFor="let group of groups;"></groupbutton>
   </div>
 
   <div class="channels-root">
@@ -9,18 +9,24 @@
     <div class="group-name">
       <p>{{current_group.name}}</p>
       <a
-        *ngIf="current_user.role > 0"
+        *ngIf="current_user.role > 0 && admin_panel_open == false;"
         class="btn add-channel"
-        (click)="nav_to_group_settings()"
+        (click)="open_admin_panel()"
         data-toggle="tooltip"
         data-placement="right"
-        title="Group Settings"
       ><i class="fa-solid fa-gear"></i></a>
-      
+      <a
+      *ngIf="current_user.role > 0 && admin_panel_open == true;"
+      class="btn add-channel"
+      (click)="close_admin_panel()"
+      data-toggle="tooltip"
+      data-placement="right"
+    ><i class="fa-solid fa-arrow-left-long"></i></a>
+    
     </div>
 
     <div class="channels">
-      <channelbutton name="{{channel.name}}" (click)="nav_to_channel(channel.name)" *ngFor="let channel of this.current_group.channels"></channelbutton>
+      <channelbutton name="{{channel.name}}" (click)="open_channel(channel)" *ngFor="let channel of this.current_group.channels"></channelbutton>
     </div>
   </div>
 

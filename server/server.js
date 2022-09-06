@@ -22,8 +22,12 @@ server.listen(http, PORT);
 
 // Routes
 //-----------------------------
-const routes = require('./routes');
-const R = new routes(app);
+const group_routes = require('./API/group_routes');
+const user_routes = require('./API/user_routes');
+
+const group = new group_routes(app);
+const user = new user_routes(app);
+
 //-----------------------------
 
 

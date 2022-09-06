@@ -20,3 +20,23 @@ form {
 .static {
   flex: 1;
 }
+
+
+.profile-photo {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  
+  img {
+    width: 128px;
+    height: 128px;
+    border-radius: 50px;
+  }
+}
+
+.upload-btn {
+  height: fit-content;
+  i {
+    color: rgb(255, 255, 255);
+  }
+}

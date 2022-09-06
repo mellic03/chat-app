@@ -18,8 +18,8 @@ const routes: Routes = [
   { path: 'chat', component: ChatComponent,
     children: [
       { path: '', redirectTo: 'chatwindow', pathMatch: 'full' },
-      { path: 'chatwindow/:group_name/:channel_name', component: ChatwindowComponent },
-      { path: 'groupsettings/:group_name/:channel_name', component: GroupsettingsComponent }
+      { path: 'chatwindow', component: ChatwindowComponent },
+      { path: 'groupsettings/:group_name', component: GroupsettingsComponent }
     ]
   },
   { path: 'settings', component: SettingsComponent,
