@@ -93,39 +93,36 @@ export class UserService {
   }
 }
 
-
 export class User {
 
-  id:number;
   username:string;
   email:string;
   password:string = "";
   role:number = USER;
 
-  // A new user has no system permissions.
-  permissions:Object = {
-    CREATE_USER: false,
-    DELETE_USER: false,
+  // Unused, kept here for reference.
+  // permissions:Object = {
+  //   CREATE_USER: false,
+  //   DELETE_USER: false,
     
-    PROMOTE_TO_ASSISTANT: false,
-    PROMOTE_TO_ADMIN: false,
-    PROMOTE_TO_SUPER_ADMIN: false,
+  //   PROMOTE_TO_ASSISTANT: false,
+  //   PROMOTE_TO_ADMIN: false,
+  //   PROMOTE_TO_SUPER_ADMIN: false,
     
-    CREATE_GROUP: false,
-    DELETE_GROUP: false,
-    ADD_USER_TO_GROUP: false,
-    REMOVE_USER_FROM_GROUP: false,
+  //   CREATE_GROUP: false,
+  //   DELETE_GROUP: false,
+  //   ADD_USER_TO_GROUP: false,
+  //   REMOVE_USER_FROM_GROUP: false,
 
-    CREATE_CHANNEL: false,
-    DELETE_CHANNEL: false,
-    ADD_USER_TO_CHANNEL: false,
-    REMOVE_USER_FROM_CHANNEL: false
-  };
+  //   CREATE_CHANNEL: false,
+  //   DELETE_CHANNEL: false,
+  //   ADD_USER_TO_CHANNEL: false,
+  //   REMOVE_USER_FROM_CHANNEL: false
+  // };
   
   constructor(username:string, email:string) {
     this.username = username;
     this.email = email;
-    this.id = 0;
   }
 }
 

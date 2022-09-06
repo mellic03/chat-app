@@ -15,10 +15,6 @@ export class SocketService {
     });
   }
 
-
-  // Messaging
-  //-------------------------------------------
-
   listen(title:string) {
     return new Observable((observer) => {
       this.socket.on(title, (data) => {
@@ -36,16 +32,4 @@ export class SocketService {
     this.socket.emit(title, data);
   }
 
-  connect() {
-    return new Observable(observer => {
-      this.socket.on("message", data => {
-        observer.next(data);
-      });
-    })
-  }
-  
-  disconnect() {
-    this.socket.emit("unsubscribe", {});
-  }
-  //-------------------------------------------
 }

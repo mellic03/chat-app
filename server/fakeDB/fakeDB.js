@@ -146,11 +146,6 @@ module.exports = {
       }
     }
   },
-
-  create_group: function() {
-
-  },
-  
   
   create_user: function(username, email, password) {
     const new_user = {

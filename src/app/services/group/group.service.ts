@@ -34,30 +34,20 @@ export class Message {
 
 export class Channel {
   name:string;
-  id:number;
-  
   users:Array<User> = [];
-  group_assistants:Array<User> = [];
-  group_admins:Array<User> = [];
-
   messages:Array<Message> = [];
-  
+
   constructor(name:string = "") {
     this.name = name;
-    this.id = 0;
   }
 }
 
 export class Group {
   name:string;
-  id:number;
-
   users:Array<User> = [];
-  group_assistants:Array<User> = [];
   channels:Array<Channel> = [];
 
   constructor(name:string = "") {
     this.name = name;
-    this.id = 0;
   }
 }
