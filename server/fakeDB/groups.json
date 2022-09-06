@@ -3,15 +3,16 @@
     "name": "Study Group",
     "image": "image_1.jpg",
     "users": [
+      "sophiejw",
       "mellic03",
-      "sophiejw"
+      "JasonDoge"
     ],
     "channels": [
       {
         "name": "Programming Fundamentals",
         "users": [
-          "mellic03",
-          "sophiejw"
+          "sophiejw",
+          "mellic03"
         ],
         "messages": [
           {
@@ -120,5 +121,11 @@
         ]
       }
     ]
+  },
+  {
+    "name": "test",
+    "image": "image_1.jpg",
+    "users": [],
+    "channels": []
   }
 ]

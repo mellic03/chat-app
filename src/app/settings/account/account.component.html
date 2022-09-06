@@ -3,60 +3,47 @@
 </div>
 
 <div class="submenu-root">
-  
   <menu-item title="Account Details">
-    
     <menu-subitem title="Update Account Info">
-
       <div class="account-details">
-        <div class="editable">
-          <form>
-            <label>Username</label>
+        <form>
+          <label>Username</label>
+          <input
+          [(ngModel)]="user.username"
+          name="username"
+          class="form-control"
+          placeholder="{{user.username}}"
+          >
+          <div class="form-group">              
+            <label>Email Address</label>
             <input
-            [(ngModel)]="user.username"
-            name="username"
+            [(ngModel)]="user.email"
+            name="email"
             class="form-control"
-            placeholder="{{user.username}}"
+            placeholder="{{user.email}}"
             >
-            <div class="form-group">              
-              <label>Email Address</label>
-              <input
-              [(ngModel)]="user.email"
-              name="email"
-              class="form-control"
-              placeholder="{{user.email}}"
-              >
-            </div>
-            <br>
-            <button (click)="update_user_info()" type="button" class="btn btn-primary">Update</button>
-            <div class="success" *ngIf="show_success_message">
-              <p>*updated</p>
-            </div>
-          </form>
-        </div>
-        
-        <div class="static">
-          <p>UserID: {{user.id}}</p>
-          <p>Role: {{user.role}}</p>
-        </div>
+          </div>
+          <div class="id-role">
+            <p>UserID: {{user.id}}</p>
+            <p>Role: {{roles[user.role]}}</p>
+          </div>
+          <button (click)="update_user_info()" type="button" class="btn btn-primary">Update</button>
+          <div class="success" *ngIf="show_success_message">
+            <p>*updated</p>
+          </div>
+        </form>
       </div>
     </menu-subitem>
-
   </menu-item>
 
   <menu-item title="Profile">
-
     <menu-subitem title="Profile Photo">
-      <div class="profile-photo">
-        <a class="btn btn-primary upload-btn">
-          Upload
-          <i class="fa-solid fa-arrow-up-from-bracket"></i>
-        </a>
-        
-        <img class="profile-photo" src="https://cdn5.vectorstock.com/i/thumb-large/45/59/profile-photo-placeholder-icon-design-in-gray-vector-37114559.jpg">
-      </div>
+      <img src="https://cdn5.vectorstock.com/i/thumb-large/45/59/profile-photo-placeholder-icon-design-in-gray-vector-37114559.jpg">
+      <a class="btn btn-primary">
+        Upload New
+        &nbsp;
+        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+      </a>
     </menu-subitem>
-
   </menu-item>
-  
 </div>

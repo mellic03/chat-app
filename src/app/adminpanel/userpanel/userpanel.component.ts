@@ -10,28 +10,29 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 })
 export class UserpanelComponent implements OnInit {
 
+  // Currently logged in user
+  current_user:User = new User("", "");
   
-  new_user:User = new User("", "");
-
+  // Array of usernames and matching user ids.
   usernames:Array<string> = [];
   user_ids:Array<string> = [];
 
   displayStyle = "none"; // show/hide modal
 
-
-  constructor(private userService:UserService,
-              private http:HttpClient,
-              private formBuilder: FormBuilder)
-  { }
-
+  // Form for creating new user.
   new_user_form = this.formBuilder.group({
     username: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   });
 
-  ngOnInit(): void {
+  constructor(private userService:UserService,
+              private http:HttpClient,
+              private formBuilder: FormBuilder)
+  { }
+  
 
+  ngOnInit(): void {
     // Get list of users
     const USER_API = "http://159.196.6.181:3000/api/users/userids";
     this.http.get<Array<any>>(USER_API).subscribe(data => {
@@ -40,21 +41,25 @@ export class UserpanelComponent implements OnInit {
         this.user_ids.push(object.user_id);
       })
     });
+
+    // Get current user information
+    this.current_user = JSON.parse(String(localStorage.getItem("user_info")));
   }
 
 
 
-  // Open modal to add channel to group
   open_modal() {
     this.displayStyle = "block";
   }
-  // Close modal to add channel to group
   close_modal() {
     this.displayStyle = "none";
   }
 
+  // Send data to userService and close modal.
   create_user() {
-
+    this.close_modal();
+    const data = this.new_user_form.value;
+    this.userService.create_user(data.username, data.email, data.password);
   }
 
 }

@@ -12,6 +12,9 @@ export class AccountComponent implements OnInit {
   @ViewChild('myModal') myModal?: HTMLElement;
   @ViewChild('myInput') myInput?: HTMLElement;
 
+
+  roles:Array<string> = ["User", "Group Assistant", "Group Admin", "Super Admin"];
+
   user:User = new User("", "");
   show_success_message:boolean = false;
 

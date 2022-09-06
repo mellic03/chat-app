@@ -59,6 +59,11 @@ module.exports = function(app) {
     });
   });
 
+  // Return an array of all usernames
+  app.get("/api/users/users", (req, res) => {
+    res.send(fakeDB.users);
+  });
+
   // Return the username belonging to "user_id"
   app.get("/api/userids/:user_id/username", (req, res) => {
     const user_id = req.params.user_id;

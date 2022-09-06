@@ -1,7 +1,7 @@
 <div class="root">
 
   <div class="groups">
-    <groupbutton group_name="{{group.name}}" (click)="open_group(group)" *ngFor="let group of groups;"></groupbutton>
+    <groupbutton *ngFor="let group of groups;" group_name="{{group.name}}" (click)="open_group(group)" ></groupbutton>
   </div>
 
   <div class="channels-root">
@@ -26,7 +26,7 @@
     </div>
 
     <div class="channels">
-      <channelbutton name="{{channel.name}}" (click)="open_channel(channel)" *ngFor="let channel of this.current_group.channels"></channelbutton>
+      <channelbutton *ngFor="let channel of this.current_group?.channels" name="{{channel?.name}}" (click)="open_channel(channel)"></channelbutton>
     </div>
   </div>
 

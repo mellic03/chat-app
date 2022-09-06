@@ -74,7 +74,7 @@ module.exports = {
     system.on("connection", socket => {
 
       socket.on("create_user", (data) => {
-        // fakeDB.create_user(data.username, data.email, data.password);
+        fakeDB.create_user(data.username, data.email, data.password);
       });
 
       socket.on("delete_user", (data) => {
@@ -85,9 +85,45 @@ module.exports = {
         // fakeDB.set_role(data.user_id, data.role);
       });
 
+      socket.on("create_group", (data) => {
+        fakeDB.create_group(data.group_name);
+        io.emit(data.group_name, fakeDB.get_group(data.group_name));
+      });
+      
+      socket.on("delete_group", (data) => {
+        fakeDB.delete_group(data.group_name);
+        io.emit(data.group_name, fakeDB.get_group(data.group_name));
+      });
+
+      socket.on("add_user_to_group", (data) => {
+        // fakeDB.set_role(data.user_id, data.role);
+        // io.emit(data.group_name, fakeDB.get_group(data.group_name));
+      });
+
+      socket.on("remove_user_from_group", (data) => {
+        // fakeDB.set_role(data.user_id, data.role);
+        // io.emit(data.group_name, fakeDB.get_group(data.group_name));
+      });
+
+      socket.on("create_channel", (data) => {
+        fakeDB.create_channel(data.channel_name, data.group_name);
+        io.emit(data.group_name, fakeDB.get_group(data.group_name));
+      });
+
       socket.on("delete_channel", (data) => {
-        console.log(`deleting ${data.channel_name}`);
-      })
+        fakeDB.delete_channel(data.channel_name, data.group_name)
+        io.emit(data.group_name, fakeDB.get_group(data.group_name));
+      });
+
+      socket.on("add_user_to_channel", (data) => {
+        fakeDB.add_user_to_channel(data.username, data.group_name, data.channel_name);
+        io.emit(data.group_name, fakeDB.get_group(data.group_name));
+      });
+
+      socket.on("remove_user_from_channel", (data) => {
+        fakeDB.remove_user_from_channel(data.username, data.group_name, data.channel_name);
+        io.emit(data.group_name, fakeDB.get_group(data.group_name));
+      });
 
     });
   

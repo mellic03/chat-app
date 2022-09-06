@@ -24,7 +24,7 @@ export class ChatwindowComponent implements OnInit {
   message:any = ''; // Message from user
 
   current_group:Group = new Group();
-  current_channel:Channel = new Channel();
+  current_channel:Channel = new Channel("");
 
 
   constructor(private router:Router, private http:HttpClient,

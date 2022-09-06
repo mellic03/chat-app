@@ -11,6 +11,7 @@ export class ThemeService {
   constructor() { }
 
   set_theme(theme:string) {
+    localStorage.setItem("theme", theme);
     this.theme.next(theme);
   }
 

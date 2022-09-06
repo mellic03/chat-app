@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { User, UserService } from '../services/user/user.service';
 import { Channel, Group, GroupService } from '../services/group/group.service';
 import { HttpClient } from '@angular/common/http';
+import { SocketService } from '../services/socket/socket.service';
 
 @Component({
   selector: 'app-chat',
@@ -23,7 +24,8 @@ export class ChatComponent implements OnInit {
               private route:ActivatedRoute,
               private http:HttpClient,
               private userService:UserService,
-              private groupService:GroupService)
+              private groupService:GroupService,
+              private socketService:SocketService)
   { }
 
   ngOnInit(): void {
@@ -75,6 +77,10 @@ export class ChatComponent implements OnInit {
   open_group(group:Group) {
     this.set_group(group);
     this.set_channel(group.channels[0]);
+    // Listen for changes to group through sockets
+    this.socketService.listen(this.current_group.name).subscribe((group:any) => {
+      this.current_group = group;
+    });
   }
   // Navigate to the chat window for a given channel
   open_channel(channel:Channel) {

@@ -1,5 +1,19 @@
 [
   {
+    "id": null,
+    "username": "Kevin Rudd",
+    "email": "krudd@mail.com",
+    "password": "kpass",
+    "role": 0
+  },
+  {
+    "id": null,
+    "username": "JasonDoge",
+    "email": "jDoge@mail.com",
+    "password": "jpass",
+    "role": 0
+  },
+  {
     "id": 1000,
     "username": "super",
     "email": "super@mail.com",

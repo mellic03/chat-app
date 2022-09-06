@@ -24,17 +24,18 @@
         </button>
 
       </div>
-    </form>    
+    </form>
   </menu-item>
 
-  <menu-item title="Delete User">
+  <!-- Role must be >= 3 to delete users -->
+  <menu-item *ngIf="current_user.role >= 3" title="Delete User">
     
     <label>Username</label>
     <select class="form-select" aria-label="Default select example">
       <option disabled selected value></option>
       <option *ngFor="let user of usernames; index as i;" value="{{user_ids[i]}}">{{usernames[i]}} (#{{user_ids[i]}})</option>
     </select>
-    <button class="btn btn-secondary">DELETE</button><br><br>
+    <button class="btn btn-danger">DELETE</button><br><br>
 
   </menu-item>
 
@@ -74,9 +75,9 @@
 
         <div class="modal-body">
           <div>
-            <p>Username: {{new_user.username}}</p>
-            <p>Email: {{new_user.email}}</p>
-            <p>Password: {{new_user.password}}</p>
+            <p>Username: {{new_user_form.value.username}}</p>
+            <p>Email: {{new_user_form.value.email}}</p>
+            <p>Password: {{new_user_form.value.password}}</p>
           </div>
         </div>
         

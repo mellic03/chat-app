@@ -5,30 +5,37 @@
 <div class="submenu-root"> 
   
   <menu-item title="Create Group">
-    <form>
+    <form [formGroup]="new_group_form" (ngSubmit)="new_group_form.valid && create_group()">
       <div class="form-group">
         <label>Group Name</label>
-        <input class="form-control">
-
+        <input formControlName="group_name" class="form-control">
         <button
+          [disabled]="!new_group_form.valid"
           type="submit"
           class="btn btn-primary">
           Create Group
         </button>
       </div>
-    </form> 
+    </form>
   </menu-item>
 
   <menu-item title="Delete Group">
-    <label>Group Name</label>
-    <select class="form-select" aria-label="Default select example">
-      <option>Not yet functional</option>
-      <option>Not yet functional</option>
-      <option>Not yet functional</option>
-      <option>Not yet functional</option>
-      <!-- <option *ngFor="let user of usernames; index as i;" value="{{user_ids[i]}}">{{usernames[i]}}</option> -->
-    </select>
-    <button class="btn btn-secondary">DELETE</button><br><br>
+    <form [formGroup]="delete_group_form" (ngSubmit)="delete_group_form.valid && delete_group()">
+      <div class="form-group">
+        <label>Group Name</label>
+        <select formControlName="group_name" class="form-select" aria-label="Default select example">
+          <option disabled selected value> -- select group -- </option>
+          <option *ngFor="let group of all_groups">{{group.name}}</option>
+          <!-- <option *ngFor="let user of usernames; index as i;" value="{{user_ids[i]}}">{{usernames[i]}}</option> -->
+        </select>
+        <button
+          [disabled]="!delete_group_form.valid"
+          type="submit"
+          class="btn btn-danger">
+          DELETE
+        </button>
+      </div>
+    </form>
   </menu-item>
 
 </div>

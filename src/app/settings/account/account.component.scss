@@ -1,7 +1,5 @@
 
-form {
-  max-width: 70%;
-}
+$profile-photo-size: 200px;
 
 .success {
   padding-top: 5px;
@@ -13,30 +11,27 @@ form {
   display: flex;
 }
 
-.editable {
-  flex: 1;
-}
-
-.static {
-  flex: 1;
-}
-
-
-.profile-photo {
+.id-role{
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  
-  img {
-    width: 128px;
-    height: 128px;
-    border-radius: 50px;
-  }
+  justify-content:space-between;
+  margin-bottom: 10px;  
 }
 
-.upload-btn {
-  height: fit-content;
+img {
+  width: $profile-photo-size;
+  height: $profile-photo-size;
+  border-radius: 50px;
+  margin-bottom: 10px;
+}
+
+p {
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+}
+
+a {
+  width: $profile-photo-size !important;
   i {
-    color: rgb(255, 255, 255);
+    color: white;
   }
 }

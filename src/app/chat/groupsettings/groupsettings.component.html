@@ -6,63 +6,112 @@
 
   <menu-item title="Users">
     <menu-subitem title="Add User">
-      <div class="inline">
-        <p>Add:</p>
-        <select [(ngModel)]="selected_user_name" class="form-select" aria-label="Default select example">
-          <option *ngFor="let user of users;">{{user}}</option>
-        </select>
-      </div>
 
-      <div class="inline">
-        <p>To:</p>
-        <select [(ngModel)]="channel_to_add_to" class="form-select" aria-label="Default select example">
-          <option *ngFor="let channel of channels;">{{channel.name}}</option>
-        </select>
-      </div>
-      <button class="btn btn-secondary">ADD</button>
+      <form [formGroup]="add_user_to_channel_form" (ngSubmit)="add_user_to_channel_form.valid && add_user_to_channel()">
+        <div class="form-group">
+          <div class="inline">
+            <p>Add:</p>
+            <select formControlName="username" class="form-select" aria-label="Default select example">
+              <option disabled selected value> -- select user -- </option>
+              <option *ngFor="let user of users;">{{user.username}}</option>
+            </select>
+          </div>
+          <div class="inline">
+            <p>To:</p>
+            <select formControlName="channel_name" class="form-select" aria-label="Default select example">
+              <option disabled selected value> -- select channel -- </option>
+              <option *ngFor="let channel of channels;">{{channel.name}}</option>
+            </select>
+          </div>
+          <button
+            [disabled]="!add_user_to_channel_form.valid"
+            type="submit"
+            class="btn btn-secondary">
+            Add
+          </button>
+        </div>
+      </form>
+
     </menu-subitem>
 
     <menu-subitem title="Remove User from Channel">
-      <div class="inline">
-        <p>Remove:</p>
-        <select [(ngModel)]="selected_user_name" class="form-select" aria-label="Default select example">
-          <option *ngFor="let user of users;">{{user}}</option>
-        </select>
-      </div>
-
-      <div class="inline">
-        <p>From:</p>
-        <select [(ngModel)]="channel_to_remove_from" class="form-select" aria-label="Default select example">
-          <option *ngFor="let channel of channels;">{{channel.name}}</option>
-        </select>
-      </div>
-        <button class="btn btn-secondary">REMOVE</button>
+      <form [formGroup]="remove_user_from_channel_form" (ngSubmit)="remove_user_from_channel_form.valid && remove_user_from_channel()">
+        <div class="form-group">
+          <div class="inline">
+            <p>Remove:</p>
+            <select formControlName="username" class="form-select" aria-label="Default select example">
+              <option disabled selected value> -- select user -- </option>
+              <option *ngFor="let user of users;">{{user.username}}</option>
+            </select>
+          </div>
+          <div class="inline">
+            <p>From:</p>
+            <select formControlName="channel_name" class="form-select" aria-label="Default select example">
+              <option disabled selected value> -- select channel -- </option>
+              <option *ngFor="let channel of channels;">{{channel.name}}</option>
+            </select>
+          </div>
+          <button
+            [disabled]="!remove_user_from_channel_form.valid"
+            type="submit"
+            class="btn btn-secondary">
+            Remove
+          </button>
+        </div>
+      </form>
     </menu-subitem>
 
     <menu-subitem title="Remove User from Group">
       <div class="inline">
         <p>Remove: </p>
         <select [(ngModel)]="selected_user_name" class="form-select" aria-label="Default select example">
-          <option *ngFor="let user of users;">{{user}}</option>
+          <option *ngFor="let user of users;">{{user.username}}</option>
         </select>
       </div>
       <p>From: {{group_name}}</p>
-      <button class="btn btn-secondary">REMOVE</button>
+      <button class="btn btn-secondary">Remove</button>
     </menu-subitem>
   </menu-item>
 
   <menu-item title="Channels">
     <menu-subitem title="Create Channel">
-      <input class="form-control" placeholder="Channel Name">
-      <a class="btn btn-secondary">Create Channel</a>
+   
+      <form [formGroup]="create_channel_form" (ngSubmit)="create_channel_form.valid && create_channel()">
+        <div class="form-group">
+          <input formControlName="channel_name" class="form-control" placeholder="Channel Name">
+          <button
+            [disabled]="!create_channel_form.valid"
+            type="submit"
+            class="btn btn-secondary">
+            Create Channel
+          </button>
+        </div>
+      </form>
+
     </menu-subitem>
 
     <menu-subitem title="Delete Channel">
-      <select [(ngModel)]="channel_to_delete" class="form-select" aria-label="Default select example">
-        <option *ngFor="let channel of channels;">{{channel.name}}</option>
-      </select>
-      <button class="btn btn-secondary" (click)="delete_channel(channel_to_delete)">DELETE</button><br><br>
+      <form [formGroup]="delete_channel_form" (ngSubmit)="delete_channel_form.valid && delete_channel()">
+        <div class="form-group">
+          <select formControlName="channel_name" class="form-select" aria-label="Default select example">
+            <option disabled selected value> -- select channel -- </option>
+            <option *ngFor="let channel of channels;">{{channel.name}}</option>
+          </select>
+          <button
+            [disabled]="!delete_channel_form.valid"
+            type="submit"
+            class="btn btn-danger">
+            Delete
+          </button>
+        </div>
+      </form>
     </menu-subitem>
   </menu-item>
+<!-- 
+  <menu-item title="Group" class="delete-group">
+    <menu-subitem title="Delete Group" class="delete-group">
+      <button class="btn btn-secondary" (click)="delete_channel(channel_to_delete)">Delete</button><br><br>
+    </menu-subitem>
+  </menu-item> -->
 
 </div>

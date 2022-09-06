@@ -15,30 +15,46 @@ export class AppComponent {
   current_user:User = new User("", "");
   logged_in:boolean = false;
 
-  constructor(private router:Router, private themeService:ThemeService, private userService:UserService) {
+  constructor(private router:Router,
+              private themeService:ThemeService) {
 
-    if (typeof(localStorage) !== "undefined") {
-      if (localStorage.getItem("user_info") != null) {
-        this.current_user = JSON.parse(String(localStorage.getItem("user_info")));
-        this.userService.update_current_role(this.current_user.role);
-        this.logged_in = true;
-      }
-    }
-
-
-
-    // Observe the current theme set by the user. Used to switch theme.
+    // Observe any changes to the theme set by the user.
     this.themeService.theme.subscribe((current_theme) => {
       this.theme = current_theme;
     });
-    // Light by default on launch
-    this.themeService.set_theme("light");
+
+    // Retrieve information from local storage
+    if (typeof(localStorage) !== "undefined") {
+      if (localStorage.getItem("user_info") != null) {
+        this.logged_in = true;
+
+        // Retrieve user info
+        this.current_user = JSON.parse(String(localStorage.getItem("user_info")));
+        
+        // If user is logged in, retieve theme preference.
+        // If theme preference doesn't exist, default to dark.
+        this.theme = String(localStorage.getItem("theme"));
+        if (this.theme != "") {
+          this.themeService.set_theme(this.theme);
+        }
+        else {
+          this.themeService.set_theme("dark");
+        }
+      }
+    }
+
+    // If no information exists in localStorage, default to dark theme.
+    else {
+      this.themeService.set_theme("dark");
+    }
+
 
   }
   
   // Clear local storage
   logout():void {
     localStorage.clear();
+    this.logged_in = false;
     this.current_user = new User("", "");
     this.router.navigateByUrl('login');
   }
