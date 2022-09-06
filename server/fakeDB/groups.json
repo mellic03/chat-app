@@ -5,14 +5,16 @@
     "users": [
       "sophiejw",
       "mellic03",
-      "JasonDoge"
+      "JasonDoge",
+      "super"
     ],
     "channels": [
       {
         "name": "Programming Fundamentals",
         "users": [
           "sophiejw",
-          "mellic03"
+          "mellic03",
+          "super"
         ],
         "messages": [
           {

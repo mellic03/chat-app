@@ -26,7 +26,7 @@
           <button
             [disabled]="!add_user_to_channel_form.valid"
             type="submit"
-            class="btn btn-secondary">
+            class="btn btn-info">
             Add
           </button>
         </div>
@@ -54,7 +54,7 @@
           <button
             [disabled]="!remove_user_from_channel_form.valid"
             type="submit"
-            class="btn btn-secondary">
+            class="btn btn-danger">
             Remove
           </button>
         </div>
@@ -62,14 +62,20 @@
     </menu-subitem>
 
     <menu-subitem title="Remove User from Group">
-      <div class="inline">
-        <p>Remove: </p>
-        <select [(ngModel)]="selected_user_name" class="form-select" aria-label="Default select example">
-          <option *ngFor="let user of users;">{{user.username}}</option>
-        </select>
-      </div>
-      <p>From: {{group_name}}</p>
-      <button class="btn btn-secondary">Remove</button>
+      <form [formGroup]="remove_user_from_group_form" (ngSubmit)="remove_user_from_group_form.valid && remove_user_from_group()">
+        <div class="form-group">
+          <select formControlName="username" class="form-select" aria-label="Default select example">
+            <option disabled selected value> -- select user -- </option>
+            <option *ngFor="let user of users;">{{user.username}}</option>
+          </select>
+          <button
+            [disabled]="!remove_user_from_group_form.valid"
+            type="submit"
+            class="btn btn-danger">
+            Remove
+          </button>
+        </div>
+      </form>
     </menu-subitem>
   </menu-item>
 
@@ -82,7 +88,7 @@
           <button
             [disabled]="!create_channel_form.valid"
             type="submit"
-            class="btn btn-secondary">
+            class="btn btn-info">
             Create Channel
           </button>
         </div>

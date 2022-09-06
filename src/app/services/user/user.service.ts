@@ -55,10 +55,10 @@ export class UserService {
     });
   }
   
-  remove_user_from_group(user_id:number, group_id:number) {
+  remove_user_from_group(username:string, group_name:string) {
     this.socketService.emit("admin", "remove_user_from_group", {
-      user_id: user_id,
-      group_id: group_id
+      username: username,
+      group_name: group_name
     });
   }
   

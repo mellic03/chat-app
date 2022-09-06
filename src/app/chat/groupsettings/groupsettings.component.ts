@@ -82,6 +82,15 @@ export class GroupsettingsComponent implements OnInit {
     this.userService.remove_user_from_channel(data.username, this.group_name, data.channel_name);
   }
 
+  // Remove user from group
+  remove_user_from_group_form = this.formBuilder.group({
+    username: new FormControl('', [Validators.required])
+  });
+  remove_user_from_group() {
+    const data = this.remove_user_from_group_form.value;
+    this.userService.remove_user_from_group(data.username, this.group_name);
+  }
+
   // Create channel
   create_channel_form = this.formBuilder.group({
     channel_name: new FormControl('', [Validators.required])
