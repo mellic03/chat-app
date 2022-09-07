@@ -120,6 +120,8 @@ export class User {
   //   REMOVE_USER_FROM_CHANNEL: false
   // };
   
+  permissionlevels:Object = {};
+
   constructor(username:string, email:string) {
     this.username = username;
     this.email = email;

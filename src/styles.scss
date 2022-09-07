@@ -79,35 +79,49 @@ h4, p {
   color: var(--normal-text-color);
 }
 
-
-.page-title {
-  height: var(--chat-header-height);
-  padding-left: 10px;
-  box-shadow: 0 1px 5px -2px var(--shadow-color);
+.right-panel {
+  background-color: var(--background-primary);
+  height: 100%;
 }
 
 .submenu-root {
-  margin-left: 10px;
-  margin-right: 10px;
+  background-color: var(--background-primary);
+  height: calc(100% - var(--navbar-height));
+  .submenu-title {
+    height: var(--chat-header-height);
+    padding-left: 10px;
+    box-shadow: 0 1px 5px -2px var(--shadow-color);
+  }
 
-  max-width: 100%;
-  max-height: 100%;
-}
-
-menu-item {
-  margin-left: 20px;
-  margin-right: 20px;
-  max-width: 500px;
-
-  input, select, button {
-    margin-bottom: 10px;
-    min-width: var(--form-width);
-    max-width: var(--form-width);
+  .submenu-content {
+    padding: 10px;
+    height: 100%;
+    overflow-y: scroll;
   }
 }
 
+
+menu-item {
+  // height: fit-content;
+  padding-bottom: 10px;
+}
+
+menu-subitem {
+  padding-bottom: 10px;
+  input, select, button {
+    margin-bottom: 10px;
+    // min-width: var(--form-width);
+    // max-width: var(--form-width);
+  }
+}
+
+
 form {
-  width: var(--form-width);
+  // width: var(--form-width);
+  button {
+    margin-top: 10px;
+  }
+  padding-bottom: 10px;
 }
 
 label {
@@ -127,21 +141,21 @@ i, a {
 }
 
 .inline {
-
-  display: grid;
-  grid-template-areas: 
-    "left right"
-  ;
-
+  display: flex;
+  justify-content: flex-start;
   align-items: center;
-  grid-template-columns: 100px 200px;
+  width: 100%;
 
   p {
-    grid-area: left;
+    margin-right: 20px;
   }
 
   select {
-    grid-area: right;
+    margin-right: 20px;
+    width: auto;
   }
-  
+
+  .button {
+    margin-left: auto;
+  }
 }

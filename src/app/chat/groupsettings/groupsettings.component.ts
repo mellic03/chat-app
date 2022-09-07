@@ -13,6 +13,9 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 })
 export class GroupsettingsComponent implements OnInit {
 
+  // Permission level
+  current_role:number = 0;
+
   group_name:string = "";
   group:Group = new Group();
 
@@ -38,6 +41,9 @@ export class GroupsettingsComponent implements OnInit {
     this.route.params.subscribe((params:any) => {
       this.group_name = params.group_name;
     });
+
+    // Get permission level from localStorage
+    this.current_role = JSON.parse(String(localStorage.getItem("user_info"))).role;
 
     // Listen for any changes to group data.
     this.socketService.listen(this.group_name).subscribe((group:any) => {

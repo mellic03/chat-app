@@ -19,7 +19,9 @@ export class UserpanelComponent implements OnInit {
 
   create_user_displayStyle:string = "none"; // show/hide modal
   delete_user_displayStyle:string = "none";
-
+  
+  selected_user:string = '';
+  selected_role:string = '';
 
   constructor(private userService:UserService,
               private http:HttpClient,

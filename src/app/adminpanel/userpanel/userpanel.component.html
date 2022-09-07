@@ -1,80 +1,93 @@
-<div class="page-title">
-  <h2>Users</h2>
-</div>
-
 <div class="submenu-root">
+  
+  <div class="submenu-title">
+    <h2>Users</h2>
+  </div>
 
-  <menu-item title="Create User">
-    <form [formGroup]="new_user_form" (ngSubmit)="new_user_form.valid && open_modal('create')">
-      <div class="form-group">
-        <label>Username</label>
-        <input formControlName="username" class="form-control">
+  <div class="submenu-content">
 
-        <label>Email Address</label>
-        <input formControlName="email" class="form-control">
-
-        <label>Password</label>
-        <input formControlName="password" class="form-control">
-
-        <button
-          [disabled]="!new_user_form.valid"
-          type="submit"
-          class="btn btn-primary">
-          Create User
-        </button>
-
-      </div>
-    </form>
-  </menu-item>
-
-  <!-- Role must be >= 3 to delete users -->
-  <menu-item *ngIf="current_user.role >= 3" title="Delete User">
+    <menu-item title="Create User">
+      <form [formGroup]="new_user_form" (ngSubmit)="new_user_form.valid && open_modal('create')">
+        <div class="form-group">
+          <label>Username</label>
+          <input formControlName="username" class="form-control">
+          
+          <label>Email Address</label>
+          <input formControlName="email" class="form-control">
+          
+          <label>Password</label>
+          <input formControlName="password" class="form-control">
+          
+          <button
+            [disabled]="!new_user_form.valid"
+            type="submit"
+            class="btn btn-primary btn-sm">
+            Create User
+          </button>
+          
+        </div>
+      </form>
+    </menu-item>
     
-    <form [formGroup]="delete_user_form" (ngSubmit)="delete_user_form.valid && open_modal('delete')">
-      <div class="form-group">
+    <!-- role => 3 to delete users (super admin) -->
+    <menu-item *ngIf="current_user.role >= 3" title="Delete User">
+      <form [formGroup]="delete_user_form" (ngSubmit)="delete_user_form.valid && open_modal('delete')">
+        <div class="form-group">
+          <label>Username</label>
+          <select formControlName="username" class="form-select" aria-label="Default select example">
+            <option disabled selected value> -- select user -- </option>
+            <option *ngFor="let user of all_users; index as i;">{{user.username}}</option>
+          </select>
+          <button
+            [disabled]="!delete_user_form.valid"
+            type="submit"
+            class="btn btn-danger btn-sm">
+            DELETE
+          </button>
+        </div>
+      </form>
+    </menu-item>
+
+    <menu-item title="User Permissions">
+      
         <label>Username</label>
-        <select formControlName="username" class="form-select" aria-label="Default select example">
-          <option disabled selected value> -- select user -- </option>
-          <option *ngFor="let user of all_users; index as i;">{{user.username}}</option>
+        <select class="form-select" aria-label="Default select example" [(ngModel)]="selected_user">
+          <option disabled selected value></option>
+          <option *ngFor="let user of all_users; index as i;" [ngValue]="user.username">{{user.username}}</option>
         </select>
-        <button
-          [disabled]="!delete_user_form.valid"
-          type="submit"
-          class="btn btn-danger">
-          DELETE
-        </button>
-      </div>
-    </form>
-  </menu-item>
+        
+        <label>Role</label>
+        <select class="form-select" [(ngModel)]="selected_role" aria-label="Default select example">
+          <option disabled selected value></option>
+          <option>User</option>
+          <option [ngValue]="'group assisstant'">Group Assistant</option>
+          <option [ngValue]="'group admin'" *ngIf="current_user.role >= 3">Group Admin</option>
+          <option *ngIf="current_user.role >= 3">Super Admin</option>
+        </select>
 
-  <menu-item title="User Permissions">
-    
-    <label>Username</label>
-    <select class="form-select" aria-label="Default select example">
-      <option disabled selected value></option>
-      <option *ngFor="let user of all_users; index as i;">{{user.username}}</option>
-    </select>
+        <!-- I promise I will remove this -->
+      
+        <ng-container style="margin-top: 10px;" *ngIf="selected_role == 'group assisstant' || selected_role == 'group admin'">
+          <label>Group to make {{selected_user}} {{selected_role}}</label>
+          <select class="form-select" aria-label="Default select example">
+            <option>Not functional</option>
+            <option>Not functional</option>
+            <option>Not functional</option>
+            <option>Not functional</option>
+          </select>
+        </ng-container>
+        <button style="margin-top: 10px; margin-bottom: 10px;" class="btn btn-secondary btn-sm">Update</button>
+      <!------------------------------------>
 
-    <label>Role</label>
-    <select class="form-select" aria-label="Default select example">
-      <option disabled selected value></option>
-      <option>User</option>
-      <option>Group Assistant</option>
-      <option>Group Admin</option>
-      <option>Super Admin</option>
-    </select>
-    <button class="btn btn-secondary">Update</button>
-
-  </menu-item>
-
+    </menu-item>
+  </div>
 </div>
-
 
 <!-- Create user modal -->
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':create_user_displayStyle}">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-
+      
       <div class="modal-header">
         Create User
       </div>
@@ -89,8 +102,8 @@
         </div>
         
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" (click)="close_modal('create')">Cancel</button>
-          <button type="button" class="btn btn-primary" (click)="create_user()">Confirm</button>
+          <button type="button" class="btn btn-danger btn-sm" (click)="close_modal('create')">Cancel</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="create_user()">Confirm</button>
         </div>
       </form>
 
@@ -117,8 +130,8 @@
         </div>
         
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" (click)="close_modal('delete')">Cancel</button>
-          <button type="button" class="btn btn-primary" (click)="delete_user()">Confirm</button>
+          <button type="button" class="btn btn-danger btn-sm" (click)="close_modal('delete')">Cancel</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="delete_user()">Confirm</button>
         </div>
       </form>
 

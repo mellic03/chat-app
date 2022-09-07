@@ -11,6 +11,23 @@ module.exports = function(app) {
     res.send(user)
   });
 
+
+  // Return an array of all usernames
+  app.get("/api/users", (req, res) => {
+    res.send(fakeDB.users);
+  });
+
+  // Return user information of a given user
+  app.get("/api/users/:username", (req, res) => {
+    fakeDB.users.forEach(user => {
+      if (user.username == req.params.username) {
+        res.send(user);
+      }
+    });
+  });
+
+
+  // WHY IS THIS HERE? THIS SHOULD BE IN FAKEDB.JS
   // Return an array of groups which “username” is a member of
   app.get("/api/users/:username/groups", (req, res) => {
     const username = req.params.username;
@@ -28,6 +45,7 @@ module.exports = function(app) {
     }
 
     else {
+      // Find groups that the user is a member of
       let groups_of_user = [];
       fakeDB.groups.forEach(group => {
         group.users.forEach(user => {
@@ -36,6 +54,22 @@ module.exports = function(app) {
           }
         })
       });
+
+      // Remove channels that the user is not a member of
+      groups_of_user.forEach(group => {
+        for (let i=group.channels.length-1; i>0; i--) {
+          let is_member = false;
+          group.channels[i].users.forEach(user => {
+            if (user == username) {
+              is_member = true;
+            }
+          });
+          if (is_member == false) {
+            group.channels.splice(i, 1);
+          }
+        }
+      });
+
       res.send(groups_of_user);
     }
   });
@@ -59,10 +93,7 @@ module.exports = function(app) {
     });
   });
 
-  // Return an array of all usernames
-  app.get("/api/users", (req, res) => {
-    res.send(fakeDB.users);
-  });
+
 
   // Return the username belonging to "user_id"
   app.get("/api/userids/:user_id/username", (req, res) => {

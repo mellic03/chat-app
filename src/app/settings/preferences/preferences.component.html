@@ -1,25 +1,22 @@
-<div class="page-title">
-  <h2>Preferences</h2>
-</div>
-
 <div class="submenu-root">
 
-  <menu-item title="Theme">
+  <div class="submenu-title">
+    <h2>Preferences</h2>
+  </div>
 
-    <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        {{current_theme}}
-      </button>
-      <ul class="dropdown-menu">
-        <li><a (click)="set_theme('light')" class="btn">Light</a></li>
-        <li><a (click)="set_theme('dark')" class="btn">Dark</a></li>
-        <li><a (click)="set_theme('blue')" class="btn">Other?</a></li>
-      </ul>
-    </div>
-  </menu-item>
-  
-  <menu-item title="Notifications">
-    
-  </menu-item>
-  
+  <div class="submenu-content">
+    <menu-item title="Theme">
+      <div class="dropdown">
+        <button style="margin-bottom: 10px;" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{current_theme}}
+        </button>
+        <ul class="dropdown-menu">
+          <li><a (click)="set_theme('light')" class="btn">Light</a></li>
+          <li><a (click)="set_theme('dark')" class="btn">Dark</a></li>
+          <li><a (click)="set_theme('blue')" class="btn">Other?</a></li>
+        </ul>
+      </div>
+    </menu-item>
+  </div>
+
 </div>

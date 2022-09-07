@@ -1,41 +1,44 @@
-<div class="page-title">
-  <h2>Groups</h2>
-</div>
+<div class="submenu-root">
+  <div class="submenu-title">
+    <h2>Groups</h2>
+  </div>
 
-<div class="submenu-root"> 
-  
-  <menu-item title="Create Group">
-    <form [formGroup]="new_group_form" (ngSubmit)="new_group_form.valid && create_group()">
-      <div class="form-group">
-        <label>Group Name</label>
-        <input formControlName="group_name" class="form-control">
-        <button
-          [disabled]="!new_group_form.valid"
-          type="submit"
-          class="btn btn-primary">
-          Create Group
-        </button>
-      </div>
-    </form>
-  </menu-item>
+  <div class="submenu-content"> 
+    
+    <menu-item title="Create Group">
+      <form [formGroup]="new_group_form" (ngSubmit)="new_group_form.valid && create_group()">
+        <div class="form-group">
+          <label>Group Name</label>
+          <input formControlName="group_name" class="form-control">
+          <button
+            [disabled]="!new_group_form.valid"
+            type="submit"
+            class="btn btn-primary btn-sm">
+            Create Group
+          </button>
+        </div>
+      </form>
+    </menu-item>
 
-  <menu-item title="Delete Group">
-    <form [formGroup]="delete_group_form" (ngSubmit)="delete_group_form.valid && delete_group()">
-      <div class="form-group">
-        <label>Group Name</label>
-        <select formControlName="group_name" class="form-select" aria-label="Default select example">
-          <option disabled selected value> -- select group -- </option>
-          <option *ngFor="let group_name of all_group_names">{{group_name}}</option>
-          <!-- <option *ngFor="let user of usernames; index as i;" value="{{user_ids[i]}}">{{usernames[i]}}</option> -->
-        </select>
-        <button
-          [disabled]="!delete_group_form.valid"
-          type="submit"
-          class="btn btn-danger">
-          DELETE
-        </button>
-      </div>
-    </form>
-  </menu-item>
+    <menu-item title="Delete Group">
+      <form [formGroup]="delete_group_form" (ngSubmit)="delete_group_form.valid && delete_group()">
+        <div class="form-group">
+          <label>Group Name</label>
+          <select formControlName="group_name" class="form-select" aria-label="Default select example">
+            <option disabled selected value> -- select group -- </option>
+            <option *ngFor="let group_name of all_group_names">{{group_name}}</option>
+            <!-- <option *ngFor="let user of usernames; index as i;" value="{{user_ids[i]}}">{{usernames[i]}}</option> -->
+          </select>
+          <button
+            [disabled]="!delete_group_form.valid"
+            type="submit"
+            class="btn btn-danger btn-sm">
+            DELETE
+          </button>
+        </div>
+      </form>
+    </menu-item>
+
+  </div>
 
 </div>

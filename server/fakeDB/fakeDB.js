@@ -81,8 +81,9 @@ module.exports = {
    */
   get_groups_of_user: function(username, role) {
     user_groups = [];
+    
     if (role == 3) {
-      user_groups = this.groups;
+      return this.groups;
     }
     
     else if (role < 3) {
@@ -155,6 +156,14 @@ module.exports = {
       password: password,
       role: 0
     }
+
+    // Make sure username is unused
+    for (let i=0; i< this.users.length; i++) {
+      if (this.users[i].username == username) {
+        return false;
+      }
+    }
+
     this.users.unshift(new_user);
     this.save_users_to_file()    
     fs.writeFileSync(__dirname + "/next_user_id.json", JSON.stringify({next_user_id: this.next_user_id}));
@@ -243,8 +252,6 @@ module.exports = {
         )
       }
     }
-
-    
     this.save_groups_to_file();
   },
 

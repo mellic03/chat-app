@@ -12,9 +12,12 @@ import { SocketService } from '../services/socket/socket.service';
 })
 export class ChatComponent implements OnInit {
 
-  current_user:User = new User("", "");
   
+  current_user:User = new User("", "");
+  permissionlevel:number = 0; // Permission level of user in the current group
+
   groups:Array<Group> = [];
+
   current_group:Group = new Group();
   current_channel:Channel = new Channel();
   
@@ -32,9 +35,14 @@ export class ChatComponent implements OnInit {
 
     // Get info of logged-in user. If null, redirect to login page.
     if (typeof(localStorage) !== undefined) {
+      // First get info from localStorage, then get updated info from server.
       let user_info = JSON.parse(String(localStorage.getItem("user_info")));
       if (user_info != null) {
         this.current_user = JSON.parse(String(localStorage.getItem("user_info")));
+        this.http.get<User>(`http://159.196.6.181:3000/api/users/${this.current_user.username}`)
+        .subscribe(user => {
+          this.current_user = user;
+        });
       }
       else {
         this.router.navigateByUrl("/login");
@@ -44,13 +52,33 @@ export class ChatComponent implements OnInit {
     this.retrieve_group_data();
   }
 
+  // Get permission level for current group
+  get_permission_level() {
+
+    // If system-wide role is super admin, set to 3 and skip rest
+    if (this.current_user.role >= 3) {
+      this.permissionlevel = 3;
+      return;
+    }
+
+    this.permissionlevel = 0; // reset permissionlevel
+    let permissions = this.current_user.permissionlevels;
+    console.log(this.current_user)
+    Object.entries(permissions).forEach(([key, value]) => {
+      if (key == this.current_group.name) {
+        console.log(key + " == " + this.current_group.name + "?");
+        this.permissionlevel = value;
+      }
+    });
+  }
+
   // Retrieve groups the user is a member of
   retrieve_group_data() {
     const username = this.current_user.username;
     const API_URL = `http://159.196.6.181:3000/api/users/${username}/groups`;
-    this.http.get<Array<Group>>(API_URL).subscribe((res) => {
-      this.groups = res;
-      
+    this.http.get<Array<Group>>(API_URL).subscribe((data) => {
+      this.groups = data;
+
       // Open the first channel of the first group.
       this.groupService.current_group.subscribe((group) => {
         this.current_group = group;
@@ -81,6 +109,7 @@ export class ChatComponent implements OnInit {
     this.socketService.listen(this.current_group.name).subscribe((group:any) => {
       this.current_group = group;
     });
+    this.get_permission_level();
   }
   // Navigate to the chat window for a given channel
   open_channel(channel:Channel) {

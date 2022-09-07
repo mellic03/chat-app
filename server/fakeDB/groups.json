@@ -1,127 +1,22 @@
 [
   {
-    "name": "Study Group",
+    "name": "Study",
     "image": "image_1.jpg",
-    "users": [
-      "sophiejw",
-      "mellic03",
-      "JasonDoge",
-      "super"
-    ],
-    "channels": [
-      {
-        "name": "Programming Fundamentals",
-        "users": [
-          "sophiejw",
-          "mellic03",
-          "super"
-        ],
-        "messages": [
-          {
-            "sender": "mellic03",
-            "content": "Yes, hello Geraldine. It is I."
-          },
-          {
-            "sender": "sophiejw",
-            "content": "Omg Mick it's you! You're here!"
-          }
-        ]
-      },
-      {
-        "name": "Software Frameworks",
-        "users": [
-          "mellic03",
-          "sophiejw"
-        ],
-        "messages": [
-          {
-            "sender": "mellic03",
-            "content": "Bleep bloop."
-          },
-          {
-            "sender": "sophiejw",
-            "content": "Loop zoop."
-          }
-        ]
-      },
-      {
-        "name": "Engineering Mathematics 1",
-        "users": [
-          "mellic03",
-          "sophiejw"
-        ],
-        "messages": [
-          {
-            "sender": "mellic03",
-            "content": "Bleep bloop."
-          },
-          {
-            "sender": "sophiejw",
-            "content": "Loop zoop."
-          }
-        ]
-      },
-      {
-        "name": "Engineering Mathematics 2",
-        "users": [
-          "mellic03",
-          "sophiejw"
-        ],
-        "messages": [
-          {
-            "sender": "mellic03",
-            "content": "Bleep bloop."
-          },
-          {
-            "sender": "sophiejw",
-            "content": "Loop zoop."
-          }
-        ]
-      }
-    ]
+    "users": [],
+    "assistants": [],
+    "admins": [],
+    "channels": []
   },
   {
-    "name": "Legal-Activities Group",
+    "name": "Not Study",
     "image": "image_1.jpg",
-    "users": [
-      "mellic03",
-      "Wehrmacht PePe"
-    ],
-    "channels": [
-      {
-        "name": "Legal Discussions",
-        "users": [
-          "mellic03",
-          "Wehrmacht PePe"
-        ],
-        "messages": [
-          {
-            "sender": "Wehrmacht PePe",
-            "content": "Yeah, no way would we do something like that here. Not in the legal-activities group."
-          },
-          {
-            "sender": "mellic03",
-            "content": "Holy shit we better not do anything illegal in here."
-          }
-        ]
-      },
-      {
-        "name": "A Channel With a Really Long Name",
-        "users": [
-          "mellic03",
-          "sophiejw"
-        ],
-        "messages": [
-          {
-            "sender": "mellic03",
-            "content": "I used \"text-overflow: ellipsis\" to handle cases like this."
-          },
-          {
-            "sender": "sophiejw",
-            "content": "This channel's name exceeds the maximum visible length"
-          }
-        ]
-      }
-    ]
+    "users": [],
+    "channels": []
+  },
+  {
+    "name": "testtest",
+    "image": "image_1.jpg",
+    "users": [],
+    "channels": []
   }
 ]
