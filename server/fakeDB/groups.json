@@ -9,25 +9,34 @@
     "admins": [],
     "channels": [
       {
-        "name": "test",
-        "users": [],
-        "messages": []
+        "name": "Test Channel 1",
+        "users": ["mellic03", "sophiejw"],
+        "messages": [
+          {
+            "sender": "mellic03",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+          },
+          {
+            "sender": "sophiejw",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+          }
+        ]
       },
       {
-        "name": "Test channel 2",
-        "users": [],
-        "messages": []
-      },
-      {
-        "name": "test 3",
-        "users": [],
-        "messages": []
-      },
-      {
-        "name": "test 4",
-        "users": [],
-        "messages": []
+        "name": "Test Channel 2",
+        "users": ["mellic03", "sophiejw"],
+        "messages": [
+          {
+            "sender": "mellic03",
+            "content": "This is also a short message."
+          },
+          {
+            "sender": "sophiejw",
+            "content": "This is a short message."
+          }
+        ]
       }
+
     ]
   },
   {
@@ -36,9 +45,18 @@
     "users": [],
     "channels": [
       {
-        "name": "test 2",
-        "users": [],
-        "messages": []
+        "name": "Test Channel 3",
+        "users": ["mellic03", "sophiejw"],
+        "messages": [
+          {
+            "sender": "mellic03",
+            "content": "One last message."
+          },
+          {
+            "sender": "sophiejw",
+            "content": "More messages here"
+          }
+        ]
       }
     ]
   }
