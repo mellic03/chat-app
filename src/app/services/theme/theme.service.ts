@@ -15,4 +15,8 @@ export class ThemeService {
     this.theme.next(theme);
   }
 
+  get_theme() {
+    return this.theme;
+  }
+
 }

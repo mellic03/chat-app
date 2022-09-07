@@ -13,6 +13,8 @@ const SUPER_ADMIN:number = 3;
 
 export class UserService {
 
+  current_user = new Subject<User>();
+
   constructor(private socketService:SocketService) { }
 
   create_user(username:string, email:string, password:string) {

@@ -8,10 +8,10 @@ import { ThemeService } from '../../services/theme/theme.service';
 })
 export class PreferencesComponent implements OnInit {
 
-  current_theme:string = "light";
+  current_theme:string;
 
   constructor(private themeService:ThemeService) {
-
+    this.current_theme = String(localStorage.getItem("theme"));
   }
 
   ngOnInit(): void {

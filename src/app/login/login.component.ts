@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from '../services/user/user.service';
+import { User, UserService } from '../services/user/user.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, observable } from 'rxjs';
 
 
 @Component({
@@ -15,7 +14,10 @@ export class LoginComponent implements OnInit {
   current_user:User = new User("", "");
   show_error_message:boolean = false;
 
-  constructor(private http:HttpClient, private router:Router) {  }
+  constructor(private userService:UserService,
+              private http:HttpClient,
+              private router:Router)
+  {  }
 
   ngOnInit(): void {
     if (typeof(localStorage) !== undefined) {
@@ -36,6 +38,10 @@ export class LoginComponent implements OnInit {
           this.show_error_message = true;
         }
         else {
+          let api_url = `http://159.196.6.181:3000/api/users/${res.username}`
+          this.http.get<User>(api_url).subscribe(data => {
+            this.userService.current_user.next(data);
+          });
           let user_info = res;
           localStorage.setItem("user_info", JSON.stringify(user_info));
           this.router.navigateByUrl("/chat");

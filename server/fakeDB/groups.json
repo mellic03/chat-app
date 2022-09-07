@@ -2,21 +2,31 @@
   {
     "name": "Study",
     "image": "image_1.jpg",
-    "users": [],
+    "users": [
+      "mellic03"
+    ],
     "assistants": [],
     "admins": [],
-    "channels": []
+    "channels": [
+      {
+        "name": "channel 1",
+        "users": [
+          "mellic03"
+        ],
+        "messages": []
+      }
+    ]
   },
   {
     "name": "Not Study",
     "image": "image_1.jpg",
     "users": [],
-    "channels": []
-  },
-  {
-    "name": "testtest",
-    "image": "image_1.jpg",
-    "users": [],
-    "channels": []
+    "channels": [
+      {
+        "name": "not study channel 1",
+        "users": [],
+        "messages": []
+      }
+    ]
   }
 ]

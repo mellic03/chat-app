@@ -1,9 +1,9 @@
 <div class="root {{theme}}">
 
-    <nav class="navbar navbar-expand-lg">
+    <nav *ngIf="current_user.username != '';" class="navbar navbar-expand-lg">
       <div class="container-fluid">
         <a class="navbar-brand">Chat-App</a>
-        <div *ngIf="logged_in == true;" class="navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <!-- <li><a class="nav-link" routerLink="/login">Login</a></li> -->
             <li><a class="nav-link" routerLink="/chat">Chat</a></li>
