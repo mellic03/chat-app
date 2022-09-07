@@ -25,35 +25,40 @@ module.exports = {
     //     count++;
     //   }
     // }
-    let count = 0;
-    fakeDB.groups.forEach(group => {
-      group.channels.forEach(channel => {
 
-        var nsp = io.of("/" + channel.name);
+    // fakeDB.groups.forEach(group => {
+    //   group.channels.forEach(channel => {
 
-        nsp.on("connection", socket => {
-          socket.join(channel.name);
-          console.log("Connected to channel: " + channel.name);
+    //     const socket_channel = io.of(channel.name);
+    //     socket_channel.on("connection", socket => {
+    //       socket.join(socket_channel);
 
-          socket.on("message", data => {
-            // console.log(data);
-            // fakeDB.add_message_to_channel(data.message, data.group, data.channel);
-            nsp.emit("message", data);
-            // socket.to(channel.name).emit("message", data);
-          });
+    //       // On message, add to correct channel and re-emit
+    //       socket.on("message", (data) => {
+    //         console.log(data.message);
+    //         // fakeDB.add_message_to_channel(data.message, data.group_name, data.channel_name);
+    //         socket_channel.to(socket_channel).emit("message", data);
+    //       });
           
-          socket.on("unsubscribe", () => {
-            console.log(`socket leaving channel: ${channel.name}`);
-            socket.leave(nsp);
-          })
+    //       socket.on("unsubscribe", () => {
+    //         console.log(`socket leaving channel: ${channel.name}`);
+    //         socket.leave(socket_channel);
+    //       });
 
-        });
-
-        count++;
-      })
-    });
+    //     });
+    //   })
+    // });
     //---------------------------------------------------------------------
 
+    const testChannel = io.of("/test");
+    testChannel.on("connection", (socket) => {
+      
+      socket.on("message", (data) => {
+        console.log(data);
+        
+        testChannel.to("test").emit("message", data);
+      });
+    });
 
 
     io.on("connection", (socket) => {
@@ -70,7 +75,7 @@ module.exports = {
 
 
     // Socket channel for admin tasks.
-    system = io.of("admin");
+    let system = io.of("admin");
     system.on("connection", socket => {
 
       socket.on("create_user", (data) => {

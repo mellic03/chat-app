@@ -9,10 +9,23 @@
     "admins": [],
     "channels": [
       {
-        "name": "channel 1",
-        "users": [
-          "mellic03"
-        ],
+        "name": "test",
+        "users": [],
+        "messages": []
+      },
+      {
+        "name": "Test channel 2",
+        "users": [],
+        "messages": []
+      },
+      {
+        "name": "test 3",
+        "users": [],
+        "messages": []
+      },
+      {
+        "name": "test 4",
+        "users": [],
         "messages": []
       }
     ]
@@ -23,7 +36,7 @@
     "users": [],
     "channels": [
       {
-        "name": "not study channel 1",
+        "name": "test 2",
         "users": [],
         "messages": []
       }

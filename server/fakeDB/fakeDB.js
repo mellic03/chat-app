@@ -51,14 +51,14 @@ module.exports = {
    */
   add_message_to_channel: function(message, group_name, channel_name) {
     this.groups.forEach((group) => {
-      if (group.name == group_name)
-      group.channels.forEach((channel) => {
-        if (channel.name == channel_name) {
-          channel.messages.unshift(message);
-          let group_data = JSON.stringify(this.groups, null, 2);
-          fs.writeFileSync(__dirname + "/groups.json", group_data);
-        }
-      })
+      if (group.name == group_name) {
+        group.channels.forEach((channel) => {
+          if (channel.name == channel_name) {
+            channel.messages.unshift(message);
+            this.save_groups_to_file();
+          }
+        })
+      }
     })
   },
   

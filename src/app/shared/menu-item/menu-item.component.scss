@@ -2,7 +2,8 @@
   box-shadow: 0 1px 5px -2px var(--shadow-color);
   background-color: var(--background-secondary);
   border-radius: 10px;
-  width: 100%;
+
+  max-width: 800px;
 
   .content {
     padding-left: 10px;

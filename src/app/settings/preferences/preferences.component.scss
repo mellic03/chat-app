@@ -1,1 +1,28 @@
 
+menu-item {
+  max-width: 350px !important;
+  margin-right: 20px;
+}
+
+
+button {
+  margin-bottom: 10px;
+  width: var(--form-width);
+}
+
+select {
+  margin-bottom: 10px;
+}
+
+.dropdown, ul, li {
+  width: var(--form-width);
+}
+
+li {
+  display: flex;
+  justify-content: flex-start;
+}
+
+a {
+  width: var(--form-width);
+}

@@ -63,7 +63,7 @@ export class ChatComponent implements OnInit {
 
     this.permissionlevel = 0; // reset permissionlevel
     let permissions = this.current_user.permissionlevels;
-    console.log(this.current_user)
+    // console.log(this.current_user)
     Object.entries(permissions).forEach(([key, value]) => {
       if (key == this.current_group.name) {
         console.log(key + " == " + this.current_group.name + "?");
@@ -106,7 +106,7 @@ export class ChatComponent implements OnInit {
     this.set_group(group);
     this.set_channel(group.channels[0]);
     // Listen for changes to group through sockets
-    this.socketService.listen(this.current_group.name).subscribe((group:any) => {
+    this.socketService.listen_for_event(this.current_group.name).subscribe((group:any) => {
       this.current_group = group;
     });
     this.get_permission_level();

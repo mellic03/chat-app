@@ -1,14 +1,19 @@
-
 # [Chat-App](https://github.com/mellic03/chat-app)
 
 
-
-## **Git**
-
-The Git repository for this project is composed of two branches: main and dev. All development is done on the ‘dev’ branch and when a new feature is implemented, dev is merged into main.
+# CONTENTS
 
 
-## **Data Structures**
+[TOC]
+
+
+
+# **Git**
+
+This Git repository is composed of two branches: main and dev. New features are developed on the dev branch until they are considered stable, after which the dev branch is merged into main.
+
+
+# **Data Structures**
 
 **User**
 
@@ -17,7 +22,11 @@ The Git repository for this project is composed of two branches: main and dev. A
   <tr>
    <td><strong>Description</strong>
    </td>
-   <td>
+   <td>Permissions are handled through two properties: role and permissionlevel.
+<p>
+The role property is used to decide whether or not to show the app-wide admin panel and can have a value of either 0, 1, or 2 representing the user, group admin and super admin roles.
+<p>
+The permissionlevel object contains a property named after each group the user is a member of. It is used to decide whether or not to show group-specific admin panels and what options are available in them. The value of each of these properties can be either 0, 1 or 2 representing the user, group assistant and group admin roles.
    </td>
   </tr>
   <tr>
@@ -31,6 +40,8 @@ The Git repository for this project is composed of two branches: main and dev. A
 <li>email: string
 
 <li>role: number
+
+<li>permissionlevels:Object
 </li>
 </ul>
    </td>
@@ -45,7 +56,7 @@ The Git repository for this project is composed of two branches: main and dev. A
   <tr>
    <td><strong>Description</strong>
    </td>
-   <td>A class with two properties: the sender of the message, and the content of the message
+   <td>A class which defines how messages are structured.
    </td>
   </tr>
   <tr>
@@ -71,7 +82,7 @@ The Git repository for this project is composed of two branches: main and dev. A
   <tr>
    <td><strong>Description</strong>
    </td>
-   <td>
+   <td>A class which holds an array of messages and an array of usernames. Group objects can have multiple of these to separate messages into channels.
    </td>
   </tr>
   <tr>
@@ -82,7 +93,7 @@ The Git repository for this project is composed of two branches: main and dev. A
 
 <li>name: string
 
-<li>users: Array&lt;User>
+<li>users: Array&lt;string>
 
 <li>messages: Array&lt;Message>
 </li>
@@ -99,7 +110,7 @@ The Git repository for this project is composed of two branches: main and dev. A
   <tr>
    <td><strong>Description</strong>
    </td>
-   <td>
+   <td>Groups have a name, an array of usernames and an array of Channel objects. If a user is made group admin for any group their role will be set to 2, which provides access to the admin panel.
    </td>
   </tr>
   <tr>
@@ -110,7 +121,7 @@ The Git repository for this project is composed of two branches: main and dev. A
 
 <li>name: string
 
-<li>users: Array&lt;User>
+<li>users: Array&lt;string>
 
 <li>channels: Array&lt;Channel>
 </li>
@@ -121,10 +132,10 @@ The Git repository for this project is composed of two branches: main and dev. A
 
 
 
-## **Angular Architecture**
+# **Angular Architecture**
 
 
-### Components
+## Components
 
 **LoginComponent**
 
@@ -139,7 +150,7 @@ The Git repository for this project is composed of two branches: main and dev. A
   <tr>
    <td><strong>Description</strong>
    </td>
-   <td>
+   <td>The login page for the application. Sends a POST request to the server to authenticate login credentials.
    </td>
   </tr>
   <tr>
@@ -169,7 +180,7 @@ The Git repository for this project is composed of two branches: main and dev. A
   <tr>
    <td><strong>Description</strong>
    </td>
-   <td>
+   <td>Provides a sidebar to select a group and channel. Includes a router-outlet element to display either ChatWindow or GroupSettings
    </td>
   </tr>
   <tr>
@@ -240,7 +251,15 @@ The Git repository for this project is composed of two branches: main and dev. A
    <td>
 <ul>
 
-<li>send_message()
+<li>add_user_to_channel()
+
+<li>remove_user_from_channel()
+
+<li>remove_user_from_group()
+
+<li>create_channel()
+
+<li>delete_channel()
 </li>
 </ul>
    </td>
@@ -261,7 +280,7 @@ The Git repository for this project is composed of two branches: main and dev. A
   <tr>
    <td><strong>Description</strong>
    </td>
-   <td>
+   <td>Provides a frame/side bar for settings-related components to be accessed through
    </td>
   </tr>
   <tr>
@@ -286,7 +305,7 @@ The Git repository for this project is composed of two branches: main and dev. A
   <tr>
    <td><strong>Description</strong>
    </td>
-   <td>
+   <td>A page where the user can update account information. Displayed through a router-outlet in SettingsComponent.
    </td>
   </tr>
   <tr>
@@ -296,6 +315,10 @@ The Git repository for this project is composed of two branches: main and dev. A
 <ul>
 
 <li>set_username()
+
+<li>set_email()
+
+<li>set_password()
 </li>
 </ul>
    </td>
@@ -316,7 +339,7 @@ The Git repository for this project is composed of two branches: main and dev. A
   <tr>
    <td><strong>Description</strong>
    </td>
-   <td>
+   <td>A page where the user can change app preferences. Displayed through a router-outlet in SettingsComponent.
    </td>
   </tr>
   <tr>
@@ -326,36 +349,8 @@ The Git repository for this project is composed of two branches: main and dev. A
 <ul>
 
 <li>set_theme()
-</li>
-</ul>
-   </td>
-  </tr>
-</table>
 
-
-**PreferencesComponent**
-
-
-<table>
-  <tr>
-   <td><strong>Route</strong>
-   </td>
-   <td>/settings/preferences
-   </td>
-  </tr>
-  <tr>
-   <td><strong>Description</strong>
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td><strong>Methods</strong>
-   </td>
-   <td>
-<ul>
-
-<li>set_theme()
+<li>set_video_quality()
 </li>
 </ul>
    </td>
@@ -364,7 +359,7 @@ The Git repository for this project is composed of two branches: main and dev. A
 
 
 
-### Services
+## Services
 
 **SocketService**
 
@@ -489,10 +484,10 @@ The Git repository for this project is composed of two branches: main and dev. A
 
 
 
-## **Node Server Architecture**
+# **Node Server Architecture**
 
 
-### Modules
+## Modules
 
 **fakeDB.js**
 
@@ -501,7 +496,7 @@ The Git repository for this project is composed of two branches: main and dev. A
   <tr>
    <td><strong>Description</strong>
    </td>
-   <td>Routes are split into two files: user_routes.js and group_routes.js which contain routes related to user data and group data respectively.
+   <td>Various methods for interacting with the stored data in users.json and groups.json
    </td>
   </tr>
   <tr>
@@ -592,7 +587,7 @@ The Git repository for this project is composed of two branches: main and dev. A
 
 
 
-### REST API
+## REST API
 
 All API routes are GET requests except for /api/auth, which is POST. Any time data needs to be changed on the server, sockets are used for the request. After the request is completed, any data changed by the request is then emitted under an event named after the data. For example, if a client requests to delete a user, the server will delete the user and then emit an event called “users” which contains the new list of users.
 
@@ -603,13 +598,7 @@ All API routes are GET requests except for /api/auth, which is POST. Any time da
   <tr>
    <td><strong>Description</strong>
    </td>
-   <td>Return User object on successful validation of credentials.
-   </td>
-  </tr>
-  <tr>
-   <td><strong>Method</strong>
-   </td>
-   <td>POST
+   <td>Return User object on successful validation of credentials. If the server fails to validate the credentials, a user object with all properties set to false is returned.
    </td>
   </tr>
   <tr>

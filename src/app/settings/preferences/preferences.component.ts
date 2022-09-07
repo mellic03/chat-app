@@ -23,4 +23,5 @@ export class PreferencesComponent implements OnInit {
     this.themeService.set_theme(theme);
   }
 
+
 }

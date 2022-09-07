@@ -44,7 +44,6 @@ export class AppComponent {
       // If theme preference doesn't exist, default to light.
       this.theme = String(localStorage.getItem("theme"));
       if (this.theme != '') {
-        console.log(1);
         this.themeService.set_theme(this.theme);
       }
       else {

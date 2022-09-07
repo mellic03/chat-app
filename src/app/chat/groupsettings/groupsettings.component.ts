@@ -46,7 +46,7 @@ export class GroupsettingsComponent implements OnInit {
     this.current_role = JSON.parse(String(localStorage.getItem("user_info"))).role;
 
     // Listen for any changes to group data.
-    this.socketService.listen(this.group_name).subscribe((group:any) => {
+    this.socketService.listen_for_event(this.group_name).subscribe((group:any) => {
       this.group = group;
     });
 
@@ -105,6 +105,8 @@ export class GroupsettingsComponent implements OnInit {
     const data = this.create_channel_form.value;
     this.userService.create_channel(data.channel_name, this.group_name);
     this.http.get(`http://159.196.6.181:3000/api/groups/${this.group_name}/channels`);
+    this.create_channel_form.value.channel_name = '';
+    this.create_channel_form.reset()
   }
 
   // Delete channel   

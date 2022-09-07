@@ -5,18 +5,37 @@
   </div>
 
   <div class="submenu-content">
+
     <menu-item title="Theme">
-      <div class="dropdown">
-        <button style="margin-bottom: 10px;" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          {{current_theme}}
-        </button>
-        <ul class="dropdown-menu">
-          <li><a (click)="set_theme('light')" class="btn">Light</a></li>
-          <li><a (click)="set_theme('dark')" class="btn">Dark</a></li>
-          <li><a (click)="set_theme('blue')" class="btn">Other?</a></li>
-        </ul>
-      </div>
+      <menu-subitem>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{current_theme}}
+          </button>
+          <ul class="dropdown-menu">
+            <li><a (click)="set_theme('light')" class="btn">Light</a></li>
+            <li><a (click)="set_theme('dark')" class="btn">Dark</a></li>
+            <li><a (click)="set_theme('blue')" class="btn">Other?</a></li>
+          </ul>
+        </div>
+      </menu-subitem>
     </menu-item>
+
+    <menu-item title="Video Quality">
+      <menu-subitem>
+        <select class="form-select" aria-label="Default select example">
+          <option>480p @20fps</option>
+          <option>720p @30fps</option>
+          <option>1080p @30fps</option>
+          <option>1080p @60fps</option>
+        </select>
+      </menu-subitem>
+
+      <menu-subitem title="Preview">
+        <img id="video-preview" src="https://valenciasurf.com/plugins/individuart/meteosurf/components/assets/img/placeholder-webcam.gif">
+      </menu-subitem>
+    </menu-item>
+
   </div>
 
 </div>

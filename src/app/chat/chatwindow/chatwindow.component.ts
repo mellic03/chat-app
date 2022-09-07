@@ -52,11 +52,23 @@ export class ChatwindowComponent implements OnInit {
     this.groupService.current_channel.subscribe((channel) => {
       this.current_channel = channel;
     });
+
+    // Listen for messages
+    this.socketService.join_channel("test");
+    this.socketService.listen_for_event("message").subscribe((data:any) => {
+      console.log(data);
+    });
   }
 
 
   send_message() {
-    
+    let msg = {
+      message: new Message(this.current_user.username, this.message),
+      group_name: this.current_group.name,
+      channel_name: this.current_channel.name
+    }
+    this.socketService.emit(this.current_channel.name, "message", msg);
+    this.message = '';
   }
 
 

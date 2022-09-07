@@ -41,7 +41,7 @@ export class UserpanelComponent implements OnInit {
     this.current_user = JSON.parse(String(localStorage.getItem("user_info")));
 
     // Listen for changes to user data
-    this.socketService.listen("users").subscribe((users:any) => {
+    this.socketService.listen_for_event("users").subscribe((users:any) => {
       // console.log(users);
       this.all_users = users;
     });
