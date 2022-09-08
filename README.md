@@ -4,15 +4,21 @@
 # CONTENTS
 
 
-[TOC]
+1. [Git](#Git)
+2. [Data Structures](#Data-Structures)
+3. [Angular Architecture](#Angular-Architecture)
+    - [Components](#Components)
+    - [Services](#Services)
+4. [Node Server Architecture](#Node-Server-Architecture)
+    - [Modules](#Modules)
+    - [REST API](#REST-API)
 
-
-
+<a name=Git></a>
 # **Git**
 
 This Git repository is composed of two branches: main and dev. New features are developed on the dev branch until they are considered stable, after which the dev branch is merged into main.
 
-
+<a name=Data-Structures></a>
 # **Data Structures**
 
 **User**
@@ -131,10 +137,10 @@ The permissionlevel object contains a property named after each group the user i
 </table>
 
 
-
+<a name=Angular-Architecture></a>
 # **Angular Architecture**
 
-
+<a name=Components></a>
 ## Components
 
 **LoginComponent**
@@ -358,7 +364,7 @@ The permissionlevel object contains a property named after each group the user i
 </table>
 
 
-
+<a name=Services></a>
 ## Services
 
 **SocketService**
@@ -483,10 +489,10 @@ The permissionlevel object contains a property named after each group the user i
 </table>
 
 
-
+<a name=Node-Server-Architecture></a>
 # **Node Server Architecture**
 
-
+<a name=Modules></a>
 ## Modules
 
 **fakeDB.js**
@@ -586,7 +592,7 @@ The permissionlevel object contains a property named after each group the user i
 </table>
 
 
-
+<a name=REST-API></a>
 ## REST API
 
 All API routes are GET requests except for /api/auth, which is POST. Any time data needs to be changed on the server, sockets are used for the request. After the request is completed, any data changed by the request is then emitted under an event named after the data. For example, if a client requests to delete a user, the server will delete the user and then emit an event called “users” which contains the new list of users.
