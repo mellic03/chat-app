@@ -3,14 +3,18 @@
     "name": "Study",
     "image": "image_1.jpg",
     "users": [
-      "mellic03"
+      "mellic03",
+      "sophiejw"
     ],
     "assistants": [],
     "admins": [],
     "channels": [
       {
         "name": "Test Channel 1",
-        "users": ["mellic03", "sophiejw"],
+        "users": [
+          "mellic03",
+          "sophiejw"
+        ],
         "messages": [
           {
             "sender": "mellic03",
@@ -24,7 +28,10 @@
       },
       {
         "name": "Test Channel 2",
-        "users": ["mellic03", "sophiejw"],
+        "users": [
+          "mellic03",
+          "sophiejw"
+        ],
         "messages": [
           {
             "sender": "mellic03",
@@ -36,7 +43,6 @@
           }
         ]
       }
-
     ]
   },
   {
@@ -46,7 +52,10 @@
     "channels": [
       {
         "name": "Test Channel 3",
-        "users": ["mellic03", "sophiejw"],
+        "users": [
+          "mellic03",
+          "sophiejw"
+        ],
         "messages": [
           {
             "sender": "mellic03",

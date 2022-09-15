@@ -26,39 +26,35 @@ module.exports = {
     //   }
     // }
 
-    // fakeDB.groups.forEach(group => {
-    //   group.channels.forEach(channel => {
-
-    //     const socket_channel = io.of(channel.name);
-    //     socket_channel.on("connection", socket => {
-    //       socket.join(socket_channel);
-
-    //       // On message, add to correct channel and re-emit
-    //       socket.on("message", (data) => {
-    //         console.log(data.message);
-    //         // fakeDB.add_message_to_channel(data.message, data.group_name, data.channel_name);
-    //         socket_channel.to(socket_channel).emit("message", data);
-    //       });
-          
-    //       socket.on("unsubscribe", () => {
-    //         console.log(`socket leaving channel: ${channel.name}`);
-    //         socket.leave(socket_channel);
-    //       });
-
-    //     });
-    //   })
-    // });
-    //---------------------------------------------------------------------
-
-    const testChannel = io.of("/test");
-    testChannel.on("connection", (socket) => {
-      
-      socket.on("message", (data) => {
-        console.log(data);
+    fakeDB.groups.forEach(group => {
+      group.channels.forEach(channel => {
         
-        testChannel.to("test").emit("message", data);
-      });
+        let no_whitespace = channel.name.replace(/\s/g, '');
+        const socket_channel = io.of(no_whitespace);
+
+        socket_channel.on("connection", socket => {
+          console.log(`socket joining channel: ${no_whitespace}`);
+          socket.join(socket_channel);
+          
+
+          // On message, add to correct channel and re-emit
+          socket.on("message", (data) => {
+            console.log(data.message);
+            console.log(data.channel_name);
+            fakeDB.add_message_to_channel(data.message, data.group_name, data.channel_name);
+            socket_channel.to(socket_channel).emit("message", data);
+            socket_channel.emit(data.group_name, fakeDB.get_group(data.group_name));
+          });
+          
+          socket.on("unsubscribe", () => {
+            console.log(`socket leaving channel: ${no_whitespace}`);
+            socket.leave(socket_channel);
+          });
+
+        });
+      })
     });
+    //---------------------------------------------------------------------
 
 
     io.on("connection", (socket) => {

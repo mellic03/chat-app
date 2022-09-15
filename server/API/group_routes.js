@@ -22,6 +22,16 @@ module.exports = function(app) {
     });
   });
 
+  // Return the group with name "group_name"
+  app.get("/api/groups/:group_name", (req, res) => {
+    const group_name = req.params.group_name;
+    fakeDB.groups.forEach(group => {
+      if (group.name == group_name) {
+        res.send(group);
+      }
+    });
+  });
+
   // Return an array of channels in “group_name”
   app.get("/api/groups/:group_name/channels", (req, res) => {
     const group_name = req.params.group_name;

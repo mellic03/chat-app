@@ -1,9 +1,9 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { User, UserService } from '../../services/user/user.service';
+import { Router } from '@angular/router';
+import { User } from '../../services/user/user.service';
 import { Channel, Group, GroupService, Message } from '../../services/group/group.service';
-import { HttpClient } from '@angular/common/http';
 import { SocketService } from '../../services/socket/socket.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-chatwindow',
@@ -27,9 +27,10 @@ export class ChatwindowComponent implements OnInit {
   current_channel:Channel = new Channel("");
 
 
-  constructor(private router:Router, private http:HttpClient,
-              private socketService:SocketService, private groupService:GroupService,
-              private userService:UserService, private route:ActivatedRoute)
+  constructor(private router:Router,
+              private socketService:SocketService,
+              private groupService:GroupService,
+              private http:HttpClient)
   { }
 
   ngOnInit(): void {
@@ -49,17 +50,20 @@ export class ChatwindowComponent implements OnInit {
     this.groupService.current_group.subscribe((group) => {
       this.current_group = group;
     });
+
     this.groupService.current_channel.subscribe((channel) => {
       this.current_channel = channel;
-    });
+      // unsubscribe from current group
+      this.socketService.emit("unsubscribe", {});
+      
+      // Listen for messages
+      this.socketService.join_channel(this.current_channel.name);
+      this.socketService.listen_for_event("message").subscribe((data:any) => {
+        this.current_channel.messages.unshift(data.message);
+      });
 
-    // Listen for messages
-    this.socketService.join_channel("test");
-    this.socketService.listen_for_event("message").subscribe((data:any) => {
-      console.log(data);
     });
   }
-
 
   send_message() {
     let msg = {
@@ -67,7 +71,7 @@ export class ChatwindowComponent implements OnInit {
       group_name: this.current_group.name,
       channel_name: this.current_channel.name
     }
-    this.socketService.emit(this.current_channel.name, "message", msg);
+    this.socketService.emit("message", msg);
     this.message = '';
   }
 

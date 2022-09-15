@@ -18,6 +18,9 @@ module.exports = {
   save_groups_to_file: function() {
     fs.writeFileSync(__dirname + "/groups.json", JSON.stringify(this.groups, null, 2));
   },
+  load_groups_from_file: function() {
+    this.groups = JSON.parse(fs.readFileSync(__dirname + "/groups.json"));
+  },
 
   save_users_to_file: function() {
     fs.writeFileSync(__dirname + "/users.json", JSON.stringify(this.users, null, 2));
@@ -56,6 +59,7 @@ module.exports = {
           if (channel.name == channel_name) {
             channel.messages.unshift(message);
             this.save_groups_to_file();
+            this.load_groups_from_file();
           }
         })
       }
@@ -203,6 +207,8 @@ module.exports = {
       }
     );
     this.save_groups_to_file();
+    this.load_groups_from_file();
+
   },
 
   delete_group: function(group_name) {
@@ -211,6 +217,8 @@ module.exports = {
       if (this.groups[i].name == group_name) {
         this.groups.splice(i, 1);
         this.save_groups_to_file();
+        this.load_groups_from_file();
+
         return;
       }
     }
@@ -222,6 +230,8 @@ module.exports = {
         if (this.is_member(username, this.groups[i].users) == false) {
           this.groups[i].users.push(username);
           this.save_groups_to_file();
+          this.load_groups_from_file();
+
           return;
         }
       }
@@ -253,6 +263,8 @@ module.exports = {
       }
     }
     this.save_groups_to_file();
+    this.load_groups_from_file();
+
   },
 
   delete_channel: function(channel_name, group_name) {
@@ -262,6 +274,8 @@ module.exports = {
           if (this.groups[i].channels[j].name == channel_name) {
             this.groups[i].channels.splice(j, 1);
             this.save_groups_to_file();
+            this.load_groups_from_file();
+
             return;
           }
         }
@@ -287,6 +301,8 @@ module.exports = {
             if (this.is_member(username, this.groups[i].channels[j].users) == false) {
               this.groups[i].channels[j].users.push(username);
               this.save_groups_to_file();
+              this.load_groups_from_file();
+
               return;
             }
           }
@@ -304,6 +320,8 @@ module.exports = {
               if (this.groups[i].channels[j].users[k] == username) {
                 this.groups[i].channels[j].users.splice(k, 1);
                 this.save_groups_to_file();
+                this.load_groups_from_file();
+
               }
             }
           }

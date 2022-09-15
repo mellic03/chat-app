@@ -32,7 +32,6 @@ export class ChatComponent implements OnInit {
   { }
 
   ngOnInit(): void {
-
     // Get info of logged-in user. If null, redirect to login page.
     if (typeof(localStorage) !== undefined) {
       // First get info from localStorage, then get updated info from server.
@@ -83,9 +82,11 @@ export class ChatComponent implements OnInit {
       this.groupService.current_group.subscribe((group) => {
         this.current_group = group;
       });
+
       this.groupService.current_channel.subscribe((channel) => {
         this.current_channel = channel;
       });
+
       this.groupService.set_current_group(this.groups[0]);
       this.groupService.set_current_channel(this.current_group.channels[0]);
       this.open_group(this.current_group);
@@ -105,12 +106,14 @@ export class ChatComponent implements OnInit {
   open_group(group:Group) {
     this.set_group(group);
     this.set_channel(group.channels[0]);
-    // Listen for changes to group through sockets
-    this.socketService.listen_for_event(this.current_group.name).subscribe((group:any) => {
-      this.current_group = group;
-    });
     this.get_permission_level();
+    // Listen for changes in group data.
+    this.socketService.listen_for_event(group.name).subscribe((group:any) => {
+      console.log("haaaw");
+      this.groupService.set_current_group(group);
+    });
   }
+  
   // Navigate to the chat window for a given channel
   open_channel(channel:Channel) {
     this.set_channel(channel);

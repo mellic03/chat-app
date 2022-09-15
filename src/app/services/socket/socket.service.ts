@@ -20,11 +20,11 @@ export class SocketService {
   }
 
   join_channel(channel_name:string) {
+    channel_name = channel_name.replace(/\s/g, '');
     this.socket = io(this.server_url + channel_name, { transports: ['websocket'] });
   }
 
-  emit(channel_name:string, event:string, data:Object) {
-    this.join_channel(channel_name);
+  emit(event:string, data:Object) {
     this.socket.emit(event, data);
   }
 

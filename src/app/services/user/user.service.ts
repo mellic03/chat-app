@@ -18,7 +18,7 @@ export class UserService {
   constructor(private socketService:SocketService) { }
 
   create_user(username:string, email:string, password:string) {
-    this.socketService.emit("admin", "create_user", {
+    this.socketService.emit("create_user", {
       username: username,
       email: email,
       password: password
@@ -26,60 +26,60 @@ export class UserService {
   }
   
   delete_user(username:string) {
-    this.socketService.emit("admin", "delete_user", {
+    this.socketService.emit("delete_user", {
       username: username
     });
   }
   
   set_role(username:string, role:number) {
-    this.socketService.emit("admin", "set_role", {
+    this.socketService.emit("set_role", {
       username: username,
       role: role
     });
   }
 
   create_group(group_name:string) {
-    this.socketService.emit("admin", "create_group", {
+    this.socketService.emit("create_group", {
       group_name: group_name
     })
   }
   
   delete_group(group_name:string) {
-    this.socketService.emit("admin", "delete_group", {
+    this.socketService.emit("delete_group", {
       group_name: group_name
     });
   }
   
   add_user_to_group(user_id:number, group_id:number) {
-    this.socketService.emit("admin", "add_user_to_group", {
+    this.socketService.emit("add_user_to_group", {
       user_id: user_id,
       group_id: group_id
     });
   }
   
   remove_user_from_group(username:string, group_name:string) {
-    this.socketService.emit("admin", "remove_user_from_group", {
+    this.socketService.emit("remove_user_from_group", {
       username: username,
       group_name: group_name
     });
   }
   
   create_channel(channel_name:string, group_name:string) {
-    this.socketService.emit("admin", "create_channel", {
+    this.socketService.emit("create_channel", {
       channel_name: channel_name,
       group_name: group_name
     });
   }
   
   delete_channel(channel_name:string, group_name:string) {
-    this.socketService.emit("admin", "delete_channel", {
+    this.socketService.emit("delete_channel", {
       channel_name: channel_name,
       group_name: group_name
     });
   }
   
   add_user_to_channel(username:string, group_name:string, channel_name:string) {
-    this.socketService.emit("admin", "add_user_to_channel", {
+    this.socketService.emit("add_user_to_channel", {
       username: username,
       group_name: group_name,
       channel_name: channel_name
@@ -87,7 +87,7 @@ export class UserService {
   }
   
   remove_user_from_channel(username:string, group_name:string, channel_name:string) {
-    this.socketService.emit("admin", "remove_user_from_channel", {
+    this.socketService.emit("remove_user_from_channel", {
       username: username,
       group_name: group_name,
       channel_name: channel_name
