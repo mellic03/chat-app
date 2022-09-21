@@ -107,9 +107,8 @@ export class ChatComponent implements OnInit {
     this.set_group(group);
     this.set_channel(group.channels[0]);
     this.get_permission_level();
-    // Listen for changes in group data.
+    // Listen for changes to group data.
     this.socketService.listen_for_event(group.name).subscribe((group:any) => {
-      console.log("haaaw");
       this.groupService.set_current_group(group);
     });
   }

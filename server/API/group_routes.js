@@ -1,6 +1,6 @@
 const fakeDB = require('../fakeDB/fakeDB');
 
-module.exports = function(app) {
+module.exports = function(app, db) {
 
   // Return an array of all groups
   app.get("/api/groups", (req, res) => {

@@ -21,7 +21,17 @@ sockets.connect(io, PORT);
 server.listen(http, PORT);
 
 // Routes
-require("./API/routes")(app);
+
+const MongoClient = require("mongodb").MongoClient;
+const uri = "mongodb://127.0.0.1:27017/mydb";
+MongoClient.connect(uri, {}, (err, client) => {
+  if (err) {return console.log(err)};
+
+  const db = client.db("mydb");
+  const products = db.collection("products");
+  
+
+  require("./API/routes")(app, db);
 
 
-
+});

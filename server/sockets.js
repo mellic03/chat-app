@@ -6,26 +6,6 @@ module.exports = {
 
   connect: function(io, PORT) {
 
-    // Define function on "connection" and on "message" for each channel.
-    //---------------------------------------------------------------------
-    // Not sure if I need to push the channels to an array for later use.
-    // let count = 0;
-    // for (let i=0; i<fakeDB.groups.length; i++) {
-    //   for (let j=0; j<fakeDB.groups[i].channels.length; j++) {
-
-    //     channels[count] = io.of("/" + fakeDB.groups[i].channels[j].name);
-    //     channels[count].on("connection", socket => {
-    //       console.log(`Connected to channel: ${fakeDB.groups[i].channels[j].name}`);
-  
-    //       socket.on("message", data => {
-    //         console.log(data);
-    //       });
-    //     });
-
-    //     count++;
-    //   }
-    // }
-
     fakeDB.groups.forEach(group => {
       group.channels.forEach(channel => {
         
