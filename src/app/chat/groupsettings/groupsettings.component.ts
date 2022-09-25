@@ -45,11 +45,6 @@ export class GroupsettingsComponent implements OnInit {
     // Get permission level from localStorage
     this.current_role = JSON.parse(String(localStorage.getItem("user_info"))).role;
 
-    // Listen for any changes to group data.
-    this.socketService.listen_for_event(this.group_name).subscribe((group:any) => {
-      this.group = group;
-    });
-
     // Get list of channels in group from server
     let api_url = `http://159.196.6.181:3000/api/groups/${this.group_name}/channels`;
     this.http.get(api_url).subscribe((channels:any) => {

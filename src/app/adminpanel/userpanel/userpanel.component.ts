@@ -35,6 +35,7 @@ export class UserpanelComponent implements OnInit {
     const USER_API = "http://159.196.6.181:3000/api/users";
     this.http.get<Array<any>>(USER_API).subscribe(users => {
       this.all_users = users;
+      console.log(users);
     });
 
     // Get current user information
@@ -49,11 +50,11 @@ export class UserpanelComponent implements OnInit {
 
   // Forms
   //----------------------------------------------------
-  // Create user.
+  // Create user
   new_user_form = this.formBuilder.group({
     username: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required])
   });
   create_user() {
     this.close_modal("create");
@@ -61,14 +62,24 @@ export class UserpanelComponent implements OnInit {
     this.userService.create_user(data.username, data.email, data.password);
   }
 
-  // Delete user.
+  // Delete user
   delete_user_form = this.formBuilder.group({
-    username: new FormControl('', [Validators.required]),
+    username: new FormControl('', [Validators.required])
   });
   delete_user() {
     this.close_modal("delete");
     const data = this.delete_user_form.value;
     this.userService.delete_user(data.username);
+  }
+
+  // Update user permissions
+  permission_form = this.formBuilder.group({
+    username: new FormControl('', [Validators.required]),
+    role: new FormControl('', [Validators.required])
+  });
+  update_user_permissions() {
+    const data = this.permission_form.value;
+    this.userService.set_role(data.username, data.role);
   }
   //----------------------------------------------------
 

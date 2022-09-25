@@ -1,4 +1,4 @@
-module.exports = function(app, db) {
-  require("./user_routes")(app, db);
-  require("./group_routes")(app, db);
+module.exports = function(app, MongoClient) {
+  require("./user_routes")(app, MongoClient);
+  require("./group_routes")(app, MongoClient);
 }

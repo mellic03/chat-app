@@ -75,10 +75,10 @@ export class ChatComponent implements OnInit {
   retrieve_group_data() {
     const username = this.current_user.username;
     const API_URL = `http://159.196.6.181:3000/api/users/${username}/groups`;
+
     this.http.get<Array<Group>>(API_URL).subscribe((data) => {
       this.groups = data;
 
-      // Open the first channel of the first group.
       this.groupService.current_group.subscribe((group) => {
         this.current_group = group;
       });
@@ -95,11 +95,9 @@ export class ChatComponent implements OnInit {
 
   set_group(group:Group) {
     this.groupService.set_current_group(group);
-    this.current_group = group;
   }
   set_channel(channel:Channel) {
     this.groupService.set_current_channel(channel);
-    this.current_channel = channel;
   }
 
   // View the channels in a group
@@ -107,13 +105,18 @@ export class ChatComponent implements OnInit {
     this.set_group(group);
     this.set_channel(group.channels[0]);
     this.get_permission_level();
+
     // Listen for changes to group data.
     this.socketService.listen_for_event(group.name).subscribe((group:any) => {
-      this.groupService.set_current_group(group);
+      if (group != false) {
+        // this.groupService.set_current_group(group);
+        this.current_group = group;
+        this.current_channel = group.channels?.[0];
+      }
     });
   }
   
-  // Navigate to the chat window for a given channel
+  // Navigate to the chat window of a given channel
   open_channel(channel:Channel) {
     this.set_channel(channel);
   }

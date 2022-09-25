@@ -9,6 +9,8 @@ export class SocketService {
 
   server_url = "http://159.196.6.181:3000/";
   private socket = io(this.server_url, { transports: ['websocket'] });
+  current_channel:string = "";
+
   constructor() { }
 
   listen_for_event(event:string) {
@@ -20,12 +22,26 @@ export class SocketService {
   }
 
   join_channel(channel_name:string) {
-    channel_name = channel_name.replace(/\s/g, '');
+    this.emit("unsubscribe", {});
+    this.current_channel = channel_name;
+    channel_name = channel_name.replace(/\s/g, '-');
     this.socket = io(this.server_url + channel_name, { transports: ['websocket'] });
   }
 
-  emit(event:string, data:Object) {
-    this.socket.emit(event, data);
+  emit(event:string, data:Object, channel:string = "") {
+
+    if (channel == "admin") {
+      let backup_channel:string = this.current_channel;
+     
+      this.join_channel("admin");
+      this.socket.emit(event, data);
+      this.join_channel(backup_channel);
+    }
+
+    else {
+      this.socket.emit(event, data);
+    }
   }
 
 }
+

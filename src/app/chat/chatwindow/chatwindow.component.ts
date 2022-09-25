@@ -46,23 +46,7 @@ export class ChatwindowComponent implements OnInit {
       }
     }
 
-    // Get group/channel data from groupService
-    this.groupService.current_group.subscribe((group) => {
-      this.current_group = group;
-    });
 
-    this.groupService.current_channel.subscribe((channel) => {
-      this.current_channel = channel;
-      // unsubscribe from current group
-      this.socketService.emit("unsubscribe", {});
-      
-      // Listen for messages
-      this.socketService.join_channel(this.current_channel.name);
-      this.socketService.listen_for_event("message").subscribe((data:any) => {
-        this.current_channel.messages.unshift(data.message);
-      });
-
-    });
   }
 
   send_message() {
@@ -74,6 +58,5 @@ export class ChatwindowComponent implements OnInit {
     this.socketService.emit("message", msg);
     this.message = '';
   }
-
 
 }

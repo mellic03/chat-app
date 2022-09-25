@@ -1,10 +1,11 @@
 const fakeDB = require('../fakeDB/fakeDB');
 
-module.exports = function(app) {
+module.exports = function(app, db) {
+  const DB = require("../DB/mongodb")(db);
 
   // User authorisation. Move this somewhere else later.
   app.post('/api/auth', (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     const email = req.body.email;
     const pass = req.body.password;
     const user = fakeDB.verify_user(email, pass);
@@ -14,7 +15,10 @@ module.exports = function(app) {
 
   // Return an array of all usernames
   app.get("/api/users", (req, res) => {
-    res.send(fakeDB.users);
+    const users = db.collection("users");
+    users.find({}).toArray((err, arr) => {
+      res.send(arr);
+    });
   });
 
   // Return user information of a given user
@@ -27,51 +31,35 @@ module.exports = function(app) {
   });
 
 
-  // WHY IS THIS HERE? THIS SHOULD BE IN FAKEDB.JS
   // Return an array of groups which “username” is a member of
   app.get("/api/users/:username/groups", (req, res) => {
     const username = req.params.username;
 
-    // Get role of user, if role == 3, then user is super admin and has access to all groups.
-    let role = 0;
-    fakeDB.users.forEach(user => {
-      if (user.username == username) {
-        role = user.role;
-      }
-    });
+    DB.get_groups_of_user(username).then(groups => {
+      DB.get_channels_of_user(username).then(channels => {
 
-    if (role == 3) {
-      res.send(fakeDB.groups);
-    }
-
-    else {
-      // Find groups that the user is a member of
-      let groups_of_user = [];
-      fakeDB.groups.forEach(group => {
-        group.users.forEach(user => {
-          if (user == username) {
-            groups_of_user.push(group);
-          }
-        })
-      });
-
-      // Remove channels that the user is not a member of
-      groups_of_user.forEach(group => {
-        for (let i=group.channels.length-1; i>0; i--) {
-          let is_member = false;
-          group.channels[i].users.forEach(user => {
-            if (user == username) {
-              is_member = true;
+        for (let i=0; i<groups.length; i++) { // For each group
+          for (let j=0; j<channels.length; j++) { // For each channel
+            for (let k=0; k<groups[i].channels.length; k++) { // For each channel name in group
+              if (channels[j].name == groups[i].channels[k]) {
+                groups[i].channels.push(channels[j]);
+              }
             }
-          });
-          if (is_member == false) {
-            group.channels.splice(i, 1);
+          }
+          // remove strings from channels array
+          for (let j=0; j<groups[i].channels.length; j++) {
+            if (typeof(groups[i].channels[j]) == "string") {
+              groups[i].channels.splice(j, 1);
+              j--;
+            }
           }
         }
-      });
 
-      res.send(groups_of_user);
-    }
+          // console.log(groups[i].channels);
+        
+        res.send(groups);
+      });
+    }).catch(err => console.log(err));
   });
 
   // Return an array of all username-userid pairs as JavaScript objects
@@ -92,7 +80,6 @@ module.exports = function(app) {
       }
     });
   });
-
 
 
   // Return the username belonging to "user_id"

@@ -49,24 +49,24 @@
     </menu-item>
 
     <menu-item title="User Permissions">
-      
+      <form [formGroup]="permission_form" (ngSubmit)="permission_form.valid && update_user_permissions()">
+
         <label>Username</label>
-        <select class="form-select" aria-label="Default select example" [(ngModel)]="selected_user">
-          <option disabled selected value></option>
+        <select formControlName="username" class="form-select" aria-label="Default select example">
+          <option disabled selected value> -- select user -- </option>
           <option *ngFor="let user of all_users; index as i;" [ngValue]="user.username">{{user.username}}</option>
         </select>
         
         <label>Role</label>
-        <select class="form-select" [(ngModel)]="selected_role" aria-label="Default select example">
-          <option disabled selected value></option>
-          <option>User</option>
-          <option [ngValue]="'group assisstant'">Group Assistant</option>
-          <option [ngValue]="'group admin'" *ngIf="current_user.role >= 3">Group Admin</option>
-          <option *ngIf="current_user.role >= 3">Super Admin</option>
+        <select formControlName="role" class="form-select" aria-label="Default select example">
+          <option disabled selected value> -- select role -- </option>
+          <option [ngValue]="0" >User</option>
+          <option [ngValue]="1">Group Assistant</option>
+          <option [ngValue]="2" *ngIf="current_user.role >= 3">Group Admin</option>
+          <option [ngValue]="3" *ngIf="current_user.role >= 3">Super Admin</option>
         </select>
-
+        
         <!-- I promise I will remove this -->
-      
         <ng-container style="margin-top: 10px;" *ngIf="selected_role == 'group assisstant' || selected_role == 'group admin'">
           <label>Group to make {{selected_user}} {{selected_role}}</label>
           <select class="form-select" aria-label="Default select example">
@@ -76,8 +76,14 @@
             <option>Not functional</option>
           </select>
         </ng-container>
-        <button style="margin-top: 10px; margin-bottom: 10px;" class="btn btn-secondary btn-sm">Update</button>
-      <!------------------------------------>
+        <!------------------------------------>
+        <button
+        [disabled]="!permission_form.valid"
+        type="submit"
+        class="btn btn-secondary btn-sm">
+        Update
+        </button>
+      </form>
 
     </menu-item>
   </div>

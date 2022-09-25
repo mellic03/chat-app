@@ -46,7 +46,7 @@ module.exports = {
   //-----------------------------------------
 
 
-  /** Adds a message to the messages array of a given channel
+  /** Add a message to the messages array of a given channel
    * @param {Object} message message object
    * @param {string} group_name
    * @param {string} channel_name

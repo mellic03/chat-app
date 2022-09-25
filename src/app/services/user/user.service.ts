@@ -22,60 +22,60 @@ export class UserService {
       username: username,
       email: email,
       password: password
-    });
+    }, "admin");
   }
   
   delete_user(username:string) {
     this.socketService.emit("delete_user", {
       username: username
-    });
+    }, "admin");
   }
   
   set_role(username:string, role:number) {
     this.socketService.emit("set_role", {
       username: username,
       role: role
-    });
+    }, "admin");
   }
 
   create_group(group_name:string) {
     this.socketService.emit("create_group", {
       group_name: group_name
-    })
+    }, "admin")
   }
   
   delete_group(group_name:string) {
     this.socketService.emit("delete_group", {
       group_name: group_name
-    });
+    }, "admin");
   }
   
   add_user_to_group(user_id:number, group_id:number) {
     this.socketService.emit("add_user_to_group", {
       user_id: user_id,
       group_id: group_id
-    });
+    }, "admin");
   }
   
   remove_user_from_group(username:string, group_name:string) {
     this.socketService.emit("remove_user_from_group", {
       username: username,
       group_name: group_name
-    });
+    }, "admin");
   }
   
   create_channel(channel_name:string, group_name:string) {
     this.socketService.emit("create_channel", {
       channel_name: channel_name,
       group_name: group_name
-    });
+    }, "admin");
   }
   
   delete_channel(channel_name:string, group_name:string) {
     this.socketService.emit("delete_channel", {
       channel_name: channel_name,
       group_name: group_name
-    });
+    }, "admin");
   }
   
   add_user_to_channel(username:string, group_name:string, channel_name:string) {
@@ -83,7 +83,7 @@ export class UserService {
       username: username,
       group_name: group_name,
       channel_name: channel_name
-    });
+    }, "admin");
   }
   
   remove_user_from_channel(username:string, group_name:string, channel_name:string) {
@@ -91,7 +91,7 @@ export class UserService {
       username: username,
       group_name: group_name,
       channel_name: channel_name
-    });
+    }, "admin");
   }
 }
 
