@@ -1,13 +1,13 @@
 <div class="root">
 
   <div class="groups">
-    <groupbutton *ngFor="let group of groups;" group_name="{{group.name}}" (click)="open_group(group)"></groupbutton>
+    <groupbutton *ngFor="let group of all_groups;" group_name="{{group?.name}}" (click)="open_group(group)"></groupbutton>
   </div>
 
   <div class="channels-root">
 
     <div class="group-name">
-      <p>{{current_group.name}}</p>
+      <p>{{current_group?.name}}</p>
       <!-- Permission level must be at least 1 (group assistant) to open admin panel -->
       <a
         *ngIf="permissionlevel >= 1 && admin_panel_open == false;"

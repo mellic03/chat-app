@@ -23,6 +23,9 @@ export class UserpanelComponent implements OnInit {
   selected_user:string = '';
   selected_role:string = '';
 
+  show_create_user_error:boolean = false;
+
+
   constructor(private userService:UserService,
               private http:HttpClient,
               private formBuilder: FormBuilder,
@@ -42,9 +45,14 @@ export class UserpanelComponent implements OnInit {
     this.current_user = JSON.parse(String(localStorage.getItem("user_info")));
 
     // Listen for changes to user data
-    this.socketService.listen_for_event("users").subscribe((users:any) => {
-      // console.log(users);
-      this.all_users = users;
+    this.socketService.listen_for_event(`${this.current_user.username}/create_user`, "blyat").subscribe((users:any) => {
+      if (users == false) {
+        this.show_create_user_error = true;
+      }
+      else {
+        this.all_users = users;
+        this.show_create_user_error = false;
+      }
     });
   }
 
@@ -59,7 +67,8 @@ export class UserpanelComponent implements OnInit {
   create_user() {
     this.close_modal("create");
     const data = this.new_user_form.value;
-    this.userService.create_user(data.username, data.email, data.password);
+    this.userService.create_user(data.username, data.email, data.password, this.current_user.username);
+    this.new_user_form.reset();
   }
 
   // Delete user
@@ -70,6 +79,7 @@ export class UserpanelComponent implements OnInit {
     this.close_modal("delete");
     const data = this.delete_user_form.value;
     this.userService.delete_user(data.username);
+    this.delete_user_form.reset();
   }
 
   // Update user permissions
@@ -80,6 +90,7 @@ export class UserpanelComponent implements OnInit {
   update_user_permissions() {
     const data = this.permission_form.value;
     this.userService.set_role(data.username, data.role);
+    this.permission_form.reset();
   }
   //----------------------------------------------------
 

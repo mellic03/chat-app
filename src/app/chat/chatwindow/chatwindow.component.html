@@ -1,11 +1,11 @@
 <div class="chat-root">
 
   <div class="chat-title">
-    <h2>{{current_channel?.name}}</h2>
+    <h2>{{channel_name}}</h2>
   </div>
 
   <div class="chat-window" id="chat-window">
-    <div *ngFor="let msg of current_channel?.messages; index as i;">
+    <div *ngFor="let msg of current_channel?.messages;">
       
       <!-- PRIME CUSTOM COMPONENT CANDIDATE RIGHT HERE -->
       <div class="non-user-message" *ngIf="msg.sender != current_user.username">

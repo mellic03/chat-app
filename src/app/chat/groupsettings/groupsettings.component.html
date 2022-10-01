@@ -15,7 +15,7 @@
               <p>Add:</p>
               <select formControlName="username" class="form-select" aria-label="Default select example">
                 <option disabled selected value> -- select user -- </option>
-                <option *ngFor="let user of users;">{{user.username}}</option>
+                <option *ngFor="let user of all_users;">{{user.username}}</option>
               </select>
               <p >To:</p>
               <select formControlName="channel_name" class="form-select" aria-label="Default select example">
@@ -39,7 +39,7 @@
               <p>Remove:</p>
               <select formControlName="username" class="form-select" aria-label="Default select example">
                 <option disabled selected value> -- select user -- </option>
-                <option *ngFor="let user of users;">{{user.username}}</option>
+                <option *ngFor="let user of users_of_group;">{{user.username}}</option>
               </select>
               <p>From:</p>
               <select formControlName="channel_name" class="form-select" aria-label="Default select example">
@@ -61,7 +61,7 @@
               <p>Remove: </p>
             <select formControlName="username" class="form-select" aria-label="Default select example">
               <option disabled selected value> -- select user -- </option>
-              <option *ngFor="let user of users;">{{user.username}}</option>
+              <option *ngFor="let user of users_of_group;">{{user.username}}</option>
             </select>
             <button
               [disabled]="!remove_user_from_group_form.valid"
@@ -97,7 +97,7 @@
           <div class="form-group">
             <select formControlName="channel_name" class="form-select" aria-label="Default select example">
               <option disabled selected value> -- select channel -- </option>
-              <option *ngFor="let channel of channels;">{{channel.name}}</option>
+              <option *ngFor="let channel of group.channels;">{{channel.name}}</option>
             </select>
             <button
               [disabled]="!delete_channel_form.valid"

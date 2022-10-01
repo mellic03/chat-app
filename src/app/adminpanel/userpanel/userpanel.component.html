@@ -24,9 +24,9 @@
             class="btn btn-primary btn-sm">
             Create User
           </button>
-          
         </div>
       </form>
+      <p class="submit-error" *ngIf="show_create_user_error">*user already exists</p>
     </menu-item>
     
     <!-- role => 3 to delete users (super admin) -->
@@ -84,7 +84,6 @@
         Update
         </button>
       </form>
-
     </menu-item>
   </div>
 </div>

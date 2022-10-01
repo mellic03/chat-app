@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User, UserService } from '../services/user/user.service';
-import { Channel, Group, GroupService } from '../services/group/group.service';
+import { Channel, Group, GroupService, Message } from '../services/group/group.service';
 import { HttpClient } from '@angular/common/http';
 import { SocketService } from '../services/socket/socket.service';
 
@@ -16,10 +16,10 @@ export class ChatComponent implements OnInit {
   current_user:User = new User("", "");
   permissionlevel:number = 0; // Permission level of user in the current group
 
-  groups:Array<Group> = [];
+  all_groups:Array<Group> = [];
 
   current_group:Group = new Group();
-  current_channel:Channel = new Channel();
+  current_channel:Channel = new Channel("");
   
   admin_panel_open:boolean = false;
 
@@ -53,7 +53,7 @@ export class ChatComponent implements OnInit {
 
   // Get permission level for current group
   get_permission_level() {
-
+    // console.log(this.current_user);
     // If system-wide role is super admin, set to 3 and skip rest
     if (this.current_user.role >= 3) {
       this.permissionlevel = 3;
@@ -61,7 +61,7 @@ export class ChatComponent implements OnInit {
     }
 
     this.permissionlevel = 0; // reset permissionlevel
-    let permissions = this.current_user.permissionlevels;
+    let permissions = this.current_user.permission_levels;
     // console.log(this.current_user)
     Object.entries(permissions).forEach(([key, value]) => {
       if (key == this.current_group.name) {
@@ -76,49 +76,49 @@ export class ChatComponent implements OnInit {
     const username = this.current_user.username;
     const API_URL = `http://159.196.6.181:3000/api/users/${username}/groups`;
 
-    this.http.get<Array<Group>>(API_URL).subscribe((data) => {
-      this.groups = data;
-
-      this.groupService.current_group.subscribe((group) => {
-        this.current_group = group;
-      });
-
-      this.groupService.current_channel.subscribe((channel) => {
-        this.current_channel = channel;
-      });
-
-      this.groupService.set_current_group(this.groups[0]);
-      this.groupService.set_current_channel(this.current_group.channels[0]);
-      this.open_group(this.current_group);
+    this.http.get<Array<Group>>(API_URL).subscribe((groups) => {
+      this.all_groups = groups;
+      this.open_group(groups[0]);
     });
-  }
 
-  set_group(group:Group) {
-    this.groupService.set_current_group(group);
-  }
-  set_channel(channel:Channel) {
-    this.groupService.set_current_channel(channel);
+    this.groupService.current_group.subscribe((group) => {
+      this.current_group = group;
+    });
+
+    this.groupService.current_channel.subscribe((channel) => {
+      this.current_channel = channel;
+    });
   }
 
   // View the channels in a group
   open_group(group:Group) {
-    this.set_group(group);
-    this.set_channel(group.channels[0]);
+    this.groupService.set_current_group(group);
     this.get_permission_level();
+    this.open_channel(group.channels[0]);
 
-    // Listen for changes to group data.
-    this.socketService.listen_for_event(group.name).subscribe((group:any) => {
-      if (group != false) {
-        // this.groupService.set_current_group(group);
-        this.current_group = group;
-        this.current_channel = group.channels?.[0];
-      }
+    // Listen for changes to group data
+    this.socketService.listen_for_event(group.name, "blyat").subscribe((group:any) => {
+      this.groupService.set_current_group(group);
     });
   }
   
   // Navigate to the chat window of a given channel
   open_channel(channel:Channel) {
-    this.set_channel(channel);
+    
+    // Don't allow user to join same channel multiple times at once
+    // if (this.current_channel.name != channel.name) {
+      console.log(`E: ${this?.current_group.name}/${channel?.name}`);
+      this.socketService.join_channel(`${this.current_group?.name}/${channel.name}`);
+      
+      this.groupService.set_current_channel(channel);
+      
+      this.socketService.listen_for_event("message").subscribe((data:any) => {
+        console.log("Message recieved");
+        this.current_channel.messages.unshift(data.message);
+      });
+    // }
+      
+    this.router.navigate(["/chat/chatwindow", this.current_group.name, this.current_channel.name]);
   }
 
   // Open the settings page for the current group.
@@ -132,5 +132,4 @@ export class ChatComponent implements OnInit {
     this.router.navigate(["/chat"]);
     this.retrieve_group_data();
   }
-
 }

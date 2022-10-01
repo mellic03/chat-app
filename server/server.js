@@ -18,8 +18,16 @@ const PORT = 3000;
 
 server.listen(http, PORT);
 
-// Routes
 
+const fs = require("fs");
+const { PeerServer } = require("peer");
+
+const peerServer = PeerServer({
+  port: 3001,
+});
+
+
+// Routes
 const MongoClient = require("mongodb").MongoClient;
 const uri = "mongodb://127.0.0.1:27017/mydb";
 MongoClient.connect(uri, {}, (err, client) => {

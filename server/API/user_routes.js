@@ -8,8 +8,10 @@ module.exports = function(app, db) {
     // console.log(req.body);
     const email = req.body.email;
     const pass = req.body.password;
-    const user = fakeDB.verify_user(email, pass);
-    res.send(user)
+    DB.verify_user(email, pass).then((usr) => {
+      if (usr != false)
+        res.send(usr);
+    });
   });
 
 
@@ -23,10 +25,8 @@ module.exports = function(app, db) {
 
   // Return user information of a given user
   app.get("/api/users/:username", (req, res) => {
-    fakeDB.users.forEach(user => {
-      if (user.username == req.params.username) {
-        res.send(user);
-      }
+    DB.get_user(req.params.username).then(usr => {
+      res.send(usr);
     });
   });
 
@@ -34,32 +34,20 @@ module.exports = function(app, db) {
   // Return an array of groups which “username” is a member of
   app.get("/api/users/:username/groups", (req, res) => {
     const username = req.params.username;
-
     DB.get_groups_of_user(username).then(groups => {
-      DB.get_channels_of_user(username).then(channels => {
-
-        for (let i=0; i<groups.length; i++) { // For each group
-          for (let j=0; j<channels.length; j++) { // For each channel
-            for (let k=0; k<groups[i].channels.length; k++) { // For each channel name in group
-              if (channels[j].name == groups[i].channels[k]) {
-                groups[i].channels.push(channels[j]);
-              }
+      DB.get_channels_of_user(username).then((channels) => {
+        console.log(channels);
+        groups.forEach(group => {
+          group.channels = [];
+          channels.forEach(channel => {
+            if (channel.parent_group == group.name) {
+              group.channels.push(channel);
             }
-          }
-          // remove strings from channels array
-          for (let j=0; j<groups[i].channels.length; j++) {
-            if (typeof(groups[i].channels[j]) == "string") {
-              groups[i].channels.splice(j, 1);
-              j--;
-            }
-          }
-        }
-
-          // console.log(groups[i].channels);
-        
+          });
+        });
         res.send(groups);
       });
-    }).catch(err => console.log(err));
+    });
   });
 
   // Return an array of all username-userid pairs as JavaScript objects

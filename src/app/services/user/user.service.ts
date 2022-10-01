@@ -17,11 +17,18 @@ export class UserService {
 
   constructor(private socketService:SocketService) { }
 
-  create_user(username:string, email:string, password:string) {
+  /**
+   * @param username 
+   * @param email 
+   * @param password 
+   * @param executor Username of user performing this action
+   */
+  create_user(username:string, email:string, password:string, executor:string) {
     this.socketService.emit("create_user", {
       username: username,
       email: email,
-      password: password
+      password: password,
+      executor: executor
     }, "admin");
   }
   
@@ -38,9 +45,14 @@ export class UserService {
     }, "admin");
   }
 
-  create_group(group_name:string) {
+  /**
+   * @param group_name Name of the new group
+   * @param executor Username of user performing this action
+   */
+  create_group(group_name:string, executor:string) {
     this.socketService.emit("create_group", {
-      group_name: group_name
+      group_name: group_name,
+      executor: executor
     }, "admin")
   }
   
@@ -93,6 +105,14 @@ export class UserService {
       channel_name: channel_name
     }, "admin");
   }
+
+  update_peer_id(username:string, id:string) {
+    this.socketService.emit("update_peer_id", {
+      username: username,
+      peer_id: id
+    }, "admin");
+  }
+
 }
 
 export class User {
@@ -122,7 +142,7 @@ export class User {
   //   REMOVE_USER_FROM_CHANNEL: false
   // };
   
-  permissionlevels:Object = {};
+  permission_levels:Object = {};
 
   constructor(username:string, email:string) {
     this.username = username;

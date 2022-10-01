@@ -2,22 +2,76 @@ module.exports = function(db) {
 
   let module = {};
 
+  module.verify_user = function(email, password) {
+    return new Promise((resolve, reject) => {
+      
+      const users = db.collection("users");
+      users.findOne({email: email, password: password}, (err, usr) => {
+        if (usr == null)
+          resolve(false);
+        else
+          resolve(usr);
+      });
+    });
+  }
+
   module.create_user = function(username, email, password) {
-    const users = db.collection("users");
-    users.insertOne({
-      username: username,
-      email: email,
-      password: password,
-      role: 0,
-      groups: [],
-      channels: []
+    return new Promise((resolve, reject) => {
+      const users = db.collection("users");
+      const new_user = {
+        username: username,
+        email: email,
+        password: password,
+        role: 0,
+        groups: [],
+        permission_levels: {}
+      };
+
+      users.findOne({username: username}, (err, usr) => {
+        if (usr != null)
+          reject(`User with username '${username} already exists'`);
+        else {
+          users.insertOne(new_user, (err, res) => {
+            users.find({}).toArray((err, usr_array) => {
+              resolve(usr_array);
+            })
+          });
+        }
+      });
     });
   }
 
   module.delete_user = function(username) {
-    const users = db.collection("users");
-    users.deleteOne({username: username}, (err, res) => {
-      // console.log(res);
+
+    return new Promise((resolve, reject) => {
+      const users = db.collection("users");
+      users.findOne({username: username}, (err, usr) => {
+        // if usr doesn't exist
+        if (usr == null)
+          resolve(false);
+        else {
+          users.deleteOne({username: username}, (err, res) => {
+            users.find().toArray((err, usr_array) => {
+              resolve(usr_array);
+            });
+          });
+        }
+      });
+
+    });
+  }
+
+  module.get_user = function(username) {
+ 
+    return new Promise((resolve, reject) => {
+      db.collection("users").findOne({username: username}, (err, usr) => {
+        if (usr != null) {
+          usr.password = "";
+          resolve(usr);
+        }
+        else
+          resolve(false);
+      });
     });
   }
 
@@ -32,19 +86,24 @@ module.exports = function(db) {
     return new Promise((resolve, reject) => {
 
       const channels = db.collection("channels");
-      channels.findOne({name: channel_name}, (err, channel) => {
-        if (err) reject(err);
+      channels.findOne({name: channel_name, parent_group: group_name}, (err, channel) => {
+        if (channel == null) {
+          console.log(`channel '${channel_name}' not found in database (module.add_message_to_channel())`);
+          resolve(false);
+        }
+        else {
 
-        channel.messages.unshift(message);
-        
-        const update = {
-          $set: { messages: channel.messages }
-        };
-
-        channels.updateOne({name: channel_name}, update, (err, res) => {
-          if (err) reject(err);
-          resolve(true);
-        });
+          channel.messages.unshift(message);
+          
+          const update = {
+            $set: { messages: channel.messages }
+          };
+          
+          channels.updateOne({name: channel_name, parent_group: group_name}, update, (err, res) => {
+            if (err) reject(err);
+            resolve(true);
+          });
+        }
       });
     });
   }
@@ -55,75 +114,53 @@ module.exports = function(db) {
    */
   module.get_groups_of_user = function(username) {
     return new Promise((resolve, reject) => {
-
-      // Open users collection
+      const groups = db.collection("groups");
       const users = db.collection("users");
+      
+      // Check user role, if super, return all groups
       users.findOne({username: username}, (err, usr) => {
-        if (usr == null) reject("User not found");
-
-        const groups = db.collection("groups");
-        groups.find().toArray((err, group_arr) => {
-          
-          if (err) reject(err);
-
-          if (usr.role >= 3) // If super, return all groups
-            resolve(group_arr);
-
-          let user_groups = [];
-          let count = 0;
-          let groups_length = usr.groups.length;
-
-          group_arr.forEach(group => {
-            let index = usr.groups.indexOf(group.name);
-            if (index >= 0)
-              user_groups.push(group);
-          
-            count += 1;
-
-            if (count >= groups_length)
-              resolve(true);
-              
+        if (usr.role >= 3) {
+          groups.find().toArray((err, res) => {
+            // console.log(res);
+            resolve(res);
           });
+        }
 
-
-        });
+        else {
+          groups.find({users: {$all: [username]}}).toArray((err, res) => {
+            console.log(res);
+          });     
+        }
       });
     });
       
   }
 
-  /** Return an array of channels which "username" is a member of
-   * @param {*} username string
+  /** Return an array of channels a user is a member of
+   * 
+   * @param {*} username 
    * @returns 
    */
   module.get_channels_of_user = function(username) {
     return new Promise((resolve, reject) => {
-      
-      // Open users collection
-      const users = db.collection("users");
       const channels = db.collection("channels");
-      users.findOne({username: username}, (err, usr) => {
-        if (err) return console.log(err);
+      const users = db.collection("users");
 
-        channels.find().toArray((err, channel_arr) => {
-         
-          // If super, return all channels
-          if (usr.role >= 3)
+      // Find user info to check if super
+      users.findOne({username: username}, (err, user) => {
+        if (user == null) {
+          reject(`User: '${username}' not found`);
+        }
+        else if (user.role >= 3) {
+          channels.find().toArray((err, channel_arr) => {
             resolve(channel_arr);
-      
-          // Else, use user.channels array to find channels
-          let count = 0;
-          let length = usr.channels.length;
-          let user_channels = [];
-          channel_arr.forEach(channel => {
-            let index = usr.channels.indexOf(channel.name);
-            if (index >= 0)
-              user_channels.push(channel);
-            count += 1;
-            if (count >= length)
-              resolve(true);
           });
-        });
+        }
+        else {
+          channels.find({users: {$all: [username]}}).toArray((err, channel_arr) => {
+            resolve(channel_arr);
+          });
+        }
       });
     });
   }
@@ -131,16 +168,19 @@ module.exports = function(db) {
   /** Create a new group
    * 
    * @param group_name string
-   * @return 0 on successful creation of the group, 1 if the group already exists.
    */
   module.create_group = function(group_name) {
     return new Promise((resolve, reject) => {
       const groups = db.collection("groups");
       groups.findOne({name: group_name}, (err, res) => {
-        if (res != null) resolve(false);
+        if (res != null) {
+          reject(`Group: '${group_name}' already exists`);
+        }
         else {
-          groups.insertOne({name: group_name, channels: []}, (err, res) => {
-            resolve(true);
+          groups.insertOne({name: group_name, users: [], channels: []}, (err, res) => {
+            module.get_group_names().then((names) => {
+              resolve(names);
+            })
           });
         }
       });
@@ -149,31 +189,35 @@ module.exports = function(db) {
 
   module.delete_group = function(group_name) {
     return new Promise((resolve, reject) => {
-      const groups = db.collection("groups");
-      groups.findOne({name: group_name}, (err, group) => {
-        
-        if (group == null)
-          resolve(false);
 
+
+      const users = db.collection("users");
+      const groups = db.collection("groups");
+      const channels = db.collection("channels");
+      groups.findOne({name: group_name}, (err, group) => {
+        if (group == null) {
+          resolve(false);
+        }
+        
         else {
-          // Delete channels of group
-          group.channels.forEach(channel_name => {
-            module.delete_channel(channel_name, group_name).then(() => {
-                
-              // Delete group from user data
-              db.collection("users").find().toArray((err, user_array) => {
-                user_array.forEach(user => {
-                  let index = user.groups.indexOf(group_name);
-                  if (index >= 0)
-                    user.groups.splice(index, 1);
+          console.log(group_name);
+          // Delete group name from all user.groups
+          users.find({groups: {$all: [group_name]}}).toArray((err, user_arr) => {
+            user_arr.forEach(user => {
+              user.groups.splice(user.groups.indexOf(group_name));
+            });
+
+            // Delete all channels of group
+            channels.deleteMany({parent_group: group_name}).then(() => {
+              // Delete group
+              groups.deleteOne({name: group_name}, (err, res) => {
+                // Return new list of group names
+                module.get_group_names().then(names => {
+                  resolve(names);
                 });
               });
-
-            }).then(() => {
-              groups.deleteOne({name: group_name}, (err, res) => {
-                resolve(true);
-              });
             });
+
           });
         }
       });
@@ -190,6 +234,7 @@ module.exports = function(db) {
     console.log(`GROUP NAME: ${group_name}`);
     return new Promise((resolve, reject) => {
       const channels = db.collection("channels");
+      const users = db.collection("users");
 
       db.collection("groups").findOne({name: group_name}, (err, group) => {
 
@@ -197,21 +242,19 @@ module.exports = function(db) {
         if (group?.channels == undefined) reject("group is null?");
 
         else {
-
-          let channel_count = group.channels.length;
-          let group_channels = [];
-          let count = 0;
           
-          group.channels.forEach(channel_name => {
-            channels.findOne({name: channel_name}, (err, channel) => {
-              
-              if (err) reject(err);
-              
-              group_channels.push(channel);
-              count += 1;
-              
-              if (count >= channel_count)
-              resolve(group_channels);
+          let gr = {
+            name: group.name,
+            users: [],
+            channels: []
+          };
+
+          users.find({groups: {$all: [group_name]}}).toArray((err, res) => {
+            gr.users = res;
+            
+            channels.find({parent_group: group_name}).toArray((err, chnls) => {
+              gr.channels = chnls;
+              resolve(gr);
             });
           });
         }
@@ -219,9 +262,32 @@ module.exports = function(db) {
     });
   }
 
-  /** Return an array of all channel names
- * @return Array<string>
- */
+  /** Return an array of users of a given group
+   * 
+   * @param {*} group_name 
+   */
+  module.get_users_of_group = function(group_name) {
+    return new Promise((resolve, reject) => {
+
+      const groups = db.collection("groups");
+      const users = db.collection("users");
+      
+      users.find({groups: {$all: [group_name]}}).toArray((err, user_arr) => {
+        if (user_arr.length > 0) {
+          resolve(user_arr);
+        }
+        else {
+          reject(`No users found with ${group_name} in user.groups`);
+        }
+      });
+      
+    });
+   
+  }
+
+  /** Return an array of all group names
+  * @return Array<string>
+  */
   module.get_group_names = function() {
     return new Promise((resolve, reject) => {
 
@@ -244,27 +310,13 @@ module.exports = function(db) {
     });
   }
 
-  /** Return an array of all channel names
+  /** Return an array of all channels
    * @return Array<string>
    */
   module.get_channels = function() {
     return new Promise((resolve, reject) => {
-
-      let channel_names = [];
-      let count = 0
-      
       db.collection("channels").find().toArray((err, channel_arr) => {
-        let length = channel_arr.length;
-        
-        channel_arr.forEach(channel => {
-          channel_names.push(channel.name);
-
-          count += 1;
-
-          if (count >= length)
-            resolve(channel_names);
-          
-        });
+        resolve(channel_arr);
       });
     });
   }
@@ -272,27 +324,42 @@ module.exports = function(db) {
   module.create_channel = function(channel_name, group_name) {
     return new Promise((resolve, reject) => {
       const groups = db.collection("groups");
+      const channel_col = db.collection("channels");
 
-      groups.findOne({name: group_name}, (err, group) => {
-        if (group == null) reject("group doesn't exist");
+      // Check if channel already exists
+      channel_col.findOne({name: channel_name, parent_group: group_name}, (err, chnl) => {
 
-        // check if channel already exists
-        let index = group.channels.indexOf(channel_name);
-        if (index >= 0)
-          resolve(false);  
+        if (chnl != null) {
+          resolve(false);
+        }
 
         else {
-          // add channel name to channels array in group
-          let channels = group.channels;
-          channels.push(channel_name); 
-          groups.updateOne({name: group_name}, {$set: {channels: channels}}, (err, res) => {
-            // add channel to channels collection
-            const channel_col = db.collection("channels");
-            channel_col.insertOne({name: channel_name, messages: []}, (err, res) => {
-              module.get_group(group.name).then(group => {
-                resolve(group);
+          groups.findOne({name: group_name}, (err, group) => {
+            if (group == null) {
+              resolve(false);
+            }
+
+            else {
+              // Add channel name to channels array in group
+              group.channels.push(channel_name);
+              const set_value = { $set: {channels: group.channels} };
+              
+              groups.updateOne({name: group_name}, set_value, (err, res) => {
+                // Add channel to channels collection
+                const new_channel = {
+                  name: channel_name,
+                  parent_group: group_name,
+                  users: [],
+                  messages: []
+                };
+                
+                channel_col.insertOne(new_channel, (err, res) => {
+                  module.get_group(group.name).then(group => {
+                    resolve(group);
+                  });
+                });
               });
-            });
+            }
           });
         }
       });
@@ -311,24 +378,33 @@ module.exports = function(db) {
       const channels = db.collection("channels");
       const groups = db.collection("groups");
       
-      channels.findOne({name: channel_name}, (err, channel) => {
+      channels.findOne({name: channel_name, parent_group: group_name}, (err, channel) => {
         if (err) reject("channel doesn't exist");
 
         // Remove channel from channels collection        
-        channels.deleteOne({name: channel_name}, (err, res) => {
-          console.log(res);
-        });
+        channels.deleteOne({name: channel_name, parent_group: group_name}, (err, res) => {
+          // console.log(res);
 
-        // Remove channel name from group
-        groups.findOne({name: group_name}, (err, group) => {
-          if (group != null) {
-            let index = group.channels.indexOf(channel_name);
-            if (index >= 0)
-            group.channels.splice(index, 1);
-            groups.updateOne({name: group_name}, {$set: {channels: group.channels}}, (err, res) => {
-              resolve(group);
-            });
-          }
+          // Remove channel name from group
+          groups.findOne({name: group_name}, (err, group) => {
+            if (group != null) {
+              let index = group.channels.indexOf(channel_name);
+              if (index >= 0) {
+                group.channels.splice(index, 1);
+                groups.updateOne({name: group_name}, {$set: {channels: group.channels}}, (err, res) => {
+                  module.get_group(group.name).then(group => {
+                    resolve(group);
+                  });
+                });
+              }
+              else {
+                module.get_group(group.name).then(group => {
+                  resolve(group);
+                });
+              }
+            }
+          });
+
         });
 
       });
@@ -338,27 +414,39 @@ module.exports = function(db) {
   // Return an array of all channels of a group
   module.get_channels_of_group = function(group_name) {
     return new Promise((resolve, reject) => {
+      const channels = db.collection("channels");
+      channels.find({parent_group: group_name}).toArray((err, res) => {
+        resolve(res);
+      });
+    });
+  }
 
-      let channels_col = db.collection("channels");
-      const groups = db.collection("groups");
-      let channels_of_group = [];
-      let count = 0;
-
+  module.add_user_to_group = function(username, group_name) {
+    return new Promise((resolve, reject) => {
+      const groups = db.collection("group");
+      const users = db.collection("users");
       groups.findOne({name: group_name}, (err, group) => {
+        
+        // Check if user is already member of group
+        let index = group.users.indexOf(username);
+        if (index >= 0) {
+          reject(`${username} already in ${group_name}.users`);
+        }
 
-        if (err) reject(err);
-
-        group.channels.forEach(channel => {
-
-          channels_col.findOne({name: channel}, (err, chnl) => {
-            if (chnl != null)
-              channels_of_group.push(chnl)
-            count += 1;
-            if (count == group.channels.length)
-              resolve(channels_of_group);
+        else {
+          group.users.push(username);
+          // Add user to group
+          groups.insertOne({name: group_name}, {$set: {users: group.users}}, (err, res) => {
+            // Add group to user's groups array
+            users.findOne({username: username}, (err, usr) => {
+              usr.groups.push(group_name);
+              users.updateOne({username: username}, {$set: {groups: usr.groups}}, (err, res) => {
+                resolve(true);
+              });
+            });
           });
+        }
 
-        });
       });
     });
   }
@@ -374,47 +462,72 @@ module.exports = function(db) {
     return new Promise((resolve, reject) => {
       
       const users = db.collection("users");
+      const channels = db.collection("channels");
+      const groups = db.collection("groups");
       
       users.findOne({username: username}, (err, user) => {
-        if (err) reject(err);
-
-        let group_member = false;
-
-        // Add group/channel name to user data
-        if (user.groups.indexOf(group_name) < 0) // if not already in group
+        if (user.groups.indexOf(group_name) < 0) {
           user.groups.push(group_name);
-        else
-          group_member = true; 
+        }
+        users.updateOne({username: username}, {$set: {groups: user.groups}}, (err, res) => {
 
-        if (user.channels.indexOf(channel_name) < 0) // if not already in channel
-          user.channels.push(channel_name);
-        else
-          reject("Already member of channel");
-
-        users.updateOne({username: user.username}, {$set: {groups: user.groups, channels: user.channels}}, (err, res) => {
-          resolve(true);
+          groups.findOne({name: group_name}, (err, group) => {
+            if (group == null) {
+              reject(`Could not find group: '${group_name}'`);
+            }
+            else {
+              if (group.users.indexOf(username) < 0) {
+                group.users.push(username);
+              }
+              groups.updateOne({name: group_name}, {$set: {users: group.users}}, (err, res) => {
+                channels.findOne({name: channel_name, parent_group: group_name}, (err, channel) => {
+                  if (channel == null) {
+                    reject(`Could not find channel: '${channel_name}' with parent group: '${group_name}'`);
+                  }
+                  else {
+                    if (channel.users.indexOf(username) < 0) {
+                      channel.users.push(username);
+                      channels.updateOne({name: channel_name}, {$set: {users: channel.users}}, (err, res) => {
+                        resolve(channel);
+                      });
+                    }
+                    else {
+                      reject(`User: ${username} already member of channel: ${channel_name}`);
+                    }
+                  }
+                });
+              });
+            }
+          });
         });
       });
     });
   }
 
+  /** Remoe a user from a channel
+   * @param {*} username 
+   * @param {*} group_name 
+   * @param {*} channel_name 
+   * @returns channel
+   */
   module.remove_user_from_channel = function(username, group_name, channel_name) {
  
     return new Promise((resolve, reject) => {
-      const users = db.collection("users");
       const channels = db.collection("channels");
-      const groups = db.collection("groups");
       
-      users.findOne({username: username}, (err, user) => {
-        if (err) reject(err);
-
-        index = user.channels.indexOf(channel_name);
-        if (index < 0) reject("User not member of channel"); // if not member, reject
-        
-        user.channels.splice(index, 1);
-        users.updateOne({username: username}, {$set: {channels: user.channels}}, (err, res) => {
-          resolve(true);
-        });
+      channels.findOne({name: channel_name, parent_group: group_name}, (err, channel) => {
+        if (channel == null) {
+          reject(`Cannot find channel: '${channel_name}' containing user: '${username}'`);
+        }
+        else {
+          channel.users.splice(channel.users.indexOf(username), 1);
+          const update = {
+            $set: {users: channel.users}
+          };
+          channels.updateOne({name: channel_name}, update, (err, res) => {
+            resolve(channel);
+          });
+        }
       });
     });
   }
@@ -439,6 +552,23 @@ module.exports = function(db) {
           if (err) reject(err);
           resolve(true);
         });
+      });
+    });
+  }
+
+  module.update_peer_id = function(username, peer_id) {
+    return new Promise((resolve, reject) => {
+      const users = db.collection("users");
+      users.findOne({username: username}, (err, usr) => {
+        if (usr == null) {
+          reject(`Cannot find user: ${username}`);
+        }
+        else {
+          usr.peer_id = peer_id;
+         users.updateOne({username: username}, {$set: {peer_id: peer_id}}, (err, res) => {
+          resolve(usr);
+         });
+        }
       });
     });
   }

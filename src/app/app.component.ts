@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { PeerService } from './services/peer/peer.service';
 import { ThemeService } from './services/theme/theme.service';
 import { UserService } from './services/user/user.service';
 import { User } from './services/user/user.service';
@@ -17,7 +18,8 @@ export class AppComponent {
 
   constructor(private router:Router,
               private themeService:ThemeService,
-              private userService:UserService) {
+              private userService:UserService,
+              private peerService:PeerService) {
 
     this.initialise();
   }
@@ -57,6 +59,8 @@ export class AppComponent {
       this.themeService.set_theme('dark');
     }
 
+    // Send peer id to server
+    this.peerService.update_peer_id();
   }
 
   

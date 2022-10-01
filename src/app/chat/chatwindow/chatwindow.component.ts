@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../services/user/user.service';
 import { Channel, Group, GroupService, Message } from '../../services/group/group.service';
 import { SocketService } from '../../services/socket/socket.service';
@@ -23,11 +23,13 @@ export class ChatwindowComponent implements OnInit {
   current_user:User = new User("", "");
   message:any = ''; // Message from user
 
-  current_group:Group = new Group();
-  current_channel:Channel = new Channel("");
-
+  current_group:Group = this.groupService.group;
+  current_channel:Channel = this.groupService.channel;
+  group_name:string = ""
+  channel_name:string = ""
 
   constructor(private router:Router,
+              private route:ActivatedRoute,
               private socketService:SocketService,
               private groupService:GroupService,
               private http:HttpClient)
@@ -46,15 +48,30 @@ export class ChatwindowComponent implements OnInit {
       }
     }
 
+    // Get group and channel name from route parameters
+    this.route.params.subscribe((params:any) => {
+      this.group_name = params.group_name;
+      this.channel_name = params.channel_name;
+    });
+
+
+    this.groupService.current_channel.subscribe((channel:any) => {
+      this.current_channel = channel;
+      // console.log(channel);
+    });
 
   }
 
   send_message() {
+
     let msg = {
       message: new Message(this.current_user.username, this.message),
-      group_name: this.current_group.name,
-      channel_name: this.current_channel.name
+      group_name: this.group_name,
+      channel_name: this.channel_name
     }
+    
+    console.log(msg);
+
     this.socketService.emit("message", msg);
     this.message = '';
   }

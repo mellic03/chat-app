@@ -18,6 +18,7 @@
           </button>
         </div>
       </form>
+      <p class="submit-error" *ngIf="show_create_group_error">*group already exists</p>
     </menu-item>
 
     <menu-item title="Delete Group">
@@ -27,7 +28,6 @@
           <select formControlName="group_name" class="form-select" aria-label="Default select example">
             <option disabled selected value> -- select group -- </option>
             <option *ngFor="let group_name of all_group_names">{{group_name}}</option>
-            <!-- <option *ngFor="let user of usernames; index as i;" value="{{user_ids[i]}}">{{usernames[i]}}</option> -->
           </select>
           <button
             [disabled]="!delete_group_form.valid"

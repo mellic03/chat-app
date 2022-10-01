@@ -18,16 +18,10 @@ export class GroupsettingsComponent implements OnInit {
 
   group_name:string = "";
   group:Group = new Group();
-
   channels:Array<Channel> = [];
-  channel_to_delete:string = '';
-  channel_to_remove_from:string = '';
-
-  user_to_add_to_channel:string = '';
-  channel_to_add_user_to:string = '';
-
-  users:Array<User> = [];
-  selected_user_name:string = '';
+  users_of_group:Array<User> = [];
+  all_users:Array<User> = [];
+  
 
   constructor(private route:ActivatedRoute,
               private http:HttpClient,
@@ -41,23 +35,42 @@ export class GroupsettingsComponent implements OnInit {
     this.route.params.subscribe((params:any) => {
       this.group_name = params.group_name;
     });
-
+      
     // Get permission level from localStorage
     this.current_role = JSON.parse(String(localStorage.getItem("user_info"))).role;
-
+    
     // Get list of channels in group from server
     let api_url = `http://159.196.6.181:3000/api/groups/${this.group_name}/channels`;
     this.http.get(api_url).subscribe((channels:any) => {
       this.channels = channels;
     });
-
+    
+    // Get group data from server
+    api_url = `http://159.196.6.181:3000/api/groups/${this.group_name}`;
+    this.http.get(api_url).subscribe((group:any) => {
+      this.group = group;
+    });
+    
     // Get list of all users from server
     api_url = `http://159.196.6.181:3000/api/users`;
     this.http.get(api_url).subscribe((users:any) => {
-      this.users = users;
+      this.all_users = users;
     });
 
-
+    // Get list of all users in current group from server
+    api_url = `http://159.196.6.181:3000/api/groups/${this.group_name}/users`;
+    this.http.get(api_url).subscribe((users:any) => {
+      this.users_of_group = users;
+    });
+    
+    // this.socketService.listen_for_event(this.group_name, "blyat").subscribe((data:any) => {
+    //   console.log("Sservice");
+    //   this.groupService.set_current_group(data);
+    // });
+    
+    this.groupService.current_group.subscribe((group:any) => {
+      this.group = group;
+    });
   }
 
 
@@ -111,6 +124,7 @@ export class GroupsettingsComponent implements OnInit {
   delete_channel() {
     const data = this.delete_channel_form.value;
     this.userService.delete_channel(data.channel_name, this.group_name);
+    // this.delete_channel_form.reset();
   }
   //-------------------------------------------------------
 
