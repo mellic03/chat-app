@@ -65,7 +65,7 @@ module.exports = function(MongoClient) {
           console.log(data.executor);
           io.emit(`${data.executor}/create_user`, false);
         }).then((usr_array) => {
-          io.emit("users", usr_array);
+          io.emit(`${data.executor}/create_user`, usr_array);
         });
       });
 
@@ -76,14 +76,31 @@ module.exports = function(MongoClient) {
           if (usr_array == false)
             console.log("User already exists");
           else
-            io.emit("users", usr_array);
+            io.emit(`${data.executor}/delete_user`, usr_array);
+        });
+      });
+
+
+
+      socket.on("update_user_credentials", (data) => {
+        console.log(data);
+        DB.update_user_credentials(data.email, data.password, data.executor).catch((err) => {
+          console.log(err);
+        }).then((response) => {
+          io.emit(`${data.executor}/update_user_credentials`, response);
         });
       });
 
 
 
       socket.on("set_role", (data) => {
-        DB.set_role(data.username, data.role);
+        // If group assistant or group admin, also pass grop  
+        if (data.role == 1 || data.role == 2) {
+          DB.set_role(data.username, data.role, data.group);
+        }
+        else {
+          DB.set_role(data.username, data.role, "");
+        }
       });
 
 
@@ -93,20 +110,20 @@ module.exports = function(MongoClient) {
       socket.on("create_group", (data) => {
         DB.create_group(data.group_name).catch((err) => {
           console.log(err);
-          io.emit(`${data.executor}/group_names`, false);
-        }).then((groups) => {
-          io.emit(`${data.executor}/group_names`, groups);
+          io.emit(`${data.executor}/create_group`, false);
+        }).then((group_names) => {
+          io.emit(`${data.executor}/create_group`, group_names);
         });
       });
       
 
 
       socket.on("delete_group", (data) => {
-        DB.delete_group(data.group_name).then((groups) => {
-          if (groups == false)
-            console.log(`Group '${data.group_name}' doesn't exist.`)
-          else
-            io.emit("group names", groups);
+        DB.delete_group(data.group_name).catch((err) => {
+          console.log(err);
+          io.emit(`${data.executor}/create_group`, false);
+        }).then((group_names) => {
+          io.emit(`${data.executor}/delete_group`, group_names);
         });
       });
 

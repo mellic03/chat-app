@@ -4,43 +4,38 @@
   </div>
 
   <div class="submenu-content">
-    <menu-item title="Account Details">
-      <menu-subitem title="Update Account Info">
-        <div class="account-details">
-          <form>
-            <label>Username</label>
-            <input
-            [(ngModel)]="user.username"
-            name="username"
-            class="form-control"
-            placeholder="{{user.username}}"
-            >
-            <div class="form-group">              
-              <label>Email Address</label>
-              <input
-              [(ngModel)]="user.email"
-              name="email"
-              class="form-control"
-              placeholder="{{user.email}}"
-              >
-            </div>
-            <div class="id-role">
-              <p>Role: {{roles[user.role]}}</p>
-            </div>
-            <button (click)="update_user_info()" type="button" class="btn btn-primary btn-sm">Update</button>
-            <div class="success" *ngIf="show_success_message">
-              <p>*updated</p>
-            </div>
-          </form>
+
+    <menu-item title="Create User">
+      <form [formGroup]="update_user_form"
+            (ngSubmit)="update_user_form.valid && update_user_credentials()"
+            (click)="update_user_clear_msg()">
+
+        <div class="form-group">
+
+          <label>Email Address</label>
+          <input formControlName="email" class="form-control" placeholder="{{user.email}}">
+          
+          <label>Password</label>
+          <input formControlName="password" class="form-control">
+          
+          <button
+            [disabled]="!update_user_form.valid"
+            type="submit"
+            class="btn btn-primary btn-sm">
+            Update
+          </button>
         </div>
-      </menu-subitem>
+      </form>
+      <p class="submit-error" *ngIf="show_update_user_error">*user already exists</p>
+      <p class="submit-success" *ngIf="show_update_user_success">*user created</p>
     </menu-item>
 
     <menu-item title="Profile">
       <menu-subitem title="Profile Photo">
-        <img src="https://cdn5.vectorstock.com/i/thumb-large/45/59/profile-photo-placeholder-icon-design-in-gray-vector-37114559.jpg">
-        <a class="btn btn-primary btn-sm">
-          Upload New
+        <img [src]="image">
+        <input data-classButton="btn btn-primary" type="file" name="file" id="file" (change)="on_image_select($event)" />
+        <a *ngIf="image_selected" class="btn btn-primary btn-sm" (click)="upload_image()">
+          Upload
           &nbsp;
           <i class="fa-solid fa-arrow-up-from-bracket"></i>
         </a>

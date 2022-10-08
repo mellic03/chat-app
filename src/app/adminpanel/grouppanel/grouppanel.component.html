@@ -6,12 +6,14 @@
   <div class="submenu-content"> 
     
     <menu-item title="Create Group">
-      <form [formGroup]="new_group_form" (ngSubmit)="new_group_form.valid && create_group()">
+      <form [formGroup]="create_group_form"
+            (ngSubmit)="create_group_form.valid && create_group()"
+            (click)="create_group_clear_msg()">
         <div class="form-group">
           <label>Group Name</label>
           <input formControlName="group_name" class="form-control">
           <button
-            [disabled]="!new_group_form.valid"
+            [disabled]="!create_group_form.valid"
             type="submit"
             class="btn btn-primary btn-sm">
             Create Group
@@ -19,10 +21,13 @@
         </div>
       </form>
       <p class="submit-error" *ngIf="show_create_group_error">*group already exists</p>
+      <p class="submit-success" *ngIf="show_create_group_success">*group created</p>
     </menu-item>
 
     <menu-item title="Delete Group">
-      <form [formGroup]="delete_group_form" (ngSubmit)="delete_group_form.valid && delete_group()">
+      <form [formGroup]="delete_group_form"
+            (ngSubmit)="delete_group_form.valid && delete_group()"
+            (click)="delete_group_clear_msg()">
         <div class="form-group">
           <label>Group Name</label>
           <select formControlName="group_name" class="form-select" aria-label="Default select example">
@@ -37,6 +42,7 @@
           </button>
         </div>
       </form>
+      <p class="submit-success" *ngIf="show_delete_group_success">*group deleted</p>
     </menu-item>
 
   </div>

@@ -7,8 +7,11 @@
   <div class="submenu-content">
 
     <menu-item title="Create User">
-      <form [formGroup]="new_user_form" (ngSubmit)="new_user_form.valid && open_modal('create')">
-        <div class="form-group">
+      <form [formGroup]="new_user_form"
+            (ngSubmit)="new_user_form.valid && open_modal('create')"
+            (click)="create_user_clear_msg()">
+
+            <div class="form-group">
           <label>Username</label>
           <input formControlName="username" class="form-control">
           
@@ -27,11 +30,14 @@
         </div>
       </form>
       <p class="submit-error" *ngIf="show_create_user_error">*user already exists</p>
+      <p class="submit-success" *ngIf="show_create_user_success">*user created</p>
     </menu-item>
     
     <!-- role => 3 to delete users (super admin) -->
     <menu-item *ngIf="current_user.role >= 3" title="Delete User">
-      <form [formGroup]="delete_user_form" (ngSubmit)="delete_user_form.valid && open_modal('delete')">
+      <form [formGroup]="delete_user_form"
+            (ngSubmit)="delete_user_form.valid && open_modal('delete')"
+            (click)="delete_user_clear_msg()">
         <div class="form-group">
           <label>Username</label>
           <select formControlName="username" class="form-select" aria-label="Default select example">
@@ -46,6 +52,7 @@
           </button>
         </div>
       </form>
+      <p class="submit-success" *ngIf="show_delete_user_success">*user deleted</p>
     </menu-item>
 
     <menu-item title="User Permissions">
@@ -67,13 +74,11 @@
         </select>
         
         <!-- I promise I will remove this -->
-        <ng-container style="margin-top: 10px;" *ngIf="selected_role == 'group assisstant' || selected_role == 'group admin'">
-          <label>Group to make {{selected_user}} {{selected_role}}</label>
-          <select class="form-select" aria-label="Default select example">
-            <option>Not functional</option>
-            <option>Not functional</option>
-            <option>Not functional</option>
-            <option>Not functional</option>
+        <ng-container style="margin-top: 10px;" *ngIf="permission_form.value.role == 1 || permission_form.value.role == 2">
+          <label>Group</label>
+          <select formControlName="group" class="form-select" aria-label="Default select example">
+            <option disabled selected value> -- select group -- </option>
+            <option *ngFor="let group_name of group_names;">{{group_name}}</option>
           </select>
         </ng-container>
         <!------------------------------------>

@@ -22,6 +22,7 @@ module.exports = function(db) {
         username: username,
         email: email,
         password: password,
+        profile_photo: undefined,
         role: 0,
         groups: [],
         permission_levels: {}
@@ -61,6 +62,30 @@ module.exports = function(db) {
     });
   }
 
+  /** Update the email address and password of a user
+   * 
+   * @param {*} email New email address of user
+   * @param {*} password New password of user
+   * @param {*} username Username of user
+   * @returns resolve(  { email: email, password: password }  )
+   */
+  module.update_user_credentials = function(email, password, username) {
+    return new Promise((resolve, reject) => {
+      const users = db.collection("users");
+      users.findOne({username: username}, (err, usr) => {
+        const update = {
+          $set: {
+            email: email,
+            password: password
+          }
+        };
+        users.updateOne({username: username}, update, (err, res) => {
+          resolve({email: email, password: password});
+        });
+      });
+    });
+  }
+
   module.get_user = function(username) {
  
     return new Promise((resolve, reject) => {
@@ -70,9 +95,27 @@ module.exports = function(db) {
           resolve(usr);
         }
         else
-          resolve(false);
+          reject(false);
       });
     });
+  }
+
+  module.update_profile_photo = function(username, image) {
+    return new Promise((resolve, reject) => {
+      const users = db.collection("users");
+      users.findOne({username: username}, (err, res) => {
+        if (err) reject(err);
+        else {
+          const update = {
+            $set: {profile_photo: image}
+          }
+          users.updateOne({username: username}, update, (err, res) => {
+            resolve(image);
+          });
+        }
+      });
+    });
+
   }
 
   /** Add a message to the messages array of a given channel
@@ -120,15 +163,33 @@ module.exports = function(db) {
       // Check user role, if super, return all groups
       users.findOne({username: username}, (err, usr) => {
         if (usr.role >= 3) {
-          groups.find().toArray((err, res) => {
-            // console.log(res);
-            resolve(res);
+          groups.find().toArray((err, group_arr) => {
+            let count = 0;
+            let len = group_arr.length;
+            group_arr.forEach((group) => {
+              users.find({groups: {$all: [group.name]}}).toArray((err, user_arr) => {
+                group.users = user_arr;
+                count++;
+                if (count >= len)
+                  resolve(group_arr);
+              });
+            });
           });
         }
 
         else {
-          groups.find({users: {$all: [username]}}).toArray((err, res) => {
-            console.log(res);
+          groups.find({users: {$all: [username]}}).toArray((err, group_arr) => {
+            // Find all uses which belong to each group
+            let count = 0;
+            let len = group_arr.length;
+            group_arr.forEach((group) => {
+              users.find({groups: {$all: [group.name]}}).toArray((err, user_arr) => {
+                group.users = user_arr;
+                count++;
+                if (count >= len)
+                  resolve(group_arr);
+              });
+            });
           });     
         }
       });
@@ -165,9 +226,9 @@ module.exports = function(db) {
     });
   }
 
-  /** Create a new group
-   * 
+  /** Create a new group in the database and return the new list of all group names
    * @param group_name string
+   * @returns Array<string> on success, reject(string) on failure 
    */
   module.create_group = function(group_name) {
     return new Promise((resolve, reject) => {
@@ -187,16 +248,18 @@ module.exports = function(db) {
     });
   }
 
+  /** Delete a group from the database and return the new list of all group names
+   * @param {*} group_name string
+   * @returns Array<string> on success, reject(string) on failure
+   */
   module.delete_group = function(group_name) {
     return new Promise((resolve, reject) => {
-
-
       const users = db.collection("users");
       const groups = db.collection("groups");
       const channels = db.collection("channels");
       groups.findOne({name: group_name}, (err, group) => {
         if (group == null) {
-          resolve(false);
+          reject(`Cannot find group: ${group_name}`);
         }
         
         else {
@@ -537,16 +600,43 @@ module.exports = function(db) {
    * @param {*} username string
    * @param {*} role number (0-3)
    */
-  module.set_role = function(username, role) {
+  module.set_role = function(username, role, group_name) {
     
     return new Promise((resolve, reject) => {
       const users = db.collection("users");
       users.findOne({username: username}, (err, user) => {
         if (err) reject(err);
+        
+        let update;
 
-        const update = {
-          $set: {role: role}
-        };
+        // If being made group assistant/admin, add to permission_levels
+        if (group_name != "") {
+          user.permission_levels[group_name] = role;
+          update = {
+            $set: {
+              permission_levels: user.permission_levels
+            }
+          };
+        }
+
+        // Else if being demoted to regular user, remove all permission_levels
+        else if (role == 0) {
+          user.permission_levels = {};
+          update = {
+            $set: {
+              permission_levels: user.permission_levels
+            }
+          };
+        }
+
+        // Else if being made user/super admin, set system-wide role
+        else {
+          update = {
+            $set: {
+              role: role,
+            }
+          };
+        }
 
         users.updateOne({username: username}, update, (err, res) => {
           if (err) reject(err);

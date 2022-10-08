@@ -60,7 +60,7 @@ export class AppComponent {
     }
 
     // Send peer id to server
-    this.peerService.update_peer_id();
+    // this.peerService.update_peer_id();
   }
 
   

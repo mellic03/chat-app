@@ -77,6 +77,7 @@ export class ChatComponent implements OnInit {
     const API_URL = `http://159.196.6.181:3000/api/users/${username}/groups`;
 
     this.http.get<Array<Group>>(API_URL).subscribe((groups) => {
+      console.log(groups);
       this.all_groups = groups;
       this.open_group(groups[0]);
     });
@@ -107,7 +108,6 @@ export class ChatComponent implements OnInit {
     
     // Don't allow user to join same channel multiple times at once
     // if (this.current_channel.name != channel.name) {
-      console.log(`E: ${this?.current_group.name}/${channel?.name}`);
       this.socketService.join_channel(`${this.current_group?.name}/${channel.name}`);
       
       this.groupService.set_current_channel(channel);
@@ -117,7 +117,6 @@ export class ChatComponent implements OnInit {
         this.current_channel.messages.unshift(data.message);
       });
     // }
-      
     this.router.navigate(["/chat/chatwindow", this.current_group.name, this.current_channel.name]);
   }
 

@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
     
     this.http.post<User>('http://159.196.6.181:3000/api/auth',
       {email: email, password: pass}).subscribe((res) => {
-        if (res.email == "false") {
+        if (res.email == undefined) {
           this.show_error_message = true;
         }
         else {

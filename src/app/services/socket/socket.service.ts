@@ -5,6 +5,7 @@ import { io } from 'socket.io-client';
 @Injectable({
   providedIn: 'root'
 })
+
 export class SocketService {
 
   server_url = "http://159.196.6.181:3000/";
@@ -52,7 +53,7 @@ export class SocketService {
     // }
   }
 
-  emit(event:string, data:Object, channel:string = "") {
+  emit(event:string, data:any, channel:string = "") {
 
     if (channel == "admin") {
       let backup_channel:string = this.current_channel;

@@ -24,6 +24,8 @@ export class ChatwindowComponent implements OnInit {
   message:any = ''; // Message from user
 
   current_group:Group = this.groupService.group;
+  current_group_images:any = [];
+
   current_channel:Channel = this.groupService.channel;
   group_name:string = ""
   channel_name:string = ""
@@ -52,6 +54,9 @@ export class ChatwindowComponent implements OnInit {
     this.route.params.subscribe((params:any) => {
       this.group_name = params.group_name;
       this.channel_name = params.channel_name;
+      this.current_group = this.groupService.group;
+      this.current_group_images = this.groupService.current_group_images;
+      console.log(this.current_group_images);
     });
 
 

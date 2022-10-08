@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { SocketService } from '../socket/socket.service';
@@ -15,7 +16,7 @@ export class UserService {
 
   current_user = new Subject<User>();
 
-  constructor(private socketService:SocketService) { }
+  constructor(private socketService:SocketService, private http:HttpClient) { }
 
   /**
    * @param username 
@@ -32,16 +33,42 @@ export class UserService {
     }, "admin");
   }
   
-  delete_user(username:string) {
+  delete_user(username:string, executor:string) {
     this.socketService.emit("delete_user", {
-      username: username
+      username: username,
+      executor: executor
     }, "admin");
   }
-  
-  set_role(username:string, role:number) {
+
+  update_profile_photo(username:string, image:any) {
+    this.http.post<any>("http://159.196.6.181:3000/api/update_profile_photo", {
+      username: username, image: image
+    }).subscribe((img) => {
+      // Update image in localStorage
+      let user_info = JSON.parse(String(localStorage.getItem("user_info")));
+      user_info.profile_photo = img;
+      localStorage.setItem("user_info", JSON.stringify(user_info));
+    });
+  }
+
+  /** Update a user's email address andpassword
+   * @param email New email address
+   * @param password New password
+   * @param executor Username of user performing this action
+   */
+   update_user_credentials(email:string, password:string, executor:string) {
+    this.socketService.emit("update_user_credentials", {
+      email: email,
+      password: password,
+      executor: executor
+    }, "admin");
+  }
+
+  set_role(username:string, role:number, group:string) {
     this.socketService.emit("set_role", {
       username: username,
-      role: role
+      role: role,
+      group: group
     }, "admin");
   }
 
@@ -56,9 +83,10 @@ export class UserService {
     }, "admin")
   }
   
-  delete_group(group_name:string) {
+  delete_group(group_name:string, executor:string) {
     this.socketService.emit("delete_group", {
-      group_name: group_name
+      group_name: group_name,
+      executor: executor
     }, "admin");
   }
   
@@ -119,6 +147,7 @@ export class User {
 
   username:string;
   email:string;
+  profile_photo:any;
   password:string = "";
   role:number = USER;
 

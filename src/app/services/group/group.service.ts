@@ -16,11 +16,16 @@ export class GroupService {
   public group = new Group();
   public channel = new Channel();
 
+  public current_group_images:any = {};
+
   constructor(private http:HttpClient, private socketService:SocketService) { }
 
   set_current_group(group:Group) {
     this.current_group.next(group);
     this.group = group;
+    this.group.users.forEach((user) => {
+      this.current_group_images[user.username] = user.profile_photo;
+    });
   }
 
   set_current_channel(channel:Channel) {
@@ -51,7 +56,7 @@ export class Channel {
 
 export class Group {
   name:string;
-  users:Array<string> = [];
+  users:Array<any> = [];
   channels:Array<Channel> = [];
 
   constructor(name:string = "") {
