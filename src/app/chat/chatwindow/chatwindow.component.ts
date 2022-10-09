@@ -1,9 +1,10 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { User } from '../../services/user/user.service';
+import { User, UserService } from '../../services/user/user.service';
 import { Channel, Group, GroupService, Message } from '../../services/group/group.service';
 import { SocketService } from '../../services/socket/socket.service';
 import { HttpClient } from '@angular/common/http';
+import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-chatwindow',
@@ -12,14 +13,6 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ChatwindowComponent implements OnInit {
 
-  key:string = '';
-
-  @HostListener('document:keypress', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) { 
-    if (event.key == "Enter")
-      this.send_message();
-  }
-  
   current_user:User = new User("", "");
   message:any = ''; // Message from user
 
@@ -30,11 +23,17 @@ export class ChatwindowComponent implements OnInit {
   group_name:string = ""
   channel_name:string = ""
 
+  image:any;
+  image_selected:boolean = false;
+  image_uploaded:boolean = false;
+
   constructor(private router:Router,
               private route:ActivatedRoute,
               private socketService:SocketService,
               private groupService:GroupService,
-              private http:HttpClient)
+              private formBuilder:FormBuilder,
+              private http:HttpClient,
+              private userService:UserService)
   { }
 
   ngOnInit(): void {
@@ -67,18 +66,36 @@ export class ChatwindowComponent implements OnInit {
 
   }
 
-  send_message() {
+  message_form = this.formBuilder.group({
+    message_content: new FormControl('', [Validators.required])
+  });
+  send_message(type:string = "text") {
+    const message_content = this.message_form.value.message_content;
+    if (message_content == "" || message_content == null || message_content == undefined)
+      return;
 
-    let msg = {
-      message: new Message(this.current_user.username, this.message),
+    const msg = {
+      message: new Message(this.current_user.username, type, {image: message_content}),
       group_name: this.group_name,
       channel_name: this.channel_name
     }
-    
-    console.log(msg);
-
     this.socketService.emit("message", msg);
-    this.message = '';
+    this.message_form.reset();
   }
+
+  upload_image(event:any) {
+    this.image_selected = true;
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+
+      reader.readAsDataURL(event.target.files[0]);
+
+      reader.onload = (event:any) => {
+        this.message = event.target.result;
+        this.send_message("image");
+      }
+    }
+  }
+
 
 }

@@ -38,7 +38,7 @@ export class UserpanelComponent implements OnInit {
 
   ngOnInit(): void {
     // Get list of users
-    let api_url = "http://159.196.6.181:3000/api/users";
+    let api_url = "https://159.196.6.181:3000/api/users";
     this.http.get<Array<any>>(api_url).subscribe(users => {
       this.all_users = users;
       console.log(users);
@@ -48,31 +48,31 @@ export class UserpanelComponent implements OnInit {
     this.current_user = JSON.parse(String(localStorage.getItem("user_info")));
 
     // Get list of group names;
-    api_url = `http://159.196.6.181:3000/api/groups/group_names`;
+    api_url = `https://159.196.6.181:3000/api/groups/group_names`;
     this.http.get(api_url).subscribe((group_names:any) => {
       this.group_names = group_names;
     });
 
     // Listen for changes to user data
     this.socketService.listen_for_event(`${this.current_user.username}/create_user`, "blyat").subscribe((users:any) => {
-      console.log(users);
       if (users == false) {
+        console.log(false);
         this.show_create_user_error = true;
         this.show_create_user_success = false;
       }
       else {
+        console.log(true);
         this.all_users = users;
         this.show_create_user_error = false;
         this.show_create_user_success = true;
       }
     });
+
     this.socketService.listen_for_event(`${this.current_user.username}/delete_user`, "blyat").subscribe((users:any) => {
       if (users == false) {
-        console.log(false);
         this.show_delete_user_success = false;
       }
       else {
-        console.log(true);
         this.all_users = users;
         this.show_delete_user_success = true;
       }
@@ -90,6 +90,12 @@ export class UserpanelComponent implements OnInit {
   create_user() {
     this.close_modal("create");
     const data = this.new_user_form.value;
+    for (let i=0; i<this.all_users.length; i++) {
+      if (this.all_users[i].username == data.username) {
+        this.show_create_user_error = true;
+        return;
+      }
+    }
     this.userService.create_user(data.username, data.email, data.password, this.current_user.username);
     this.new_user_form.reset();
   }
@@ -124,7 +130,6 @@ export class UserpanelComponent implements OnInit {
       return;
     }
     else {
-      console.log("E");
       this.userService.set_role(data.username, data.role, data.group);
       this.permission_form.reset();
     }

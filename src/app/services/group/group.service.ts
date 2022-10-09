@@ -36,9 +36,12 @@ export class GroupService {
 
 export class Message {
   sender:string;
-  content:string;
-  constructor(username:string, content:string) {
+  type:string; // Either "text" or "image"
+  content:any;
+
+  constructor(username:string, type:string, content:any) {
     this.sender = username;
+    this.type = type;
     this.content = content;
   }
 }

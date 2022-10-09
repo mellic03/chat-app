@@ -45,11 +45,11 @@ export class AppComponent {
       // If user is logged in, retieve theme preference.
       // If theme preference doesn't exist, default to light.
       this.theme = String(localStorage.getItem("theme"));
-      if (this.theme != '') {
+      if (this.theme != '' && this.theme != null && this.theme != undefined) {
         this.themeService.set_theme(this.theme);
       }
       else {
-        console.log(2);
+        console.log("theme not set, defaulting to light");
         this.themeService.set_theme("light");
       }
     }

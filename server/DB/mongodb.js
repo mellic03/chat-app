@@ -17,7 +17,9 @@ module.exports = function(db) {
 
   module.create_user = function(username, email, password) {
     return new Promise((resolve, reject) => {
+
       const users = db.collection("users");
+
       const new_user = {
         username: username,
         email: email,
@@ -29,8 +31,11 @@ module.exports = function(db) {
       };
 
       users.findOne({username: username}, (err, usr) => {
-        if (usr != null)
-          reject(`User with username '${username} already exists'`);
+
+        if (err || usr != null) {
+          reject(`User with username "${username}" already exists`);
+        }
+
         else {
           users.insertOne(new_user, (err, res) => {
             users.find({}).toArray((err, usr_array) => {
@@ -38,6 +43,7 @@ module.exports = function(db) {
             })
           });
         }
+
       });
     });
   }
@@ -167,7 +173,7 @@ module.exports = function(db) {
             let count = 0;
             let len = group_arr.length;
             group_arr.forEach((group) => {
-              users.find({groups: {$all: [group.name]}}).toArray((err, user_arr) => {
+              users.find({ $or: [ {groups: {$all: [group.name]}}, {role: 3} ] }).toArray((err, user_arr) => {
                 group.users = user_arr;
                 count++;
                 if (count >= len)
@@ -179,11 +185,11 @@ module.exports = function(db) {
 
         else {
           groups.find({users: {$all: [username]}}).toArray((err, group_arr) => {
-            // Find all uses which belong to each group
+            // Find all uses which belong to each group, also include users with role == 3
             let count = 0;
             let len = group_arr.length;
             group_arr.forEach((group) => {
-              users.find({groups: {$all: [group.name]}}).toArray((err, user_arr) => {
+              users.find({ $or: [ {groups: {$all: [group.name]}}, {role: 3} ] }).toArray((err, user_arr) => {
                 group.users = user_arr;
                 count++;
                 if (count >= len)
@@ -294,7 +300,7 @@ module.exports = function(db) {
    */
   module.get_group = function(group_name) {
 
-    console.log(`GROUP NAME: ${group_name}`);
+    // console.log(`GROUP NAME: ${group_name}`);
     return new Promise((resolve, reject) => {
       const channels = db.collection("channels");
       const users = db.collection("users");
@@ -340,7 +346,7 @@ module.exports = function(db) {
           resolve(user_arr);
         }
         else {
-          reject(`No users found with ${group_name} in user.groups`);
+          reject(`No users found with group: "${group_name}" in user.groups`);
         }
       });
       
@@ -621,10 +627,10 @@ module.exports = function(db) {
 
         // Else if being demoted to regular user, remove all permission_levels
         else if (role == 0) {
-          user.permission_levels = {};
           update = {
             $set: {
-              permission_levels: user.permission_levels
+              role: 0,
+              permission_levels: {}
             }
           };
         }
@@ -640,7 +646,7 @@ module.exports = function(db) {
 
         users.updateOne({username: username}, update, (err, res) => {
           if (err) reject(err);
-          resolve(true);
+          else resolve(true);
         });
       });
     });

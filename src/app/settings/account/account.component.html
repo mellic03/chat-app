@@ -33,7 +33,9 @@
     <menu-item title="Profile">
       <menu-subitem title="Profile Photo">
         <img [src]="image">
-        <input data-classButton="btn btn-primary" type="file" name="file" id="file" (change)="on_image_select($event)" />
+
+        <input style="display: none;" type="file" name="file" id="file" (change)="on_image_select($event)" />
+        <button onclick="document.querySelector('#file').click()" style="width: 200px;" class="btn btn-primary"><i class="fa-regular fa-image"></i></button>
         <a *ngIf="image_selected" class="btn btn-primary btn-sm" (click)="upload_image()">
           Upload
           &nbsp;

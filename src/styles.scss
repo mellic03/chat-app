@@ -63,6 +63,16 @@ html, body {
 
 }
 
+.modal-header {
+  background-color: var(--background-secondary);
+  color: var(--bold-text-color);
+}
+
+.modal-body, .modal-dialog, .modal-content {
+  background-color: var(--background-tertiary);
+}
+
+
 .submit-error {
   padding-top: 5px;
   font-size: 12px;
@@ -75,6 +85,11 @@ html, body {
   color: var(--success);
 }
 
+.message-bar {
+  background-color: var(--background-tertiary);
+  border-radius: 5px;
+  min-height: 10px;
+}
 
 nav {
   background-color: var(--background-primary);

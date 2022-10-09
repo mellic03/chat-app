@@ -8,8 +8,8 @@ import { io } from 'socket.io-client';
 
 export class SocketService {
 
-  server_url = "http://159.196.6.181:3000/";
-  private socket = io(this.server_url, { transports: ['websocket'] });
+  server_url = "https://159.196.6.181:3000/";
+  private socket = io(this.server_url, { secure: true, transports: ['websocket'] });
   current_channel:string = "";
 
   constructor() { }
@@ -22,7 +22,7 @@ export class SocketService {
   listen_for_event(event:string, channel:string = "") {
 
     if (channel != "") {
-      let newsocket = io(this.server_url, { transports: ['websocket'] });
+      let newsocket = io(this.server_url, { secure: true, transports: ['websocket'] });
       return new Observable((observer) => {
         newsocket.on(event, (data) => {
           observer.next(data);
@@ -49,7 +49,7 @@ export class SocketService {
       this.emit("unsubscribe", {});
       this.current_channel = channel_name;
       channel_name = channel_name.replace(/\s/g, '-');
-      this.socket = io(this.server_url + channel_name, { transports: ['websocket'] });
+      this.socket = io(this.server_url + channel_name, { secure: true, transports: ['websocket'] });
     // }
   }
 

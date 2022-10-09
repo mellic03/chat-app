@@ -32,18 +32,19 @@ export class LoginComponent implements OnInit {
 
   login(email:string, pass:string) {
     
-    this.http.post<User>('http://159.196.6.181:3000/api/auth',
+    this.http.post<User>('https://159.196.6.181:3000/api/auth',
       {email: email, password: pass}).subscribe((res) => {
         if (res.email == undefined) {
           this.show_error_message = true;
         }
         else {
-          let api_url = `http://159.196.6.181:3000/api/users/${res.username}`
+          let api_url = `https://159.196.6.181:3000/api/users/${res.username}`
           this.http.get<User>(api_url).subscribe(data => {
             this.userService.current_user.next(data);
           });
           let user_info = res;
           localStorage.setItem("user_info", JSON.stringify(user_info));
+          localStorage.setItem("theme", "dark");
           this.router.navigateByUrl("/chat");
         }
       }

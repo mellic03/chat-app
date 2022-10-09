@@ -40,25 +40,25 @@ export class GroupsettingsComponent implements OnInit {
     this.current_role = JSON.parse(String(localStorage.getItem("user_info"))).role;
     
     // Get list of channels in group from server
-    let api_url = `http://159.196.6.181:3000/api/groups/${this.group_name}/channels`;
+    let api_url = `https://159.196.6.181:3000/api/groups/${this.group_name}/channels`;
     this.http.get(api_url).subscribe((channels:any) => {
       this.channels = channels;
     });
     
     // Get group data from server
-    api_url = `http://159.196.6.181:3000/api/groups/${this.group_name}`;
+    api_url = `https://159.196.6.181:3000/api/groups/${this.group_name}`;
     this.http.get(api_url).subscribe((group:any) => {
       this.group = group;
     });
     
     // Get list of all users from server
-    api_url = `http://159.196.6.181:3000/api/users`;
+    api_url = `https://159.196.6.181:3000/api/users`;
     this.http.get(api_url).subscribe((users:any) => {
       this.all_users = users;
     });
 
     // Get list of all users in current group from server
-    api_url = `http://159.196.6.181:3000/api/groups/${this.group_name}/users`;
+    api_url = `https://159.196.6.181:3000/api/groups/${this.group_name}/users`;
     this.http.get(api_url).subscribe((users:any) => {
       this.users_of_group = users;
     });
@@ -112,7 +112,7 @@ export class GroupsettingsComponent implements OnInit {
   create_channel() {
     const data = this.create_channel_form.value;
     this.userService.create_channel(data.channel_name, this.group_name);
-    this.http.get(`http://159.196.6.181:3000/api/groups/${this.group_name}/channels`);
+    this.http.get(`https://159.196.6.181:3000/api/groups/${this.group_name}/channels`);
     this.create_channel_form.value.channel_name = '';
     this.create_channel_form.reset()
   }

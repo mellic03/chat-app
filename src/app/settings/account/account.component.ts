@@ -34,6 +34,7 @@ export class AccountComponent implements OnInit {
   ngOnInit(): void {
     if (typeof(Storage) !== "undefined") {
       this.user = JSON.parse(String(localStorage.getItem("user_info")));
+      this.image = this.user.profile_photo.image;
     }
     this.socketService.listen_for_event(`${this.user.username}/update_user_credentials`).subscribe((response:any) => {
       this.user.email = response.email;

@@ -62,7 +62,7 @@ module.exports = function(MongoClient) {
 
       socket.on("create_user", (data) => {
         DB.create_user(data.username, data.email, data.password).catch((err) => {
-          console.log(data.executor);
+          console.log(err);
           io.emit(`${data.executor}/create_user`, false);
         }).then((usr_array) => {
           io.emit(`${data.executor}/create_user`, usr_array);
@@ -147,12 +147,11 @@ module.exports = function(MongoClient) {
 
 
       socket.on("create_channel", (data) => {
-
+        console.log("Creating channel");
         DB.create_channel(data.channel_name, data.group_name).then((group) => {
           if (group == false)
             console.log("Channel already exists.");
           else {
-            console.log("channel created");
             init_channel(data.group_name, data.channel_name);
             io.emit(data.group_name, group);
           }
@@ -195,7 +194,7 @@ module.exports = function(MongoClient) {
 
 
 
-      socket.on("update_peer_id", (data) => {
+      socket.on("update_pFcrr_id", (data) => {
         DB.update_peer_id(data.username, data.peer_id).then((user) => {
           console.log(user);
         });
