@@ -15,7 +15,6 @@ export class SettingsComponent implements OnInit {
 
   constructor(private router:Router) { }
 
-
   ngOnInit(): void {
     if (typeof(localStorage) !== undefined)
       this.user = JSON.parse(String(localStorage.getItem("user_info")));
@@ -28,5 +27,4 @@ export class SettingsComponent implements OnInit {
   set_page_title(title:string) {
     this.page_title = title;
   }
-
 }

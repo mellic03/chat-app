@@ -18,10 +18,10 @@ export class UserService {
 
   constructor(private socketService:SocketService, private http:HttpClient) { }
 
-  /**
-   * @param username 
-   * @param email 
-   * @param password 
+  /** Create a new user
+   * @param username
+   * @param email
+   * @param password
    * @param executor Username of user performing this action
    */
   create_user(username:string, email:string, password:string, executor:string) {
@@ -33,6 +33,10 @@ export class UserService {
     }, "admin");
   }
   
+  /** Delete a user
+   * @param username 
+   * @param executor Username of user performing this action
+   */
   delete_user(username:string, executor:string) {
     this.socketService.emit("delete_user", {
       username: username,
@@ -40,8 +44,12 @@ export class UserService {
     }, "admin");
   }
 
+  /** Update a user's profile photo
+   * @param username
+   * @param image New profile photo
+   */
   update_profile_photo(username:string, image:any) {
-    this.http.post<any>("http://159.196.6.181:3000/api/update_profile_photo", {
+    this.http.post<any>("https://159.196.6.181:3000/api/update_profile_photo", {
       username: username, image: image
     }).subscribe((img) => {
       // Update image in localStorage
@@ -64,6 +72,11 @@ export class UserService {
     }, "admin");
   }
 
+  /** Update a user's role
+   * @param username 
+   * @param role 
+   * @param group 
+   */
   set_role(username:string, role:number, group:string) {
     this.socketService.emit("set_role", {
       username: username,
@@ -72,7 +85,7 @@ export class UserService {
     }, "admin");
   }
 
-  /**
+  /** Create a new group
    * @param group_name Name of the new group
    * @param executor Username of user performing this action
    */
@@ -83,6 +96,10 @@ export class UserService {
     }, "admin")
   }
   
+  /** Delete a group
+   * @param group_name 
+   * @param executor 
+   */
   delete_group(group_name:string, executor:string) {
     this.socketService.emit("delete_group", {
       group_name: group_name,
@@ -90,6 +107,10 @@ export class UserService {
     }, "admin");
   }
   
+ /** Add a user to a group
+  * @param user_id 
+  * @param group_id 
+  */
   add_user_to_group(user_id:number, group_id:number) {
     this.socketService.emit("add_user_to_group", {
       user_id: user_id,
@@ -97,13 +118,21 @@ export class UserService {
     }, "admin");
   }
   
+  /** Remove a user from a group
+   * @param username 
+   * @param group_name 
+   */
   remove_user_from_group(username:string, group_name:string) {
     this.socketService.emit("remove_user_from_group", {
       username: username,
       group_name: group_name
     }, "admin");
   }
-  
+
+  /** Createa new channel
+   * @param channel_name 
+   * @param group_name 
+   */
   create_channel(channel_name:string, group_name:string) {
     this.socketService.emit("create_channel", {
       channel_name: channel_name,
@@ -111,6 +140,10 @@ export class UserService {
     }, "admin");
   }
   
+  /** Delete a channel
+   * @param channel_name 
+   * @param group_name 
+   */
   delete_channel(channel_name:string, group_name:string) {
     this.socketService.emit("delete_channel", {
       channel_name: channel_name,
@@ -118,6 +151,11 @@ export class UserService {
     }, "admin");
   }
   
+  /** Add a user to an already existing channel
+   * @param username 
+   * @param group_name 
+   * @param channel_name 
+   */
   add_user_to_channel(username:string, group_name:string, channel_name:string) {
     this.socketService.emit("add_user_to_channel", {
       username: username,
@@ -126,6 +164,11 @@ export class UserService {
     }, "admin");
   }
   
+ /** Remove a user from a channel
+  * @param username 
+  * @param group_name 
+  * @param channel_name 
+  */
   remove_user_from_channel(username:string, group_name:string, channel_name:string) {
     this.socketService.emit("remove_user_from_channel", {
       username: username,
@@ -134,6 +177,10 @@ export class UserService {
     }, "admin");
   }
 
+  /** Update the peer id of a user
+   * @param username
+   * @param id new peer id
+   */
   update_peer_id(username:string, id:string) {
     this.socketService.emit("update_peer_id", {
       username: username,

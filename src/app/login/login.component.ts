@@ -30,8 +30,8 @@ export class LoginComponent implements OnInit {
   email:string = "";
   pass:string = "";
 
+  // Send credentials to server for validation
   login(email:string, pass:string) {
-    
     this.http.post<User>('https://159.196.6.181:3000/api/auth',
       {email: email, password: pass}).subscribe((res) => {
         if (res.email == undefined) {

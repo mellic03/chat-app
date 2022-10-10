@@ -24,9 +24,7 @@ export class ChatComponent implements OnInit {
   admin_panel_open:boolean = false;
 
   constructor(private router:Router,
-              private route:ActivatedRoute,
               private http:HttpClient,
-              private userService:UserService,
               private groupService:GroupService,
               private socketService:SocketService)
   { }
@@ -99,7 +97,14 @@ export class ChatComponent implements OnInit {
 
     // Listen for changes to group data
     this.socketService.listen_for_event(group.name, "blyat").subscribe((group:any) => {
+      console.log("Socket event detected");
+      console.log(group);
+      // this.current_group = group;
       this.groupService.set_current_group(group);
+      // group.channels.forEach((channel:Channel) => {
+      //   if (this.current_channel.name == channel.name)
+      //     this.current_channel = channel;
+      // });
     });
   }
   
@@ -114,7 +119,14 @@ export class ChatComponent implements OnInit {
       
       this.socketService.listen_for_event("message").subscribe((data:any) => {
         console.log("Message recieved");
+        console.log(data);
         this.current_channel.messages.unshift(data.message);
+        // this.current_group.channels.forEach(channel => {
+        //   if (channel.name == data.channel_name){
+        //     this.current_channel.messages.unshift(data.message);
+        //     console.log(this.current_channel.messages);
+        //   }
+        // });
       });
     // }
     this.router.navigate(["/chat/chatwindow", this.current_group.name, this.current_channel.name]);
@@ -126,6 +138,7 @@ export class ChatComponent implements OnInit {
     this.router.navigate(["/chat/groupsettings", this.current_group.name]);
   }
 
+  // Close the settings page for the current group.
   close_admin_panel() {
     this.admin_panel_open = false;
     this.router.navigate(["/chat"]);

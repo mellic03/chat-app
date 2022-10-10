@@ -1,12 +1,12 @@
 const { resolve } = require('dns');
 
-module.exports = function(MongoClient) {
+module.exports = function(MongoClient, app) {
 
   const DB = require("./DB/mongodb")(MongoClient);
 
   let module = {};
 
-  module.connect = function(io, PORT) {
+  module.connect = function(io, PORT, app) {
 
     init_channel = function(group_name, channel_name) {
       let channel_path = group_name + '/' + channel_name;
@@ -18,10 +18,28 @@ module.exports = function(MongoClient) {
         console.log("socket joining channel: " + no_whitespace);
         socket.join(socket_channel);
         
+        app.post("/api/add_image_to_chat", (req, res) => {
+          const reqdata = req.body;
+          console.log(`receiving image message from ${reqdata.group_name}/${reqdata.channel_name}`);
+          DB.add_message_to_channel(reqdata.message, reqdata.group_name, reqdata.channel_name).catch((err) => {
+            console.log(err);
+          }).then((group) => {
+
+            socket_channel.to(socket_channel).emit("message", reqdata);
+            DB.get_group(reqdata.group_name).then((group) => {
+              console.log(`emiiting to ${reqdata.group_name}`);
+              socket_channel.emit(reqdata.group_name, group);
+              res.send({response: "received"});
+            });
+            
+          });
+        });
+      
+
         // On message, add to correct channel and re-emit
         socket.on("message", (data) => {
           console.log(data);
-    
+
           DB.add_message_to_channel(data.message, data.group_name, data.channel_name).then((res) => {
             if (res == false) {
               console.log("Failed adding message to " + channel_path);

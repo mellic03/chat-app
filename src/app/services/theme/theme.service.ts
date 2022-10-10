@@ -18,5 +18,4 @@ export class ThemeService {
   get_theme() {
     return this.theme;
   }
-
 }

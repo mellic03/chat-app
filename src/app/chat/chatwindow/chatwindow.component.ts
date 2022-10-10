@@ -27,6 +27,8 @@ export class ChatwindowComponent implements OnInit {
   image_selected:boolean = false;
   image_uploaded:boolean = false;
 
+  images:any = [];
+
   constructor(private router:Router,
               private route:ActivatedRoute,
               private socketService:SocketService,
@@ -61,7 +63,12 @@ export class ChatwindowComponent implements OnInit {
 
     this.groupService.current_channel.subscribe((channel:any) => {
       this.current_channel = channel;
-      // console.log(channel);
+      // load images from messages into images array
+      channel.messages.forEach((msg:Message) => {
+        if (msg.type == "image")
+          this.images.push(msg.content);
+      });
+      console.log(this.images);
     });
 
   }
@@ -69,33 +76,49 @@ export class ChatwindowComponent implements OnInit {
   message_form = this.formBuilder.group({
     message_content: new FormControl('', [Validators.required])
   });
-  send_message(type:string = "text") {
+  send_message() {
+   
     const message_content = this.message_form.value.message_content;
+   
     if (message_content == "" || message_content == null || message_content == undefined)
       return;
 
-    const msg = {
-      message: new Message(this.current_user.username, type, {image: message_content}),
+    let msg = {
+      message: new Message(this.current_user.username, "text", message_content),
       group_name: this.group_name,
       channel_name: this.channel_name
     }
     this.socketService.emit("message", msg);
     this.message_form.reset();
+    
   }
 
-  upload_image(event:any) {
-    this.image_selected = true;
+  // Change the selected image to upload
+  change_image(event:any) {
     if (event.target.files && event.target.files[0]) {
-      var reader = new FileReader();
-
+      const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
-
       reader.onload = (event:any) => {
-        this.message = event.target.result;
-        this.send_message("image");
+        this.image = event.target.result;
+        console.log("Image changed");
       }
     }
   }
 
+  // Upload the selected image to the server
+  upload_image() {
+    this.image_selected = true;
+  
+    const msg = {
+      message: new Message(this.current_user.username, "image", this.image),
+      group_name: this.group_name,
+      channel_name: this.channel_name
+    };
+    console.log(msg);
+
+    this.http.post(`https://159.196.6.181:3000/api/add_image_to_chat`, msg).subscribe((response:any) => {
+      console.log(response);
+    });
+  }
 
 }

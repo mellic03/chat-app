@@ -9,7 +9,6 @@ export class ChannelbuttonComponent implements OnInit {
 
   @Input() name:string = "";
 
-
   constructor() { }
 
   ngOnInit(): void {

@@ -18,15 +18,14 @@ module.exports = function(app, db) {
     const username = req.body.username;
     const image = req.body.image;
     DB.update_profile_photo(username, image).catch((err) => {
-    
       console.log(err);
-    
     }).then((response) => {
-    
       res.send(response);
-      
     });
   });
+
+
+
 
   // Return an array of all usernames
   app.get("/api/users", (req, res) => {
@@ -95,5 +94,7 @@ module.exports = function(app, db) {
       }
     });
   });
+
+
 
 }

@@ -69,13 +69,9 @@ httpsServer.listen(PORT, () => {
   console.log("Server running on " + PORT);
 });
 
-
 const io = require('socket.io')(httpsServer, cors_options)
-io.sockets.on('connection', function (socket) {
-  console.log("EEEEEE");
-});
 
-// Routes
+
 const MongoClient = require("mongodb").MongoClient;
 const uri = "mongodb://127.0.0.1:27017/mydb";
 MongoClient.connect(uri, {}, (err, client) => {
@@ -84,8 +80,8 @@ MongoClient.connect(uri, {}, (err, client) => {
   const db = client.db("chatapp");
 
   require("./API/routes")(app, db);
-  const sockets = require('./sockets')(db);
-  sockets.connect(io, PORT);
+  const sockets = require('./sockets')(db, app);
+  sockets.connect(io, PORT, app);
 
 });
 

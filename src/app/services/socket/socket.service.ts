@@ -17,7 +17,6 @@ export class SocketService {
   /** Listen for a socket event
    * @param event 
    * @param channel Optional
-   * @returns 
    */
   listen_for_event(event:string, channel:string = "") {
 
@@ -39,20 +38,21 @@ export class SocketService {
     }
   }
 
+  /** Join a socket channel
+   * @param channel_name Name of the channel to join
+   */
   join_channel(channel_name:string) {
-    // if (channel_name == this.current_channel) {
-      // return;
-    // }
-    
-    // else {
-      console.log("else");
-      this.emit("unsubscribe", {});
-      this.current_channel = channel_name;
-      channel_name = channel_name.replace(/\s/g, '-');
-      this.socket = io(this.server_url + channel_name, { secure: true, transports: ['websocket'] });
-    // }
+    this.emit("unsubscribe", {});
+    this.current_channel = channel_name;
+    channel_name = channel_name.replace(/\s/g, '-');
+    this.socket = io(this.server_url + channel_name, { secure: true, transports: ['websocket'] });
   }
 
+  /** Emit an event.
+   * @param event Event name 
+   * @param data Data to send with event
+   * @param channel Channel to emit on
+   */
   emit(event:string, data:any, channel:string = "") {
 
     if (channel == "admin") {

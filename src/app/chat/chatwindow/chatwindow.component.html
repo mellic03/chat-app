@@ -9,7 +9,8 @@
       
       <div class="non-user-message" *ngIf="msg.sender != current_user.username">
         <div class="message-content">
-          <p>{{msg.content}}</p>
+          <p *ngIf="msg.type == 'text';">{{msg.content}}</p>
+          <img *ngIf="msg.type == 'image';" src={{msg.content}}>
         </div>
         <div class="message-footer">
           <img class="profile-photo" *ngIf="current_group_images[msg.sender]?.image" src={{current_group_images[msg.sender].image}}>
@@ -20,12 +21,13 @@
       
       <div class="user-message" *ngIf="msg.sender == current_user.username">
         <div class="message-content">
-          <p *ngIf="msg.type == 'text'">{{msg.content}}</p>
-          <img *ngIf="msg.type == 'image'" src="{{msg.content}}">
+          <p *ngIf="msg.type == 'text';">{{msg.content}}</p>
+          <img *ngIf="msg.type == 'image';" src={{msg.content}}>
         </div>
         <div class="message-footer">
           <p>{{msg.sender}}</p>
-          <img class="profile-photo" src={{current_user.profile_photo.image}}>
+          <img class="profile-photo" *ngIf="current_group_images[msg.sender]?.image" src={{current_group_images[msg.sender].image}}>
+          <img class="profile-photo" *ngIf="!current_group_images[msg.sender]?.image" src="../../assets/ppic.jpg">
         </div>
       </div>
       
@@ -35,22 +37,20 @@
   <div class="text-field">
     <form style="min-width: 100%; padding: 0px; margin: 0px;" [formGroup]="message_form" (ngSubmit)="message_form.valid && send_message()">
     <div class="form-group">
-
       <textarea
         style="min-width: 100%;"
         (keydown.enter)="send_message(); false;"
         formControlName="message_content"
         class="form-control">
       </textarea>
-
-      <div style="display: flex; justify-content:end;">
-        <input formControlName="message_content" type="file" id="input-file" name="file" style="display: none" (change)="upload_image($event)">
-        <button onclick="document.querySelector('#input-file').click()" style="padding: 0px; margin: 5px; width: 100px;" class="btn btn-primary"><i class="fa-regular fa-image"></i></button>
-        <button style="padding: 0px; margin: 5px; width: 100px;" class="btn btn-primary">send</button>
-      </div>
-   
     </div>
   </form>
+
+  <div style="display: flex; justify-content:end;">
+    <input type="file" id="input-file" name="file" style="display: none" (change)="change_image($event)">
+    <button onclick="document.querySelector('#input-file').click()" style="padding: 0px; margin: 5px; width: 100px;" class="btn btn-primary"><i class="fa-regular fa-image"></i></button>
+    <button (click)="upload_image();" style="padding: 0px; margin: 5px; width: 100px;" class="btn btn-primary">send</button>
+  </div>
 
   </div>
   

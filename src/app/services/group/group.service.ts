@@ -20,6 +20,7 @@ export class GroupService {
 
   constructor(private http:HttpClient, private socketService:SocketService) { }
 
+  // Update the current_group Subject
   set_current_group(group:Group) {
     this.current_group.next(group);
     this.group = group;
@@ -28,6 +29,7 @@ export class GroupService {
     });
   }
 
+  // Update the current_channel Subject
   set_current_channel(channel:Channel) {
     this.current_channel.next(channel);
     this.channel = channel;

@@ -42,12 +42,12 @@ export class AccountComponent implements OnInit {
     });
   }
 
+
   update_user_form = this.formBuilder.group({
     email: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required])
   });
   update_user_credentials() {
-    console.log("E");
     const data = this.update_user_form.value;
     this.userService.update_user_credentials(data.email, data.password, this.user.username);
     this.update_user_form.reset();
@@ -57,6 +57,7 @@ export class AccountComponent implements OnInit {
     this.show_update_user_success = false;
   }
 
+  // Execute on change event of file input
   on_image_select(event:any) {
     this.image_selected = true;
     if (event.target.files && event.target.files[0]) {
@@ -70,9 +71,9 @@ export class AccountComponent implements OnInit {
     }
   }
 
+  // Upload selected image to server
   upload_image() {
     const reader = new FileReader();
     this.userService.update_profile_photo(this.user.username, {image: this.image});
   }
-
 }
