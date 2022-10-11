@@ -1,7 +1,7 @@
 <div class="root">
 
   <div class="groups">
-    <groupbutton *ngFor="let group of all_groups;" group_name="{{group?.name}}" (click)="open_group(group)"></groupbutton>
+    <groupbutton *ngFor="let group of all_groups;" group_name="{{group?.name}}" group_image="{{group?.image}}" id={{group?.name}} (click)="open_group(group)"></groupbutton>
   </div>
 
   <div class="channels-root">
@@ -10,6 +10,7 @@
       <p>{{current_group?.name}}</p>
       <!-- Permission level must be at least 1 (group assistant) to open admin panel -->
       <a
+        id="groupsettings"
         *ngIf="permissionlevel >= 1 && admin_panel_open == false;"
         class="btn add-channel"
         (click)="open_admin_panel()"
@@ -17,9 +18,10 @@
         data-placement="right"
       ><i class="fa-solid fa-gear"></i></a>
       <a
+      id="groupsettings_exit"
       *ngIf="permissionlevel >= 1 && admin_panel_open == true;"
       class="btn add-channel"
-      (click)="close_admin_panel()"
+      (click)="close_admin_panel(); retrieve_group_data();"
       data-toggle="tooltip"
       data-placement="right"
       ><i class="fa-solid fa-arrow-left-long"></i></a>

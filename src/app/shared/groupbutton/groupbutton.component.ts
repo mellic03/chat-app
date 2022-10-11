@@ -11,6 +11,7 @@ declare var $: any;
 export class GroupbuttonComponent implements OnInit {
 
   @Input() group_name:string = "";
+  @Input() group_image:any;
 
   constructor() { }
   

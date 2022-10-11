@@ -37,15 +37,14 @@ export class GrouppanelComponent implements OnInit {
       this.all_group_names = group_names;
     });
 
-    this.socketService.listen_for_event(`${this.current_user.username}/create_group`, "blyat").subscribe((group_names:any) => {
-      if (group_names == false) {
-        this.show_create_group_error = true;
-        this.show_create_group_success = false;
-      }
-      else {
-        this.all_group_names = group_names;
-        this.show_create_group_success = true;
-      }
+    this.socketService.listen_for_event(`${this.current_user.username}/group_created`, "blyat").subscribe((group_names:any) => {
+      this.all_group_names = group_names;
+      this.show_create_group_success = true;
+    });
+
+    this.socketService.listen_for_event(`${this.current_user.username}/group_not_created`, "blyat").subscribe((group_names:any) => {
+      this.show_create_group_error = true;
+      this.show_create_group_success = false;
     });
 
     this.socketService.listen_for_event(`${this.current_user.username}/delete_group`, "blyat").subscribe((group_names:any) => {

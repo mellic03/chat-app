@@ -19,7 +19,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: '', pathMatch: 'full' },
       { path: 'chatwindow/:group_name/:channel_name', component: ChatwindowComponent },
-      { path: 'groupsettings/:group_name', component: GroupsettingsComponent }
+      { path: 'groupsettings/:group_name/:channel_name', component: GroupsettingsComponent }
     ]
   },
   { path: 'settings', component: SettingsComponent,

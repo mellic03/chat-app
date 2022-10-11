@@ -1,5 +1,6 @@
 <div>
   <a class="btn" data-toggle="tooltip" data-placement="right" title="{{group_name}}">
-    <img src="https://images.unsplash.com/photo-1522728000856-8721ca26ccd6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8c29saXR1ZGV8ZW58MHx8MHx8&w=1000&q=80">
+    <img *ngIf="group_image;" src={{group_image}}>
+    <img *ngIf="!group_image;" src="../../../assets/gpic.png">
   </a>
 </div>

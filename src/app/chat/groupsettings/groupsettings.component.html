@@ -80,8 +80,9 @@
     
         <form [formGroup]="create_channel_form" (ngSubmit)="create_channel_form.valid && create_channel()">
           <div class="form-group">
-            <input formControlName="channel_name" class="form-control" placeholder="Channel Name">
+            <input id="channelname" formControlName="channel_name" class="form-control" placeholder="Channel Name">
             <button
+              id="createchannel"
               [disabled]="!create_channel_form.valid"
               type="submit"
               class="btn btn-primary btn-sm">
@@ -108,6 +109,24 @@
           </div>
         </form>
       </menu-subitem>
+    </menu-item>
+
+    <menu-item title="Group Photo">
+
+      <menu-subitem>
+          <img [src]="group.image" style="max-width: 400px; margin-bottom: 10px;">
+  
+          <input style="display: none;" type="file" name="file" id="file" (change)="on_image_select($event)" />
+          <button onclick="document.querySelector('#file').click()" style="width: 400px;" class="btn btn-primary"><i class="fa-regular fa-image"></i></button>
+          <a *ngIf="image_selected" class="btn btn-primary btn-sm" style="width: 400px;" (click)="upload_image()">
+            Upload
+            &nbsp;
+            <i class="fa-solid fa-arrow-up-from-bracket"></i>
+          </a>
+        <p class="submit-error" *ngIf="show_image_error">*error uploading image</p>
+        <p class="submit-success" *ngIf="show_image_success">*image uploaded</p>
+      </menu-subitem>
+
     </menu-item>
 
   </div>

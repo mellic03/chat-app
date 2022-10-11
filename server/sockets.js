@@ -126,11 +126,11 @@ module.exports = function(MongoClient, app) {
       // Emit an updated list of group names on successful creation of a group
       // If the group already exists, emit false
       socket.on("create_group", (data) => {
-        DB.create_group(data.group_name).catch((err) => {
+        DB.create_group(data.group_name).then((group_names) => {
+          io.emit(`${data.executor}/group_created`, group_names);
+        }).catch((err) => {
           console.log(err);
-          io.emit(`${data.executor}/create_group`, false);
-        }).then((group_names) => {
-          io.emit(`${data.executor}/create_group`, group_names);
+          io.emit(`${data.executor}/group_not_created`, false);
         });
       });
       

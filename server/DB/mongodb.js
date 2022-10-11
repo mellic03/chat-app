@@ -269,7 +269,7 @@ module.exports = function(db) {
         }
         
         else {
-          console.log(group_name);
+          // console.log(group_name);
           // Delete group name from all user.groups
           users.find({groups: {$all: [group_name]}}).toArray((err, user_arr) => {
             user_arr.forEach(user => {
@@ -312,18 +312,15 @@ module.exports = function(db) {
 
         else {
           
-          let gr = {
-            name: group.name,
-            users: [],
-            channels: []
-          };
+          group.users = [];
+          group.channels = [];
 
           users.find({groups: {$all: [group_name]}}).toArray((err, res) => {
-            gr.users = res;
+            group.users = res;
             
             channels.find({parent_group: group_name}).toArray((err, chnls) => {
-              gr.channels = chnls;
-              resolve(gr);
+              group.channels = chnls;
+              resolve(group);
             });
           });
         }
@@ -351,7 +348,6 @@ module.exports = function(db) {
       });
       
     });
-   
   }
 
   /** Return an array of all group names
@@ -374,6 +370,22 @@ module.exports = function(db) {
           if (count >= length)
             resolve(group_names);
           
+        });
+      });
+    });
+  }
+
+  /** Update a group photo
+   * @param group_name
+   * @param image
+   * @returns 
+   */
+  module.update_group_photo = function(group_name, image) {
+    return new Promise((resolve, reject) => {
+      const groups = db.collection("groups");
+      groups.findOne({name: group_name}, (err, group) => {
+        groups.updateOne({name: group_name}, {$set: {image: image}}, (err, res) => {
+          resolve(true);
         });
       });
     });

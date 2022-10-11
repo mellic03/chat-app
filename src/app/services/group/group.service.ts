@@ -63,6 +63,7 @@ export class Group {
   name:string;
   users:Array<any> = [];
   channels:Array<Channel> = [];
+  image:any;
 
   constructor(name:string = "") {
     this.name = name;

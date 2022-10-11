@@ -46,7 +46,7 @@ export class ChatComponent implements OnInit {
       }
     }
 
-    this.retrieve_group_data();
+    this.retrieve_group_data(true);
   }
 
   // Get permission level for current group
@@ -70,15 +70,28 @@ export class ChatComponent implements OnInit {
   }
 
   // Retrieve groups the user is a member of
-  retrieve_group_data() {
+  retrieve_group_data(open_first:boolean = false) {
     const username = this.current_user.username;
     const API_URL = `https://159.196.6.181:3000/api/users/${username}/groups`;
+    console.log("init");
 
     this.http.get<Array<Group>>(API_URL).subscribe((groups) => {
       console.log(groups);
       this.all_groups = groups;
-      this.open_group(groups[0]);
+      if (open_first)
+        this.open_group(groups[0]);
+      else {
+        for (let i=0; i<groups.length; i++) {
+          if (groups[i].name == this.current_group.name) {
+            this.open_group(groups[i]);
+            break;
+          }
+        }
+      }
     });
+
+    this.current_group = this.groupService.group;
+    this.current_channel = this.groupService.channel;
 
     this.groupService.current_group.subscribe((group) => {
       this.current_group = group;
@@ -97,14 +110,22 @@ export class ChatComponent implements OnInit {
 
     // Listen for changes to group data
     this.socketService.listen_for_event(group.name, "blyat").subscribe((group:any) => {
-      console.log("Socket event detected");
-      console.log(group);
-      // this.current_group = group;
+
+      // If group already exists in all_groups, replace it
+      for (let i=0; i<this.all_groups.length; i++) {
+        if (this.all_groups[i].name == group.name) {
+          this.all_groups[i] = group;
+          break;
+        }        
+      }
+
+      this.current_group = group;
       this.groupService.set_current_group(group);
-      // group.channels.forEach((channel:Channel) => {
-      //   if (this.current_channel.name == channel.name)
-      //     this.current_channel = channel;
-      // });
+      group.channels.forEach((channel:Channel) => {
+        if (this.current_channel.name == channel.name)
+          this.current_channel = channel;
+      });
+
     });
   }
   
@@ -129,19 +150,19 @@ export class ChatComponent implements OnInit {
         // });
       });
     // }
-    this.router.navigate(["/chat/chatwindow", this.current_group.name, this.current_channel.name]);
+    this.router.navigate(["/chat/chatwindow/", this.current_group.name, this.current_channel.name]);
   }
 
   // Open the settings page for the current group.
   open_admin_panel() {
     this.admin_panel_open = true;
-    this.router.navigate(["/chat/groupsettings", this.current_group.name]);
+    this.router.navigate(["/chat/groupsettings", this.current_group.name, this.current_channel.name]);
   }
 
   // Close the settings page for the current group.
   close_admin_panel() {
     this.admin_panel_open = false;
-    this.router.navigate(["/chat"]);
-    this.retrieve_group_data();
+    this.router.navigate(["/chat/chatwindow/", this.current_group.name, this.current_channel.name]);
+    // this.retrieve_group_data();
   }
 }

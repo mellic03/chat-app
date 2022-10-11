@@ -3,6 +3,15 @@ const fakeDB = require('../fakeDB/fakeDB');
 module.exports = function(app, MongoClient) {
   const DB = require("../DB/mongodb")(MongoClient);
 
+  // Update a group photo
+  app.post("/api/groups/:group_name/update_photo", (req, res) => {
+    const group_name = req.params.group_name;
+    const image = req.body.photo;
+    DB.update_group_photo(group_name, image).then((response) => {
+      res.send(true);
+    });
+  });
+
   // Return an array of all groups
   app.get("/api/groups", (req, res) => {
     res.send(fakeDB.groups);
@@ -10,11 +19,9 @@ module.exports = function(app, MongoClient) {
 
   // Return an array of all group names.
   app.get("/api/groups/group_names", (req, res) => {
-
     DB.get_group_names().then(groups => {
       res.send(groups);
     });
-
   });
 
   // Return an array of users who are a member of “group_name”
@@ -39,24 +46,7 @@ module.exports = function(app, MongoClient) {
   app.get("/api/groups/:group_name/channels", (req, res) => {
     const group_name = req.params.group_name;
     DB.get_channels_of_group(group_name).then(response => {
-      console.log(response);
       res.send(response);
     });
   });
-
-  // Return the channel “channel_name” from the group “group_name"
-  app.get("/api/groups/:group_name/channels/:channel_name", (req, res) => {
-    const group_name = req.params.group_name;
-    const channel_name = req.params.channel_name;
-    // fakeDB.groups.forEach(group => {
-    //   if (group.name == group_name) {
-    //     group.channels.forEach(channel => {
-    //       if (channel.name == channel_name) {
-    //         res.send(channel);
-    //       }
-    //     });
-    //   }
-    // });
-  });
-
 }

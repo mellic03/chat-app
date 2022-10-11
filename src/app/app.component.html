@@ -8,7 +8,7 @@
             <!-- <li><a class="nav-link" routerLink="/login">Login</a></li> -->
             <li><a class="nav-link" routerLink="/chat">Chat</a></li>
             <li><a class="nav-link" routerLink="/settings">Settings</a></li>
-            <li *ngIf="current_user.role >= 2"><a class="nav-link" routerLink="/adminpanel">Admin Panel</a></li>
+            <li id="adminpanel" *ngIf="current_user.role >= 2"><a class="nav-link" routerLink="/adminpanel">Admin Panel</a></li>
             
           </ul>
           <button (click)="logout()" type="button" class="btn btn-primary">logout</button>

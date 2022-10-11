@@ -23,6 +23,12 @@ export class GroupsettingsComponent implements OnInit {
   all_users:Array<User> = [];
   
 
+  // Selected group image for upload
+  image:any;
+  image_selected:boolean = false;
+  show_image_success:boolean = false;
+  show_image_error:boolean = false;
+
   constructor(private route:ActivatedRoute,
               private http:HttpClient,
               private groupService:GroupService,
@@ -70,7 +76,9 @@ export class GroupsettingsComponent implements OnInit {
     
     this.groupService.current_group.subscribe((group:any) => {
       this.group = group;
+      console.log(this.group);
     });
+    
   }
 
 
@@ -127,5 +135,34 @@ export class GroupsettingsComponent implements OnInit {
     // this.delete_channel_form.reset();
   }
   //-------------------------------------------------------
+
+
+  on_image_select(event:any) {
+    this.image_selected = true;
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+
+      reader.readAsDataURL(event.target.files[0]);
+
+      reader.onload = (event:any) => {
+        this.group.image = event.target.result;
+      }
+    }
+  }
+
+  // Upload selected image to server
+  upload_image() {
+    this.http.post<any>(`https://159.196.6.181:3000/api/groups/${this.group.name}/update_photo/`, {
+      photo: this.image
+    }).subscribe((response) => {
+      if (response == true) {
+        this.show_image_success = true;
+      }
+      else {
+        
+      }
+    });
+  }
+
 
 }

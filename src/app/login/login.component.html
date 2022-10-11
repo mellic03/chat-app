@@ -5,7 +5,7 @@
 
     <form>
       <div class="form-group">
-        <input
+        <input id="email"
           [(ngModel)]="email"
           name="email"
           type="email"
@@ -15,7 +15,7 @@
       </div>
 
       <div class="form-group">
-        <input
+        <input id="password"
           [(ngModel)]="pass"
           name="pass"
           type="password"
@@ -24,7 +24,7 @@
         >
       </div>
       <br>
-      <button (click)="login(email, pass)" class="btn btn-primary">Submit</button>
+      <button id="submit" (click)="login(email, pass)" class="btn btn-primary">Submit</button>
     </form>
 
     <div class="error" *ngIf="show_error_message">

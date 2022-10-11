@@ -50,7 +50,8 @@ export class UserService {
    */
   update_profile_photo(username:string, image:any) {
     this.http.post<any>("https://159.196.6.181:3000/api/update_profile_photo", {
-      username: username, image: image
+      username: username,
+      image: image
     }).subscribe((img) => {
       // Update image in localStorage
       let user_info = JSON.parse(String(localStorage.getItem("user_info")));
@@ -127,6 +128,18 @@ export class UserService {
       username: username,
       group_name: group_name
     }, "admin");
+  }
+
+  /** Update a group photo
+   * @param group_name 
+   * @param photo 
+   */
+  update_group_photo(group_name:string, photo:any) {
+    this.http.post<any>(`https://159.196.6.181:3000/api/groups/${group_name}/update_photo/`, {
+      photo: photo
+    }).subscribe((response) => {
+      return response;
+    });
   }
 
   /** Createa new channel

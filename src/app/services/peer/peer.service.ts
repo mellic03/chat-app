@@ -25,7 +25,7 @@ export class PeerService {
   // Store peer id for user in database
   update_peer_id() {
     // Get info of logged in user
-    this.username = JSON.parse(String(localStorage.getItem("user_info"))).username;
+    this.username = JSON.parse(String(localStorage.getItem("user_info")))?.username;
 
     const API_URL = `https://159.196.6.181:3000/api/users/${this.username}/peer_id`;
     this.userService.update_peer_id(this.username, this.peer_id);
