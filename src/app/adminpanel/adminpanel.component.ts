@@ -21,6 +21,8 @@ export class AdminpanelComponent implements OnInit {
       this.user = JSON.parse(String(localStorage.getItem("user_info")));
     if (this.user?.username == null)
       this.router.navigateByUrl("/login");
+    if (this.user.role < 2)
+      this.router.navigateByUrl("/settings");
     if (this.page_title == "adminpanel")
       this.page_title = "userpanel"  
   }

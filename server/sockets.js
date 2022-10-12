@@ -18,20 +18,20 @@ module.exports = function(MongoClient, app) {
         console.log("socket joining channel: " + no_whitespace);
         socket.join(socket_channel);
         
-        app.post("/api/add_image_to_chat", (req, res) => {
+        app.post(`/api/groups/${channel_path}/add_image`, (req, res) => {
           const reqdata = req.body;
           console.log(`receiving image message from ${reqdata.group_name}/${reqdata.channel_name}`);
-          DB.add_message_to_channel(reqdata.message, reqdata.group_name, reqdata.channel_name).catch((err) => {
-            console.log(err);
-          }).then((group) => {
 
+          DB.add_message_to_channel(reqdata.message, reqdata.group_name, reqdata.channel_name).then(() => {
             socket_channel.to(socket_channel).emit("message", reqdata);
             DB.get_group(reqdata.group_name).then((group) => {
               console.log(`emiiting to ${reqdata.group_name}`);
               socket_channel.emit(reqdata.group_name, group);
               res.send({response: "received"});
             });
-            
+
+          }).catch((err) => {
+            console.log(err);
           });
         });
       

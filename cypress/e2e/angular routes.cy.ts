@@ -45,3 +45,19 @@ describe('Accessing application without being logged in should redirect user to 
     cy.contains("Login");
   });
 })
+
+describe("Accessing admin panel should be impossible if role < 2", () => {
+
+  before("Log in with role < 2", () => {
+    cy.visit("https://localhost:4200/login");
+    cy.get("#email").type("michael@mail.com");
+    cy.get("#password").type("mpass");
+    cy.get("#submit").click();
+  });
+
+  it("Visit /adminpanel", () => {
+    cy.visit("https://localhost:4200/adminpanel");
+    cy.get('p').contains("Admin Panel").should('not.exist');
+  });
+});
+

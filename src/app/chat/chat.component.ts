@@ -30,6 +30,7 @@ export class ChatComponent implements OnInit {
   { }
 
   ngOnInit(): void {
+    console.log("init");
     // Get info of logged-in user. If null, redirect to login page.
     if (typeof(localStorage) !== undefined) {
       // First get info from localStorage, then get updated info from server.
@@ -73,7 +74,6 @@ export class ChatComponent implements OnInit {
   retrieve_group_data(open_first:boolean = false) {
     const username = this.current_user.username;
     const API_URL = `https://159.196.6.181:3000/api/users/${username}/groups`;
-    console.log("init");
 
     this.http.get<Array<Group>>(API_URL).subscribe((groups) => {
       console.log(groups);
@@ -132,8 +132,24 @@ export class ChatComponent implements OnInit {
   // Navigate to the chat window of a given channel
   open_channel(channel:Channel) {
     
-    // Don't allow user to join same channel multiple times at once
-    // if (this.current_channel.name != channel.name) {
+    const username = this.current_user.username;
+    const API_URL = `https://159.196.6.181:3000/api/users/${username}/groups`;
+
+    this.http.get<Array<Group>>(API_URL).subscribe((groups) => {
+      console.log(groups);
+      // this.all_groups = groups;
+      for (let i=0; i<groups.length; i++) {
+        if (groups[i].name == this.current_group.name) {
+          this.current_group.channels = groups[i].channels;
+          for (let j=0; j<groups[i].channels.length; j++)
+            if (groups[i].channels[j].name == channel.name)
+              channel.messages = groups[i].channels[j].messages;
+          break;
+        }
+      }
+
+
+
       this.socketService.join_channel(`${this.current_group?.name}/${channel.name}`);
       
       this.groupService.set_current_channel(channel);
@@ -142,15 +158,13 @@ export class ChatComponent implements OnInit {
         console.log("Message recieved");
         console.log(data);
         this.current_channel.messages.unshift(data.message);
-        // this.current_group.channels.forEach(channel => {
-        //   if (channel.name == data.channel_name){
-        //     this.current_channel.messages.unshift(data.message);
-        //     console.log(this.current_channel.messages);
-        //   }
-        // });
       });
-    // }
-    this.router.navigate(["/chat/chatwindow/", this.current_group.name, this.current_channel.name]);
+      
+      this.router.navigate(["/chat/chatwindow/", this.current_group.name, this.current_channel.name]);
+    });
+
+
+
   }
 
   // Open the settings page for the current group.

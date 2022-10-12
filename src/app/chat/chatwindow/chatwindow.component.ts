@@ -114,9 +114,8 @@ export class ChatwindowComponent implements OnInit {
       group_name: this.group_name,
       channel_name: this.channel_name
     };
-    console.log(msg);
 
-    this.http.post(`https://159.196.6.181:3000/api/add_image_to_chat`, msg).subscribe((response:any) => {
+    this.http.post(`https://159.196.6.181:3000/api/groups/${this.group_name}/${this.channel_name}/add_image`, msg).subscribe((response:any) => {
       console.log(response);
     });
   }

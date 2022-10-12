@@ -153,7 +153,7 @@ export class GroupsettingsComponent implements OnInit {
   // Upload selected image to server
   upload_image() {
     this.http.post<any>(`https://159.196.6.181:3000/api/groups/${this.group.name}/update_photo/`, {
-      photo: this.image
+      photo: this.group.image
     }).subscribe((response) => {
       if (response == true) {
         this.show_image_success = true;

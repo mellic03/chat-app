@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { User, UserService } from 'src/app/services/user/user.service';
 import { HttpClient } from '@angular/common/http';
-import { Group } from 'src/app/services/group/group.service';
+import { Group, GroupService } from 'src/app/services/group/group.service';
 import { SocketService } from 'src/app/services/socket/socket.service';
 
 @Component({
@@ -23,6 +23,7 @@ export class GrouppanelComponent implements OnInit {
   constructor(private userService:UserService,
               private formBuilder:FormBuilder,
               private http:HttpClient,
+              private groupService:GroupService,
               private socketService:SocketService) { }
 
   ngOnInit(): void {
