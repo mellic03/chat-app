@@ -15,17 +15,17 @@ module.exports = function(MongoClient, app) {
 
       socket_channel.on("connection", socket => {
 
-        console.log("socket joining channel: " + no_whitespace);
+        // console.log("socket joining channel: " + no_whitespace);
         socket.join(socket_channel);
         
-        app.post(`/api/groups/${channel_path}/add_image`, (req, res) => {
+        app.post(`/api/groups/${no_whitespace}/add_image`, (req, res) => {
           const reqdata = req.body;
-          console.log(`receiving image message from ${reqdata.group_name}/${reqdata.channel_name}`);
+          socket_channel.to(socket_channel).emit("message", reqdata);
 
           DB.add_message_to_channel(reqdata.message, reqdata.group_name, reqdata.channel_name).then(() => {
-            socket_channel.to(socket_channel).emit("message", reqdata);
+           
             DB.get_group(reqdata.group_name).then((group) => {
-              console.log(`emiiting to ${reqdata.group_name}`);
+              // console.log(`emitting to ${reqdata.group_name}`);
               socket_channel.emit(reqdata.group_name, group);
               res.send({response: "received"});
             });
@@ -38,7 +38,8 @@ module.exports = function(MongoClient, app) {
 
         // On message, add to correct channel and re-emit
         socket.on("message", (data) => {
-          console.log(data);
+          // console.log(data);
+          socket_channel.to(socket_channel).emit("message", data);
 
           DB.add_message_to_channel(data.message, data.group_name, data.channel_name).then((res) => {
             if (res == false) {
@@ -46,7 +47,6 @@ module.exports = function(MongoClient, app) {
             }
            
             else {
-              socket_channel.to(socket_channel).emit("message", data);
               DB.get_group(data.group_name).then((group) => {
                 socket_channel.emit(data.group_name, group);
               }).catch(err => {
@@ -112,12 +112,15 @@ module.exports = function(MongoClient, app) {
 
 
       socket.on("set_role", (data) => {
-        // If group assistant or group admin, also pass grop  
+        // If group assistant or group admin, also pass grop
         if (data.role == 1 || data.role == 2) {
-          DB.set_role(data.username, data.role, data.group);
+          DB.set_role(data.username, data.role, data.group).then(response => {
+            io.emit(`${data.executor}/set_role`, true);
+          });
         }
         else {
           DB.set_role(data.username, data.role, "");
+          io.emit(`${data.executor}/set_role`, true);
         }
       });
 
@@ -148,18 +151,32 @@ module.exports = function(MongoClient, app) {
 
 
       socket.on("add_user_to_group", (data) => {
-        DB.add_user_to_group(data.username, data.group_name).catch((err) => {
+
+        DB.add_user_to_group(data.username, data.group_name).then(() => {
+          DB.get_group(data.group_name).then((group) => {
+            io.emit(data.group_name, group);
+            io.emit(`${data.executor}/add_user_to_group`, true);
+          });
+        }).catch((err) => {
           console.log(err);
-        }).then((group) => {
-          io.emit(data.group_name, DB.get_group(data.group_name));
+          io.emit(`${data.executor}/add_user_to_group`, false);
         });
+
       });
 
 
 
       socket.on("remove_user_from_group", (data) => {
-        // fakeDB.set_role(data.user_id, data.role);
-        // io.emit(data.group_name, fakeDB.get_group(data.group_name));
+        DB.remove_user_from_group(data.username, data.group_name).then((response) => {
+          DB.get_group(data.group_name).then((group) => {
+            io.emit(data.group_name, group);
+            io.emit(`${data.executor}/remove_user_from_group`, true);
+          });
+
+        }).catch((err) => {
+          console.log(err);
+          io.emit(`${data.executor}/remove_user_from_group`, false);
+        });
       });
 
 
@@ -193,20 +210,25 @@ module.exports = function(MongoClient, app) {
 
       socket.on("add_user_to_channel", (data) => {
 
-        DB.add_user_to_channel(data.username, data.group_name, data.channel_name).catch((err) => {
-          console.log(err);
-        }).then((channel) => {
-          io.emit(data.group_name + '/' + data.channel_name, channel);
+        DB.add_user_to_channel(data.username, data.group_name, data.channel_name).then((channel) => {
+          io.emit(data.group_name + '/' + data.channel_name, channel); // Update for everone else
+          io.emit(`${data.executor}/add_user_to_channel`, true); // success message for executor
+          console.log("emitting");
+        }).catch((err) => {
+          console.log(err + "YEEAAHH");
+          io.emit(`${data.executor}/add_user_to_channel`, false); // failure message for executor
         });
       });
 
 
 
       socket.on("remove_user_from_channel", (data) => {
-        DB.remove_user_from_channel(data.username, data.group_name, data.channel_name).catch((err) => {
-          console.log(err); 
-        }).then((channel) => {
+        DB.remove_user_from_channel(data.username, data.group_name, data.channel_name).then((channel) => {
           io.emit(data.group_name + '/' + data.channel_name, channel);
+          io.emit(`${data.executor}/remove_user_from_channel`, true); // success message for executor
+        }).catch((err) => {
+          console.log(err); 
+          io.emit(`${data.executor}/remove_user_from_channel`, false); // failure message for executor
         });
       });
 

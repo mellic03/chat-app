@@ -20,16 +20,14 @@
               <p >To:</p>
               <select formControlName="channel_name" class="form-select" aria-label="Default select example">
                 <option disabled selected value> -- select channel -- </option>
-                <option>Group only</option>
-                <option>All channels</option>
                 <option *ngFor="let channel of channels;">{{channel.name}}</option>
               </select>
               <button [disabled]="!add_user_to_channel_form.valid" type="submit" class="btn btn-primary btn-sm">Add</button>
             </div>
-
           </div>
         </form>
-
+        <p *ngIf="show_add_user_channel_success;" class="submit-success">*user added to channel</p>
+        <p *ngIf="show_add_user_channel_error;" class="submit-error">*user already member of channel</p>
       </menu-subitem>
 
       <menu-subitem title="Remove User">
@@ -44,15 +42,38 @@
               <p>From:</p>
               <select formControlName="channel_name" class="form-select" aria-label="Default select example">
                 <option disabled selected value> -- select channel -- </option>
-                <option>All channels</option>
                 <option *ngFor="let channel of channels;">{{channel.name}}</option>
               </select>
               <button [disabled]="!remove_user_from_channel_form.valid" type="submit" class="btn btn-danger btn-sm">Remove</button>
             </div>
           </div>
         </form>
+        <p *ngIf="show_remove_user_channel_success;" class="submit-success">*user removed from channel</p>
+        <p *ngIf="show_remove_user_channel_error;" class="submit-error">*user not a member of channel</p>
       </menu-subitem>
       
+      <menu-subitem title="Add User To Group">
+        <form [formGroup]="add_user_to_group_form" (ngSubmit)="add_user_to_group_form.valid && add_user_to_group()">
+          <div class="form-group">
+            <div class="inline">
+              <p>Add: </p>
+            <select formControlName="username" class="form-select" aria-label="Default select example">
+              <option disabled selected value> -- select user -- </option>
+              <option *ngFor="let user of all_users;">{{user.username}}</option>
+            </select>
+            <button
+              [disabled]="!add_user_to_group_form.valid"
+              type="submit"
+              class="btn btn-primary btn-sm">
+              Add
+            </button>
+          </div>
+        </div>
+        </form>
+        <p *ngIf="show_add_user_group_success;" class="submit-success">*user added to group</p>
+        <p *ngIf="show_add_user_group_error;" class="submit-error">*user already member of group</p>
+      </menu-subitem>
+
       <!-- Must be group admin to remove users from group (role >= 2) -->
       <menu-subitem *ngIf="current_role >= 2" title="Remove User from Group">
         <form [formGroup]="remove_user_from_group_form" (ngSubmit)="remove_user_from_group_form.valid && remove_user_from_group()">
@@ -72,6 +93,8 @@
           </div>
         </div>
         </form>
+        <p *ngIf="show_remove_user_group_success;" class="submit-success">*user removed from group</p>
+        <p *ngIf="show_remove_user_group_error;" class="submit-error">*user not member of group</p>
       </menu-subitem>
     </menu-item>
 

@@ -27,6 +27,9 @@ export class UserpanelComponent implements OnInit {
   show_create_user_success:boolean = false;
   show_delete_user_success:boolean = false;
 
+  show_role_success:boolean = false;
+  show_role_error :boolean = false;
+
   group_names:Array<string> = [];
 
   constructor(private userService:UserService,
@@ -75,6 +78,18 @@ export class UserpanelComponent implements OnInit {
       else {
         this.all_users = users;
         this.show_delete_user_success = true;
+      }
+    });
+
+
+    this.socketService.listen_for_event(`${this.current_user.username}/set_role`, "blyat").subscribe((success:any) => {
+      if (success) {
+        this.show_role_success = true;
+        this.show_role_error = false;
+      }
+      else {
+        this.show_role_error = true;
+        this.show_role_success = false;
       }
     });
   }
@@ -130,9 +145,13 @@ export class UserpanelComponent implements OnInit {
       return;
     }
     else {
-      this.userService.set_role(data.username, data.role, data.group);
+      this.userService.set_role(data.username, data.role, data.group, this.current_user.username);
       this.permission_form.reset();
     }
+  }
+  update_role_clear_msg() {
+    this.show_role_error = false;
+    this.show_role_success = false;
   }
   //----------------------------------------------------
 

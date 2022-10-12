@@ -121,11 +121,6 @@ export class ChatComponent implements OnInit {
 
       this.current_group = group;
       this.groupService.set_current_group(group);
-      group.channels.forEach((channel:Channel) => {
-        if (this.current_channel.name == channel.name)
-          this.current_channel = channel;
-      });
-
     });
   }
   
@@ -137,7 +132,7 @@ export class ChatComponent implements OnInit {
 
     this.http.get<Array<Group>>(API_URL).subscribe((groups) => {
       console.log(groups);
-      // this.all_groups = groups;
+      this.all_groups = groups;
       for (let i=0; i<groups.length; i++) {
         if (groups[i].name == this.current_group.name) {
           this.current_group.channels = groups[i].channels;
@@ -148,35 +143,38 @@ export class ChatComponent implements OnInit {
         }
       }
 
-
-
-      this.socketService.join_channel(`${this.current_group?.name}/${channel.name}`);
+      this.socketService.join_channel(`${this.current_group?.name}/${channel?.name}`);
       
       this.groupService.set_current_channel(channel);
+      this.current_channel = channel;
       
       this.socketService.listen_for_event("message").subscribe((data:any) => {
-        console.log("Message recieved");
-        console.log(data);
         this.current_channel.messages.unshift(data.message);
       });
       
-      this.router.navigate(["/chat/chatwindow/", this.current_group.name, this.current_channel.name]);
+      if (this.current_channel != undefined)
+        this.router.navigate(["/chat/chatwindow", this.current_group.name, this.current_channel.name]);
+      else
+        this.router.navigate(["/chat/chatwindow", this.current_group.name]);  
     });
-
-
 
   }
 
   // Open the settings page for the current group.
   open_admin_panel() {
     this.admin_panel_open = true;
-    this.router.navigate(["/chat/groupsettings", this.current_group.name, this.current_channel.name]);
+    if (this.current_channel != undefined)
+      this.router.navigate(["/chat/groupsettings/", this.current_group.name, this.current_channel.name]);
+    else
+      this.router.navigate(["/chat/groupsettings", this.current_group.name]); 
   }
 
   // Close the settings page for the current group.
   close_admin_panel() {
     this.admin_panel_open = false;
-    this.router.navigate(["/chat/chatwindow/", this.current_group.name, this.current_channel.name]);
-    // this.retrieve_group_data();
+    if (this.current_channel != undefined)
+      this.router.navigate(["/chat/chatwindow/", this.current_group.name, this.current_channel.name]);
+    else
+      this.router.navigate(["/chat/chatwindow/", this.current_group.name]);
   }
 }

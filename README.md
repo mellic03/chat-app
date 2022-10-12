@@ -1,24 +1,18 @@
-# [Chat-App](https://github.com/mellic03/chat-app)
+# **[Chat-App](https://github.com/mellic03/chat-app)**
 
 
 # CONTENTS
 
 
-1. [Git](#Git)
-2. [Data Structures](#Data-Structures)
-3. [Angular Architecture](#Angular-Architecture)
-    - [Components](#Components)
-    - [Services](#Services)
-4. [Node Server Architecture](#Node-Server-Architecture)
-    - [Modules](#Modules)
-    - [REST API](#REST-API)
+[TOC]
 
-<a name=Git></a>
+
+
 # **Git**
 
 This Git repository is composed of two branches: main and dev. New features are developed on the dev branch until they are considered stable, after which the dev branch is merged into main.
 
-<a name=Data-Structures></a>
+
 # **Data Structures**
 
 **User**
@@ -47,6 +41,8 @@ The permissionlevel object contains a property named after each group the user i
 
 <li>role: number
 
+<li>profile_photo: any
+
 <li>permissionlevels:Object
 </li>
 </ul>
@@ -73,7 +69,7 @@ The permissionlevel object contains a property named after each group the user i
 
 <li>sender: string
 
-<li>content: string
+<li>content: any
 </li>
 </ul>
    </td>
@@ -126,7 +122,7 @@ The permissionlevel object contains a property named after each group the user i
 <ul>
 
 <li>name: string
-
+<li>photo: any
 <li>users: Array&lt;string>
 
 <li>channels: Array&lt;Channel>
@@ -137,10 +133,10 @@ The permissionlevel object contains a property named after each group the user i
 </table>
 
 
-<a name=Angular-Architecture></a>
+
 # **Angular Architecture**
 
-<a name=Components></a>
+
 ## Components
 
 **LoginComponent**
@@ -364,7 +360,7 @@ The permissionlevel object contains a property named after each group the user i
 </table>
 
 
-<a name=Services></a>
+
 ## Services
 
 **SocketService**
@@ -489,20 +485,20 @@ The permissionlevel object contains a property named after each group the user i
 </table>
 
 
-<a name=Node-Server-Architecture></a>
+
 # **Node Server Architecture**
 
-<a name=Modules></a>
+
 ## Modules
 
-**fakeDB.js**
+**mongodb.js**
 
 
 <table>
   <tr>
    <td><strong>Description</strong>
    </td>
-   <td>Various methods for interacting with the stored data in users.json and groups.json
+   <td>A file containing functions for interacting with the mongodb database.
    </td>
   </tr>
   <tr>
@@ -511,35 +507,53 @@ The permissionlevel object contains a property named after each group the user i
    <td>
 <ul>
 
-<li>get_groups_of_user()
-
-<li>get_users_of_group()
-
-<li>get_channels_of_group()
-
-<li>get_group()
+<li>verify_user()
 
 <li>create_user()
 
 <li>delete_user()
 
-<li>set_role()
+<li>get_user()
+
+<li>update_user_credentials()
+
+<li>update_profile_photo()
+
+<li>add_message_to_channel()
+
+<li>get_groups_of_user()
+
+<li>get_channels_of_user()
 
 <li>create_group()
 
 <li>delete_group()
 
-<li>add_user_to_group()
+<li>get_group()
 
-<li>remove_user_from_group()
+<li>get_group_names()
+
+<li>update_group_photo()
+
+<li>get_channels()
 
 <li>create_channel()
 
 <li>delete_channel()
 
+<li>get_channels_of_group()
+
+<li>add_user_to_group()
+
+<li>remove_user_from_group()
+
 <li>add_user_to_channel()
 
 <li>remove_user_from_channel()
+
+<li>set_role()
+
+<li>update_peer_id()
 </li>
 </ul>
    </td>
@@ -592,10 +606,12 @@ The permissionlevel object contains a property named after each group the user i
 </table>
 
 
-<a name=REST-API></a>
+
 ## REST API
 
-All API routes are GET requests except for /api/auth, which is POST. Any time data needs to be changed on the server, sockets are used for the request. After the request is completed, any data changed by the request is then emitted under an event named after the data. For example, if a client requests to delete a user, the server will delete the user and then emit an event called “users” which contains the new list of users.
+All API endpoints are GET except for four which are POST (listed below). Generally, any time data needs to be changed on the server, sockets are used for the request. After the request is completed, any data changed by the request is then emitted under an event named after the data. For example, if a client requests to delete a user, the server will delete the user and then emit an event called “users” which contains the new list of users.
+
+The following API endpoints are POST:
 
 **/api/auth**
 
@@ -615,6 +631,65 @@ All API routes are GET requests except for /api/auth, which is POST. Any time da
   </tr>
 </table>
 
+
+**/api/groups/:group_name/update_photo**
+
+
+<table>
+  <tr>
+   <td><strong>Description</strong>
+   </td>
+   <td>Update the group photo
+   </td>
+  </tr>
+  <tr>
+   <td><strong>Return</strong>
+   </td>
+   <td>True or false on success or failure
+   </td>
+  </tr>
+</table>
+
+
+**/api/update_profile_photo**
+
+
+<table>
+  <tr>
+   <td><strong>Description</strong>
+   </td>
+   <td>Update the profile photo of a user
+   </td>
+  </tr>
+  <tr>
+   <td><strong>Return</strong>
+   </td>
+   <td>True or false on success or failure
+   </td>
+  </tr>
+</table>
+
+
+**/api/groups/:group_name/:channel_name/add_image**
+
+
+<table>
+  <tr>
+   <td><strong>Description</strong>
+   </td>
+   <td>Send an image message to a channel
+   </td>
+  </tr>
+  <tr>
+   <td><strong>Return</strong>
+   </td>
+   <td>True or false on success or failure
+   </td>
+  </tr>
+</table>
+
+
+The following API endpoints are GET:
 
 **/api/groups/names**
 
@@ -654,7 +729,7 @@ All API routes are GET requests except for /api/auth, which is POST. Any time da
 </table>
 
 
-**/api/groups/:group_name/users **
+**/api/groups/:group_name/users**
 
 
 <table>

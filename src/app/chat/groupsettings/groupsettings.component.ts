@@ -15,6 +15,7 @@ export class GroupsettingsComponent implements OnInit {
 
   // Permission level
   current_role:number = 0;
+  current_user:User = new User("", "");
 
   group_name:string = "";
   group:Group = new Group();
@@ -22,6 +23,19 @@ export class GroupsettingsComponent implements OnInit {
   users_of_group:Array<User> = [];
   all_users:Array<User> = [];
   
+  show_add_user_channel_success:boolean = false;
+  show_add_user_channel_error:boolean = false;
+  show_remove_user_channel_success:boolean = false;
+  show_remove_user_channel_error:boolean = false;
+  
+  show_add_user_group_success:boolean = false;
+  show_add_user_group_error:boolean = false;
+  show_remove_user_group_success:boolean = false;
+  show_remove_user_group_error:boolean = false;
+  
+  show_create_channel_success:boolean = false;
+  show_delete_channel_success:boolean = false;
+
 
   // Selected group image for upload
   image:any;
@@ -38,10 +52,15 @@ export class GroupsettingsComponent implements OnInit {
   { }
 
   ngOnInit(): void {
+
+    // Retrieve user info from localStorage
+    if (typeof(localStorage) !== undefined)
+      this.current_user = JSON.parse(String(localStorage.getItem("user_info")));
+
     this.route.params.subscribe((params:any) => {
       this.group_name = params.group_name;
     });
-      
+
     // Get permission level from localStorage
     this.current_role = JSON.parse(String(localStorage.getItem("user_info"))).role;
     
@@ -69,18 +88,56 @@ export class GroupsettingsComponent implements OnInit {
       this.users_of_group = users;
     });
     
-    // this.socketService.listen_for_event(this.group_name, "blyat").subscribe((data:any) => {
-    //   console.log("Sservice");
-    //   this.groupService.set_current_group(data);
-    // });
-    
     this.groupService.current_group.subscribe((group:any) => {
       this.group = group;
       console.log(this.group);
     });
-    
-  }
 
+
+    this.socketService.listen_for_event(`${this.current_user.username}/add_user_to_channel`, "blyat").subscribe((success) => {
+      if (success) {
+        this.show_add_user_channel_success = true;
+        this.show_add_user_channel_error = false;
+      }
+      else {
+        this.show_add_user_channel_error = true;
+        this.show_add_user_channel_success = false;
+      }
+    });
+
+    this.socketService.listen_for_event(`${this.current_user.username}/remove_user_from_channel`, "blyat").subscribe((success) => {
+      if (success) {
+        this.show_remove_user_channel_success = true;
+        this.show_remove_user_channel_error = false;
+      }
+      else {
+        this.show_remove_user_channel_error = true;
+        this.show_remove_user_channel_success = false;
+      }
+    });
+
+    this.socketService.listen_for_event(`${this.current_user.username}/add_user_to_group`, "blyat").subscribe((success) => {
+      if (success) {
+        this.show_add_user_group_success = true;
+        this.show_add_user_group_error = false;
+      }
+      else {
+        this.show_add_user_group_success = false;
+        this.show_add_user_group_error = true;
+      }
+    });
+
+    this.socketService.listen_for_event(`${this.current_user.username}/remove_user_from_group`, "blyat").subscribe((success) => {
+      if (success) {
+        this.show_remove_user_group_success = true;
+        this.show_remove_user_group_error = false;
+      }
+      else {
+        this.show_remove_user_group_success = false;
+        this.show_remove_user_group_error = true;
+      }
+    });
+  }
 
   // Forms
   //-------------------------------------------------------
@@ -91,7 +148,8 @@ export class GroupsettingsComponent implements OnInit {
   });
   add_user_to_channel() {
     const data = this.add_user_to_channel_form.value;
-    this.userService.add_user_to_channel(data.username, this.group_name, data.channel_name);
+    this.userService.add_user_to_channel(data.username, this.group_name, data.channel_name, this.current_user.username);
+    this.add_user_to_channel_form.reset();
   }
 
   // Remove user from channel
@@ -101,16 +159,24 @@ export class GroupsettingsComponent implements OnInit {
   });
   remove_user_from_channel() {
     const data = this.remove_user_from_channel_form.value;
-    this.userService.remove_user_from_channel(data.username, this.group_name, data.channel_name);
+    this.userService.remove_user_from_channel(data.username, this.group_name, data.channel_name, this.current_user.username);
   }
 
+  // Add user to group
+  add_user_to_group_form = this.formBuilder.group({
+    username: new FormControl('', [Validators.required])
+  });
+  add_user_to_group() {
+    const data = this.add_user_to_group_form.value;
+    this.userService.add_user_to_group(data.username, this.group_name, this.current_user.username);
+  }
   // Remove user from group
   remove_user_from_group_form = this.formBuilder.group({
     username: new FormControl('', [Validators.required])
   });
   remove_user_from_group() {
     const data = this.remove_user_from_group_form.value;
-    this.userService.remove_user_from_group(data.username, this.group_name);
+    this.userService.remove_user_from_group(data.username, this.group_name, this.current_user.username);
   }
 
   // Create channel

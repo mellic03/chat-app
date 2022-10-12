@@ -502,32 +502,79 @@ module.exports = function(db) {
     });
   }
 
+  /** Add a user to a group
+   * @param {*} username Username of user to add
+   * @param {*} group_name Name of group to add to
+   */
   module.add_user_to_group = function(username, group_name) {
     return new Promise((resolve, reject) => {
-      const groups = db.collection("group");
+      const groups = db.collection("groups");
       const users = db.collection("users");
       groups.findOne({name: group_name}, (err, group) => {
         
-        // Check if user is already member of group
-        let index = group.users.indexOf(username);
-        if (index >= 0) {
-          reject(`${username} already in ${group_name}.users`);
+        if (group == null) {
+          reject(`Cannot find group: ${group_name}`);
         }
-
         else {
-          group.users.push(username);
-          // Add user to group
-          groups.insertOne({name: group_name}, {$set: {users: group.users}}, (err, res) => {
-            // Add group to user's groups array
-            users.findOne({username: username}, (err, usr) => {
-              usr.groups.push(group_name);
-              users.updateOne({username: username}, {$set: {groups: usr.groups}}, (err, res) => {
-                resolve(true);
+          
+          // Check if user is already member of group
+          let index = group.users.indexOf(username);
+          if (index >= 0) {
+            reject(`${username} already in ${group_name}.users`);
+          }
+          
+          else {
+            group.users.push(username);
+            // Add user to group
+            groups.updateOne({name: group_name}, {$set: {users: group.users}}, (err, res) => {
+              // Add group to user's groups array
+              users.findOne({username: username}, (err, usr) => {
+                usr.groups.push(group_name);
+                users.updateOne({username: username}, {$set: {groups: usr.groups}}, (err, res) => {
+                  resolve(true);
+                });
               });
             });
-          });
+          }
         }
 
+      });
+    });
+  }
+
+  /** Remove a user from a group
+   * @param {*} username username of the user to remove
+   * @param {*} group_name name of the group to remove from
+   */
+  module.remove_user_from_group = function(username, group_name) {
+    return new Promise((resolve, reject) => {
+      const groups = db.collection("groups");
+      const channels = db.collection("channels");
+    
+      // Find all channels in group_name and remove username from channel.users
+      channels.find({ $and: [ {users: {$all: [username]}}, {parent_group: group_name} ] }).toArray((err, chnls) => {
+        chnls.forEach((channel) => {
+          channel.users.splice(channel.users.indexOf(username), 1);
+          channels.updateOne({parent_group: group_name, name: channel.name}, {
+            $set: {users: channel.users}
+          });
+        });
+      });
+
+      // Find and remove user from group
+      groups.findOne({name: group_name}, (err, group) => {
+        let index = group.users.indexOf(username);
+        if (index < 0) {
+          reject(`Cannot find user: ${username} in group: ${group_name}`);
+        }
+        else {
+          group.users.splice(index, 1);
+          groups.updateOne({name: group_name}, {
+            $set: {users: group.users}
+          }, (err, response) => {
+            resolve(true);
+          });
+        }
       });
     });
   }
@@ -601,13 +648,19 @@ module.exports = function(db) {
           reject(`Cannot find channel: '${channel_name}' containing user: '${username}'`);
         }
         else {
-          channel.users.splice(channel.users.indexOf(username), 1);
-          const update = {
-            $set: {users: channel.users}
-          };
-          channels.updateOne({name: channel_name}, update, (err, res) => {
-            resolve(channel);
-          });
+          let index = channel.users.indexOf(username);
+          if (index < 0) {
+            reject(`User: ${username} not member of channel: ${channel_name}`);
+          }
+          else {
+            channel.users.splice(index, 1);
+            const update = {
+              $set: {users: channel.users}
+            };
+            channels.updateOne({name: channel_name}, update, (err, res) => {
+              resolve(channel);
+            });
+          }
         }
       });
     });

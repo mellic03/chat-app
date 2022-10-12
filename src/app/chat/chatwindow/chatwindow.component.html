@@ -37,7 +37,7 @@
   <div class="text-field">
     <form style="min-width: 100%; padding: 0px; margin: 0px;" [formGroup]="message_form" (ngSubmit)="message_form.valid && send_message()">
     <div class="form-group">
-      <textarea
+      <textarea id="chattext"
         style="min-width: 100%;"
         (keydown.enter)="send_message(); false;"
         formControlName="message_content"
@@ -46,10 +46,17 @@
     </div>
   </form>
 
-  <div style="display: flex; justify-content:end;">
+  <div style="display: flex; justify-content:space-between; align-items: center;">
+
     <input type="file" id="input-file" name="file" style="display: none" (change)="change_image($event)">
-    <button onclick="document.querySelector('#input-file').click()" style="padding: 0px; margin: 5px; width: 100px;" class="btn btn-primary"><i class="fa-regular fa-image"></i></button>
+
+    <div style="display: flex; align-items: center;">
+      <button onclick="document.querySelector('#input-file').click()" style="padding: 0px; margin: 5px; width: 100px;" class="btn btn-primary"><i class="fa-regular fa-image"></i></button>
+      <p *ngIf="image_selected;" style="padding: 0px; margin: 0px;">{{image_name}}</p>
+    </div>
+
     <button (click)="upload_image();" style="padding: 0px; margin: 5px; width: 100px;" class="btn btn-primary">send</button>
+
   </div>
 
   </div>

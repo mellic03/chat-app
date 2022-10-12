@@ -77,12 +77,14 @@ export class UserService {
    * @param username 
    * @param role 
    * @param group 
+   * @param executor Username of user performing this action
    */
-  set_role(username:string, role:number, group:string) {
+  set_role(username:string, role:number, group:string, executor:string) {
     this.socketService.emit("set_role", {
       username: username,
       role: role,
-      group: group
+      group: group,
+      executor: executor
     }, "admin");
   }
 
@@ -112,10 +114,11 @@ export class UserService {
   * @param user_id 
   * @param group_id 
   */
-  add_user_to_group(user_id:number, group_id:number) {
+  add_user_to_group(username:string, group_name:string, executor:string) {
     this.socketService.emit("add_user_to_group", {
-      user_id: user_id,
-      group_id: group_id
+      username: username,
+      group_name: group_name,
+      executor: executor
     }, "admin");
   }
   
@@ -123,10 +126,11 @@ export class UserService {
    * @param username 
    * @param group_name 
    */
-  remove_user_from_group(username:string, group_name:string) {
+  remove_user_from_group(username:string, group_name:string, executor:string) {
     this.socketService.emit("remove_user_from_group", {
       username: username,
-      group_name: group_name
+      group_name: group_name,
+      executor: executor
     }, "admin");
   }
 
@@ -168,12 +172,14 @@ export class UserService {
    * @param username 
    * @param group_name 
    * @param channel_name 
+   * @param executor Username of user performing this action
    */
-  add_user_to_channel(username:string, group_name:string, channel_name:string) {
+  add_user_to_channel(username:string, group_name:string, channel_name:string, executor:string) {
     this.socketService.emit("add_user_to_channel", {
       username: username,
       group_name: group_name,
-      channel_name: channel_name
+      channel_name: channel_name,
+      executor: executor
     }, "admin");
   }
   
@@ -181,12 +187,14 @@ export class UserService {
   * @param username 
   * @param group_name 
   * @param channel_name 
+   * @param executor Username of user performing this action
   */
-  remove_user_from_channel(username:string, group_name:string, channel_name:string) {
+  remove_user_from_channel(username:string, group_name:string, channel_name:string, executor:string) {
     this.socketService.emit("remove_user_from_channel", {
       username: username,
       group_name: group_name,
-      channel_name: channel_name
+      channel_name: channel_name,
+      executor: executor
     }, "admin");
   }
 

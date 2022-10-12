@@ -1,4 +1,4 @@
-const API_URL = "https://159.196.6.181:3000";
+let API_URL = "https://159.196.6.181:3000";
 
 describe("Each POST endpoint should respond", () => {
   
@@ -35,11 +35,6 @@ describe("Each GET endpoint should respond", () => {
     cy.get("@response");
   });
 
-  it("/api/groups", () => {
-    cy.request("get", API_URL + "/api/groups").as("response");
-    cy.get("@response");
-  });
-
   it("/api/groups/group_names", () => {
     cy.request("get", API_URL + "/api/groups/group_names").as("response");
     cy.get("@response");
@@ -59,7 +54,6 @@ describe("Each GET endpoint should respond", () => {
     cy.request("get", API_URL + "/api/groups/e2e_test_group/channels").as("response");
     cy.get("@response");
   });
-
 
 });
 

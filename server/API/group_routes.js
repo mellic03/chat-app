@@ -1,5 +1,3 @@
-const fakeDB = require('../fakeDB/fakeDB');
-
 module.exports = function(app, MongoClient) {
   const DB = require("../DB/mongodb")(MongoClient);
 
@@ -10,11 +8,6 @@ module.exports = function(app, MongoClient) {
     DB.update_group_photo(group_name, image).then((response) => {
       res.send(true);
     });
-  });
-
-  // Return an array of all groups
-  app.get("/api/groups", (req, res) => {
-    res.send(fakeDB.groups);
   });
 
   // Return an array of all group names.

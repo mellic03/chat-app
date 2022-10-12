@@ -56,7 +56,9 @@
     </menu-item>
 
     <menu-item title="User Permissions">
-      <form [formGroup]="permission_form" (ngSubmit)="permission_form.valid && update_user_permissions()">
+      <form [formGroup]="permission_form"
+            (ngSubmit)="permission_form.valid && update_user_permissions()"
+            (click)="update_role_clear_msg()">
 
         <label>Username</label>
         <select formControlName="username" class="form-select" aria-label="Default select example">
@@ -89,6 +91,8 @@
         Update
         </button>
       </form>
+      <!-- <p class="submit-error" *ngIf="show_role_error">*user already has this role</p> -->
+      <p class="submit-success" *ngIf="show_role_success">*role updated</p>
     </menu-item>
   </div>
 </div>

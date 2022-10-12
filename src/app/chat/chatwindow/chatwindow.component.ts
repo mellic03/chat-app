@@ -24,6 +24,7 @@ export class ChatwindowComponent implements OnInit {
   channel_name:string = ""
 
   image:any;
+  image_name:string = "";
   image_selected:boolean = false;
   image_uploaded:boolean = false;
 
@@ -64,11 +65,11 @@ export class ChatwindowComponent implements OnInit {
     this.groupService.current_channel.subscribe((channel:any) => {
       this.current_channel = channel;
       // load images from messages into images array
-      channel.messages.forEach((msg:Message) => {
-        if (msg.type == "image")
-          this.images.push(msg.content);
-      });
-      console.log(this.images);
+      // channel.messages.forEach((msg:Message) => {
+      //   if (msg.type == "image")
+      //     this.images.push(msg.content);
+      // });
+      // console.log(this.images);
     });
 
   }
@@ -95,6 +96,10 @@ export class ChatwindowComponent implements OnInit {
 
   // Change the selected image to upload
   change_image(event:any) {
+
+    this.image_name = event.target.files[0].name;
+    this.image_selected = true;
+
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
@@ -103,21 +108,31 @@ export class ChatwindowComponent implements OnInit {
         console.log("Image changed");
       }
     }
+
+    event.target.value = "";
   }
 
   // Upload the selected image to the server
   upload_image() {
-    this.image_selected = true;
   
-    const msg = {
-      message: new Message(this.current_user.username, "image", this.image),
-      group_name: this.group_name,
-      channel_name: this.channel_name
-    };
+    if (this.image_selected) {
+      const msg = {
+        message: new Message(this.current_user.username, "image", this.image),
+        group_name: this.group_name,
+        channel_name: this.channel_name
+      };
 
-    this.http.post(`https://159.196.6.181:3000/api/groups/${this.group_name}/${this.channel_name}/add_image`, msg).subscribe((response:any) => {
-      console.log(response);
-    });
+      let channel_path = this.group_name + "/" + this.channel_name;
+      let no_whitespace = channel_path.replace(/\s/g, '-');
+      
+      this.http.post(`https://159.196.6.181:3000/api/groups/${no_whitespace}/add_image`, msg).subscribe((response:any) => {
+        console.log(response);
+      });
+    }
+
+    this.send_message();
+
+    this.image_selected = false;
   }
 
 }

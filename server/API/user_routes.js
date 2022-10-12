@@ -1,5 +1,3 @@
-const fakeDB = require('../fakeDB/fakeDB');
-
 module.exports = function(app, db) {
   const DB = require("../DB/mongodb")(db);
 
