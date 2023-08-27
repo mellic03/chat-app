@@ -53,7 +53,7 @@ const cors_options = {
 }
 
 app.use(express.json({limit: "25mb"}));
-app.use(express.urlencoded({limit: "25mb"}));
+// app.use(express.urlencoded({limit: "25mb"}));
 app.use(cors(cors_options));
 
 const PORT = 3000;
