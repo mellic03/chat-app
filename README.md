@@ -1,6 +1,9 @@
 # **[Chat-App](https://github.com/mellic03/chat-app)**
 
 
+This branch exists for 2808ict Secure Development Operations assignment 1.
+
+
 # CONTENTS
 
 
