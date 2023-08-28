@@ -65,25 +65,25 @@ export class GroupsettingsComponent implements OnInit {
     this.current_role = JSON.parse(String(localStorage.getItem("user_info"))).role;
     
     // Get list of channels in group from server
-    let api_url = `http://127.0.0.1:3000/api/groups/${this.group_name}/channels`;
+    let api_url = `mongoserver:3000/api/groups/${this.group_name}/channels`;
     this.http.get(api_url).subscribe((channels:any) => {
       this.channels = channels;
     });
     
     // Get group data from server
-    api_url = `http://127.0.0.1:3000/api/groups/${this.group_name}`;
+    api_url = `mongoserver:3000/api/groups/${this.group_name}`;
     this.http.get(api_url).subscribe((group:any) => {
       this.group = group;
     });
     
     // Get list of all users from server
-    api_url = `http://127.0.0.1:3000/api/users`;
+    api_url = `mongoserver:3000/api/users`;
     this.http.get(api_url).subscribe((users:any) => {
       this.all_users = users;
     });
 
     // Get list of all users in current group from server
-    api_url = `http://127.0.0.1:3000/api/groups/${this.group_name}/users`;
+    api_url = `mongoserver:3000/api/groups/${this.group_name}/users`;
     this.http.get(api_url).subscribe((users:any) => {
       this.users_of_group = users;
     });
@@ -186,7 +186,7 @@ export class GroupsettingsComponent implements OnInit {
   create_channel() {
     const data = this.create_channel_form.value;
     this.userService.create_channel(data.channel_name, this.group_name);
-    this.http.get(`http://127.0.0.1:3000/api/groups/${this.group_name}/channels`);
+    this.http.get(`mongoserver:3000/api/groups/${this.group_name}/channels`);
     this.create_channel_form.value.channel_name = '';
     this.create_channel_form.reset()
   }
@@ -218,7 +218,7 @@ export class GroupsettingsComponent implements OnInit {
 
   // Upload selected image to server
   upload_image() {
-    this.http.post<any>(`http://127.0.0.1:3000/api/groups/${this.group.name}/update_photo/`, {
+    this.http.post<any>(`mongoserver:3000/api/groups/${this.group.name}/update_photo/`, {
       photo: this.group.image
     }).subscribe((response) => {
       if (response == true) {

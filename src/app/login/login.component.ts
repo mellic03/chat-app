@@ -32,13 +32,13 @@ export class LoginComponent implements OnInit {
 
   // Send credentials to server for validation
   login(email:string, pass:string) {
-    this.http.post<User>('http://127.0.0.1:3000/api/auth',
+    this.http.post<User>('mongoserver:3000/api/auth',
       {email: email, password: pass}).subscribe((res) => {
         if (res.email == undefined) {
           this.show_error_message = true;
         }
         else {
-          let api_url = `http://127.0.0.1:3000/api/users/${res.username}`
+          let api_url = `mongoserver:3000/api/users/${res.username}`
           this.http.get<User>(api_url).subscribe(data => {
             this.userService.current_user.next(data);
           });

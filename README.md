@@ -36,6 +36,16 @@
 
 
 
+### Running the Docker Containers
+
+- Download mongo from DockerHub \
+    `docker pull mongo`
+
+- Download the back-end and front-end images from DockerHub \
+    `docker pull mellic03/mongo-server` \
+    `docker pull mellic03/ng-server`
+
+
 
 #### Everything below is not relevant to 2808ICT
 

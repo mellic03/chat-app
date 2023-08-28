@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { PeerService } from 'src/app/services/peer/peer.service';
 import { ThemeService } from '../../services/theme/theme.service';
 
 @Component({
@@ -13,17 +12,8 @@ export class PreferencesComponent implements OnInit {
 
   video_streams:Array<any> = [];
 
-  constructor(private themeService:ThemeService,
-              private peerService:PeerService) {
+  constructor(private themeService:ThemeService) {
     this.current_theme = String(localStorage.getItem("theme"));
-  }
-
-  add_local_stream(stream:MediaStream) {
-    this.video_streams.push({
-      muted: true,
-      stream: stream,
-      user_id: this.peerService.peer_id 
-    });
   }
 
   add_other_stream(user_id:string, stream:MediaStream) {
@@ -43,17 +33,6 @@ export class PreferencesComponent implements OnInit {
     navigator.mediaDevices.getUserMedia({
       audio: false,  
       video: true
-    }).then((stream) => {
-      this.add_local_stream(stream);
-    
-      this.peerService.peer_instance.on("call", (call:any) => {
-        console.log(`Recieving call: ${call}`);
-        call.answer(stream);
-        call.on("stream", (other_user_stream:MediaStream) => {
-          this.add_other_stream(call.metadata.user_id, other_user_stream);
-        });
-      });
-      
     });
   
   }
