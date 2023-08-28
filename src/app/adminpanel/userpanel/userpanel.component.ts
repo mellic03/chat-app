@@ -41,7 +41,7 @@ export class UserpanelComponent implements OnInit {
 
   ngOnInit(): void {
     // Get list of users
-    let api_url = "https://159.196.6.181:3000/api/users";
+    let api_url = "https://127.0.0.1:3000/api/users";
     this.http.get<Array<any>>(api_url).subscribe(users => {
       this.all_users = users;
       console.log(users);
@@ -51,7 +51,7 @@ export class UserpanelComponent implements OnInit {
     this.current_user = JSON.parse(String(localStorage.getItem("user_info")));
 
     // Get list of group names;
-    api_url = `https://159.196.6.181:3000/api/groups/group_names`;
+    api_url = `https://127.0.0.1:3000/api/groups/group_names`;
     this.http.get(api_url).subscribe((group_names:any) => {
       this.group_names = group_names;
     });

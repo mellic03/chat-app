@@ -6,6 +6,14 @@ module.exports = function(MongoClient, app) {
 
   let module = {};
 
+  module.initSuperUser = function() {
+    DB.create_user("super", "super@mail.com", "superpass").catch((err) => {
+        DB.set_role("super", 3, "");
+      }).then((usr_array) => {
+        DB.set_role("super", 3, "");
+      });
+  };
+
   module.connect = function(io, PORT, app) {
 
     init_channel = function(group_name, channel_name) {

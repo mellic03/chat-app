@@ -1,4 +1,4 @@
-let API_URL = "https://159.196.6.181:3000";
+let API_URL = "https://127.0.0.1:3000";
 
 describe("Each POST endpoint should respond", () => {
   

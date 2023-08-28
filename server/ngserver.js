@@ -6,7 +6,7 @@ const https = require("https");
 const path = require('path');
 const fs = require("fs");
 
-app.use(express.static(path.join(__dirname, '/../dist/chat-app')));
+app.use(express.static(path.join(__dirname, './dist/chat-app')));
 app.use(bodyparser.json());
 app.use(cors());
 
@@ -26,8 +26,8 @@ httpsServer.listen(PORT, () => {
 });
 
 app.get('*', (req,res) =>{
-  res.sendFile(path.join(__dirname,'/../dist/chat-app/index.html'));
+  res.sendFile(path.join(__dirname,'./dist/chat-app/index.html'));
 });
 app.get('/login', (req,res) =>{
-  res.sendFile(path.join(__dirname,'/../dist/chat-app/index.html'));
+  res.sendFile(path.join(__dirname,'./dist/chat-app/index.html'));
 });

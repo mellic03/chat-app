@@ -15,7 +15,7 @@ export class PeerService {
 
   constructor(private userService:UserService) {
     this.peer_instance = new Peer(this.peer_id, {
-      host: "159.196.6.181",
+      host: "127.0.0.1",
       secure: true,
       port: 3001,
       path: "/"
@@ -27,7 +27,7 @@ export class PeerService {
     // Get info of logged in user
     this.username = JSON.parse(String(localStorage.getItem("user_info")))?.username;
 
-    const API_URL = `https://159.196.6.181:3000/api/users/${this.username}/peer_id`;
+    const API_URL = `https://127.0.0.1:3000/api/users/${this.username}/peer_id`;
     this.userService.update_peer_id(this.username, this.peer_id);
   }
 }

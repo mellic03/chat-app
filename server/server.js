@@ -30,15 +30,18 @@ const io = require('socket.io')(httpsServer, cors_options)
 
 
 const MongoClient = require("mongodb").MongoClient;
-const uri = "mongodb://127.0.0.1:27017/mydb";
+const uri = "mongodb://127.0.0.1:27017";
 MongoClient.connect(uri, {}, (err, client) => {
-  if (err) {return console.log(err)};
-  
-  const db = client.db("chatapp");
+  if (err)  return console.log(err)
+  console.log("Connected to mongodb successfully");
 
+  const db = client.db("chatapp");
   require("./API/routes")(app, db);
   const sockets = require('./sockets')(db, app);
   sockets.connect(io, PORT, app);
+
+  // In case no users exist, create the super user
+  sockets.initSuperUser();
 
 });
 

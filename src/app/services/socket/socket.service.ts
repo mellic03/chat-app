@@ -8,7 +8,7 @@ import { io } from 'socket.io-client';
 
 export class SocketService {
 
-  server_url = "https://159.196.6.181:3000/";
+  server_url = "https://127.0.0.1:3000/";
   private socket = io(this.server_url, { secure: true, transports: ['websocket'] });
   current_channel:string = "";
 

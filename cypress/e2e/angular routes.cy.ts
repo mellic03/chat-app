@@ -1,4 +1,4 @@
-let APPp_URL = "https://159.196.6.181:4200";
+let APPp_URL = "https://127.0.0.1:4200";
 
 
 describe('Accessing application without being logged in should redirect user to login component', () => {

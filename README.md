@@ -1,26 +1,39 @@
 # **[Chat-App](https://github.com/mellic03/chat-app)**
 
+## 2808ICT Secure Development Operations
 
-This branch exists for 2808ict Secure Development Operations assignment 1.
+### Setup
+- Ensure nodejs and npm are installed: \
+    `sudo apt install nodejs npm`
+
+
+### Back-end Server
+
+- Navigate to `chat-app/server/backend/` and run: \
+    `docker build -t mongo-server .`
+
+### Front-end Server
+
+- Navigate to `chat-app/server/frontend/` and run: \
+    `docker build -t ng-server .`
+
+
+
+
+#### Everything below is not relevant to 2808ICT
+
 
 
 # CONTENTS
 
-
-1. [Git](#Git)
-2. [Data Structures](#Data-Structures)
-3. [Angular Architecture](#Angular-Architecture)
+1. [Data Structures](#Data-Structures)
+2. [Angular Architecture](#Angular-Architecture)
     - [Components](#Components)
     - [Services](#Services)
-4. [Node Server Architecture](#Node-Server-Architecture)
+3. [Node Server Architecture](#Node-Server-Architecture)
     - [Modules](#Modules)
     - [REST API](#REST-API)
 
-<a name=Git></a>
-
-# **Git**
-
-This Git repository is composed of two branches: main and dev. New features are developed on the dev branch until they are considered stable, after which the dev branch is merged into main.
 
 <a name=Data-Structures></a>
 

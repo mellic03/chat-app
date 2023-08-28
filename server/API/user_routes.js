@@ -3,6 +3,7 @@ module.exports = function(app, db) {
 
   // User authorisation. Move this somewhere else later.
   app.post('/api/auth', (req, res) => {
+    console.log("/api/auth");
     // console.log(req.body);
     const email = req.body.email;
     const pass = req.body.password;
