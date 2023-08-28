@@ -2,26 +2,42 @@
 
 ## 2808ICT Secure Development Operations
 
-### Setup
+#### Setup
+- Navigate to the root directory of the project: \
+    `cd chat-app`
+
 - Ensure nodejs and npm are installed: \
     `sudo apt install nodejs npm`
 
+- Ensure the angular cli is installed: \
+    `npm install -g @angular/cli`
 
-### Back-end Server
+- Install project dependencies: \
+    `npm install`
 
-- Navigate to `chat-app/server/backend/` and run: \
-    `docker build -t mongo-server .`
+- Build the Angular project and copy the output folder `dist` to `server/frontend/dist`: \
+    `ng build` \
+    `cp -R dist server/frontend/.`
 
-### Front-end Server
 
-- Navigate to `chat-app/server/frontend/` and run: \
-    `docker build -t ng-server .`
+#### Back-end Docker Image
+- Navigate to the back-end server, install dependencies and create the docker image: \
+    `cd server/backend` \
+    `npm install` \
+    `docker build -t mongo-server .` \
+    `cd ../../`
+
+#### Front-end Docker Image
+- Navigate to the front-end server, install dependencies and create the docker image: \
+    `cd server/frontend` \
+    `npm install` \
+    `docker build -t ng-server .` \
+    `cd ../../`
 
 
 
 
 #### Everything below is not relevant to 2808ICT
-
 
 
 # CONTENTS
