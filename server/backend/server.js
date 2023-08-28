@@ -20,7 +20,7 @@ const PORT = 3000;
 //   cert: fs.readFileSync("./cert.pem")
 // };
 // const httpServer = http.createServer(options, app);
-const httpServer = http.createServer(options, app);
+const httpServer = http.createServer(app);
 
 
 httpServer.listen(PORT, () => {
