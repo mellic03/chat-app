@@ -1,7 +1,7 @@
 const fs = require("fs");
 const express = require('express');
 const app = express();
-const https = require("https");
+const http = require("http");
 
 const cors = require('cors');
 const cors_options = {
@@ -15,18 +15,19 @@ app.use(cors(cors_options));
 
 const PORT = 3000;
 
-const options = {
-  key: fs.readFileSync("./key.pem"),
-  cert: fs.readFileSync("./cert.pem")
-};
+// const options = {
+//   key: fs.readFileSync("./key.pem"),
+//   cert: fs.readFileSync("./cert.pem")
+// };
+// const httpServer = http.createServer(options, app);
+const httpServer = http.createServer(options, app);
 
-const httpsServer = https.createServer(options, app);
 
-httpsServer.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log("Server running on " + PORT);
 });
 
-const io = require('socket.io')(httpsServer, cors_options)
+const io = require('socket.io')(httpServer, cors_options)
 
 
 const MongoClient = require("mongodb").MongoClient;

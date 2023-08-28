@@ -2,7 +2,7 @@ const express = require('express');
 const bodyparser = require('body-parser');
 const cors = require('cors');
 const app = express();
-const https = require("https");
+const http = require("http");
 const path = require('path');
 const fs = require("fs");
 
@@ -12,16 +12,17 @@ app.use(cors());
 
 const PORT = 4200;
 
-const options = {
-  key: fs.readFileSync("./key.pem"),
-  cert: fs.readFileSync("./cert.pem")
-};
+// const options = {
+//   key: fs.readFileSync("./key.pem"),
+//   cert: fs.readFileSync("./cert.pem")
+// };
+// const httpServer = http.createServer(options, app);
 
-const httpsServer = https.createServer(options, app);
+const httpServer = http.createServer(app);
 
-httpsServer.listen(PORT, () => {
-  let host = httpsServer.address().address;
-  let port = httpsServer.address().port;
+httpServer.listen(PORT, () => {
+  let host = httpServer.address().address;
+  let port = httpServer.address().port;
   console.log("Server running on " + PORT);
 });
 

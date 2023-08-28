@@ -1,4 +1,4 @@
-let APP_URL = "https://127.0.0.1:4200";
+let APP_URL = "http://127.0.0.1:4200";
 
 describe("Log in, create new group/channel, send message to group and log out", () => {
   

@@ -125,7 +125,7 @@ export class ChatwindowComponent implements OnInit {
       let channel_path = this.group_name + "/" + this.channel_name;
       let no_whitespace = channel_path.replace(/\s/g, '-');
       
-      this.http.post(`https://127.0.0.1:3000/api/groups/${no_whitespace}/add_image`, msg).subscribe((response:any) => {
+      this.http.post(`http://127.0.0.1:3000/api/groups/${no_whitespace}/add_image`, msg).subscribe((response:any) => {
         console.log(response);
       });
     }

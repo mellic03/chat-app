@@ -37,7 +37,7 @@ export class ChatComponent implements OnInit {
       let user_info = JSON.parse(String(localStorage.getItem("user_info")));
       if (user_info != null) {
         this.current_user = JSON.parse(String(localStorage.getItem("user_info")));
-        this.http.get<User>(`https://127.0.0.1:3000/api/users/${this.current_user.username}`)
+        this.http.get<User>(`http://127.0.0.1:3000/api/users/${this.current_user.username}`)
         .subscribe(user => {
           this.current_user = user;
         });
@@ -73,7 +73,7 @@ export class ChatComponent implements OnInit {
   // Retrieve groups the user is a member of
   retrieve_group_data(open_first:boolean = false) {
     const username = this.current_user.username;
-    const API_URL = `https://127.0.0.1:3000/api/users/${username}/groups`;
+    const API_URL = `http://127.0.0.1:3000/api/users/${username}/groups`;
 
     this.http.get<Array<Group>>(API_URL).subscribe((groups) => {
       console.log(groups);
@@ -128,7 +128,7 @@ export class ChatComponent implements OnInit {
   open_channel(channel:Channel) {
     
     const username = this.current_user.username;
-    const API_URL = `https://127.0.0.1:3000/api/users/${username}/groups`;
+    const API_URL = `http://127.0.0.1:3000/api/users/${username}/groups`;
 
     this.http.get<Array<Group>>(API_URL).subscribe((groups) => {
       console.log(groups);
