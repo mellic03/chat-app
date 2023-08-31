@@ -12,7 +12,11 @@ module.exports = function(app, MongoClient) {
 
   // Return an array of all group names.
   app.get("/api/groups/group_names", (req, res) => {
-    DB.get_group_names().then(groups => {
+    console.log("/api/groups/group_names");
+    DB.get_group_names().catch((err) => {
+      console.log(err);
+    }).then(groups => {
+      console.log("\tdone");
       res.send(groups);
     });
   });

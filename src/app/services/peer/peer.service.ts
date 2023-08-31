@@ -27,7 +27,7 @@ export class PeerService {
     // Get info of logged in user
     this.username = JSON.parse(String(localStorage.getItem("user_info")))?.username;
 
-    const API_URL = `mongoserver:3000/api/users/${this.username}/peer_id`;
+    const API_URL = `/backend/api/users/${this.username}/peer_id`;
     this.userService.update_peer_id(this.username, this.peer_id);
   }
 }

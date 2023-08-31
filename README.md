@@ -669,7 +669,7 @@ All API endpoints are GET except for four which are POST (listed below). General
 
 The following API endpoints are POST:
 
-**/api/auth**
+**/backend/api/auth**
 
 
 <table>
@@ -688,7 +688,7 @@ The following API endpoints are POST:
 </table>
 
 
-**/api/groups/:group_name/update_photo**
+**/backend/api/groups/:group_name/update_photo**
 
 
 <table>
@@ -707,7 +707,7 @@ The following API endpoints are POST:
 </table>
 
 
-**/api/update_profile_photo**
+**/backend/api/update_profile_photo**
 
 
 <table>
@@ -726,7 +726,7 @@ The following API endpoints are POST:
 </table>
 
 
-**/api/groups/:group_name/:channel_name/add_image**
+**/backend/api/groups/:group_name/:channel_name/add_image**
 
 
 <table>
@@ -747,7 +747,7 @@ The following API endpoints are POST:
 
 The following API endpoints are GET:
 
-**/api/groups/names**
+**/backend/api/groups/names**
 
 
 <table>
@@ -766,7 +766,7 @@ The following API endpoints are GET:
 </table>
 
 
-**/api/groups/:group_name**
+**/backend/api/groups/:group_name**
 
 
 <table>
@@ -785,7 +785,7 @@ The following API endpoints are GET:
 </table>
 
 
-**/api/groups/:group_name/users**
+**/backend/api/groups/:group_name/users**
 
 
 <table>
@@ -804,7 +804,7 @@ The following API endpoints are GET:
 </table>
 
 
-**/api/groups/:group_name/channels**
+**/backend/api/groups/:group_name/channels**
 
 
 <table>
@@ -823,7 +823,7 @@ The following API endpoints are GET:
 </table>
 
 
-**/api/groups/:group_name/channels/:channel_name**
+**/backend/api/groups/:group_name/channels/:channel_name**
 
 
 <table>
@@ -842,7 +842,7 @@ The following API endpoints are GET:
 </table>
 
 
-**/api/users**
+**/backend/api/users**
 
 
 <table>
@@ -861,7 +861,7 @@ The following API endpoints are GET:
 </table>
 
 
-**/api/users/usernames**
+**/backend/api/users/usernames**
 
 
 <table>
@@ -880,7 +880,7 @@ The following API endpoints are GET:
 </table>
 
 
-**/api/users/:username/groups**
+**/backend/api/users/:username/groups**
 
 
 <table>

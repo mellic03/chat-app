@@ -16,7 +16,6 @@ RUN npm install
 COPY . .
 
 
-
 ## Front-end server ------------------------
 EXPOSE 4200
 CMD [ "node", "server.js" ]

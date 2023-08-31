@@ -364,12 +364,11 @@ module.exports = function(db) {
         
         group_arr.forEach(group => {
           group_names.push(group.name);
-
+          console.log("group name: " + group.name);
           count += 1;
 
           if (count >= length)
             resolve(group_names);
-          
         });
       });
     });

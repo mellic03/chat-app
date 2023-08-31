@@ -49,7 +49,7 @@ export class UserService {
    * @param image New profile photo
    */
   update_profile_photo(username:string, image:any) {
-    this.http.post<any>("mongoserver:3000/api/update_profile_photo", {
+    this.http.post<any>("/backend/api/update_profile_photo", {
       username: username,
       image: image
     }).subscribe((img) => {
@@ -139,7 +139,7 @@ export class UserService {
    * @param photo 
    */
   update_group_photo(group_name:string, photo:any) {
-    this.http.post<any>(`mongoserver:3000/api/groups/${group_name}/update_photo/`, {
+    this.http.post<any>(`/backend/api/groups/${group_name}/update_photo/`, {
       photo: photo
     }).subscribe((response) => {
       return response;

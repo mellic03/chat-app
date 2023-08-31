@@ -33,7 +33,7 @@ export class GrouppanelComponent implements OnInit {
       this.current_user = JSON.parse(String(localStorage.getItem("user_info")));
 
     // Retrieve list of groups from server
-    let api_url = `mongoserver:3000/api/groups/group_names`;
+    let api_url = `/backend/api/groups/group_names`;
     this.http.get(api_url).subscribe((group_names:any) => {
       this.all_group_names = group_names;
     });
